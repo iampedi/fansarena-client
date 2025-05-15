@@ -1,9 +1,10 @@
 import { MagnifyingGlass } from "phosphor-react";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 border-b border-gray-200 bg-white">
+    <header className="border-b border-gray-200 bg-white">
       <div className="container mx-auto max-w-[92%]">
         <div className="_wrapper flex flex-col gap-5">
           <div className="_top flex items-center justify-between gap-5 pt-5">
@@ -15,7 +16,7 @@ const Header = () => {
             </nav>
 
             <div className="_tools w-1/6 text-right">
-              <button>Admin</button>
+              <Link to="/admin">Admin</Link>
             </div>
           </div>
           <div className="_search flex justify-center pb-6">

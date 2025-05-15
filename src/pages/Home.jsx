@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "../config/api";
 
-import Modal from "../components/Modal";
+import Modal from "../layout/Modal";
 import ClubCard from "../components/ClubCard";
 import AddNewClub from "../components/AddNewClub";
 import axios from "axios";

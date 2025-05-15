@@ -1,1 +1,2 @@
-export const API_URL = "https://fans-arena-app-default-rtdb.europe-west1.firebasedatabase.app/";
+// src/config/api.js
+export const API_URL = "http://localhost:5000/api";

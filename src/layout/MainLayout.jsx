@@ -1,9 +1,9 @@
-// src/App.jsx
+// src/layout/MainLayout.jsx
+import Header from "./Header";
+import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
-import Header from "@/layout/Header";
-import Footer from "@/layout/Footer";
 
-export default function App() {
+export default function MainLayout() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
