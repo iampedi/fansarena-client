@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "@/config/api";
+import { useAdminUI } from "@/contexts/AdminUIContext";
+import { continents } from "@/constants/continents";
+import PaginationComponent from "@/components/PaginationComponent";
+
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -9,59 +14,97 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import PaginationComponent from "@/components/PaginationComponent";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function AdminCountriesPage() {
-  const [countries, setCountries] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { setPageTitle } = useAdminUI();
+  const [contries, setCountries] = useState([]);
+  const [search, setSearch] = useState("");
+  const [continent, setContinent] = useState("__all__");
   const [currentPage, setCurrentPage] = useState(1);
-
-  const itemsPerPage = 15;
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    axios
-      .get(`${API_URL}/countries`)
-      .then((res) => {
-        setCountries(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("خطا در دریافت لیست کشورها:", err);
-        setError("دریافت اطلاعات با خطا مواجه شد");
-        setLoading(false);
-      });
+    setPageTitle("Countries List");
   }, []);
 
-  const totalPages = Math.ceil(countries.length / itemsPerPage);
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/countries`, {
+          params: {
+            search,
+            page: currentPage,
+            continent: continent !== "__all__" ? continent : undefined,
+          },
+        });
+        setCountries(res.data.data);
+        setTotalPages(res.data?.pagination?.totalPages) || 1;
+      } catch (err) {
+        console.error("Failed to fetch countries:", err);
+      }
+    };
 
-  const paginatedCountries = countries.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
-
-  if (loading) return <p>در حال بارگذاری...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+    fetchCountries();
+  }, [search, currentPage, continent]);
 
   return (
-    <div>
-      <h1 className="mb-4 text-xl font-bold">لیست کشورها</h1>
+    <div className="_wrapper">
+      <div className="mb-4 flex flex-wrap gap-2">
+        <Input
+          type="text"
+          placeholder="Search..."
+          className="w-auto"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(1);
+          }}
+        />
+        <Select
+          value={continent}
+          onValueChange={(value) => {
+            setContinent(value);
+            setCurrentPage(1);
+          }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a continent" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="__all__">All Continents</SelectItem>
+              {continents.map((continent) => (
+                <SelectItem key={continent.value} value={continent.value}>
+                  {continent.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
 
       <Table>
-        <TableHeader>
-          <TableRow>
+        <TableHeader className="bg-gray-100">
+          <TableRow className="[&_th]:py-3 [&_th]:font-bold">
             <TableHead>#</TableHead>
-            <TableHead>Country Name</TableHead>
+            <TableHead>Country</TableHead>
+            <TableHead>Continent</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {paginatedCountries.map((country, index) => (
+          {contries.map((country, index) => (
             <TableRow key={country.id || index}>
-              <TableCell>
-                {(currentPage - 1) * itemsPerPage + index + 1}
-              </TableCell>
-              <TableCell>{country.name}</TableCell>
+              <TableCell>{index + 1}</TableCell>
+              <TableCell className="capitalize">{country.name}</TableCell>
+              <TableCell className="capitalize">{country.continent}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -70,7 +113,7 @@ export default function AdminCountriesPage() {
       <PaginationComponent
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={setCurrentPage}
+        onPageChange={(page) => setCurrentPage(page)}
       />
     </div>
   );

@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import PaginationComponent from "@/components/PaginationComponent";
+import { useAdminUI } from "@/contexts/AdminUIContext";
 
 const initialState = {
   selectedContinent: "__all__",
@@ -89,6 +90,7 @@ function reducer(state, action) {
 }
 
 export default function AdminCitiesPage() {
+  const { setPageTitle } = useAdminUI();
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const filteredCountries = state.countries.filter(
@@ -96,9 +98,20 @@ export default function AdminCitiesPage() {
   );
 
   useEffect(() => {
+    setPageTitle("Cities List");
+  }, []);
+
+  useEffect(() => {
+    const params = { limit: 300 };
+    if (state.selectedContinent !== "__all__") {
+      params.continent = state.selectedContinent;
+    }
+
     axios
-      .get(`${API_URL}/countries`)
-      .then((res) => dispatch({ type: "SET_COUNTRIES", payload: res.data }))
+      .get(`${API_URL}/countries`, { params })
+      .then((res) =>
+        dispatch({ type: "SET_COUNTRIES", payload: res.data.data }),
+      )
       .catch((err) => console.error("Failed to fetch countries:", err));
   }, []);
 
@@ -153,7 +166,7 @@ export default function AdminCitiesPage() {
         dispatch({ type: "SET_CITIES", payload: res.data.data });
         dispatch({
           type: "SET_TOTAL_PAGES",
-          payload: Math.ceil(res.data.total / 15),
+          payload: res.data?.pagination?.totalPages || 1,
         });
         dispatch({ type: "SET_LOADING", payload: false });
       })
@@ -165,10 +178,8 @@ export default function AdminCitiesPage() {
   }, [state.selectedCountry, state.currentPage, state.mode]);
 
   return (
-    <div>
-      <h1 className="mb-4 text-xl font-bold">Cities</h1>
-
-      <div className="flex flex-wrap gap-2">
+    <div className="_wrapper">
+      <div className="mb-4 flex flex-wrap gap-2">
         {state.mode === "search" && (
           <Input
             type="text"
@@ -176,7 +187,7 @@ export default function AdminCitiesPage() {
             onChange={(e) =>
               dispatch({ type: "SET_SEARCH", payload: e.target.value })
             }
-            placeholder="Search city..."
+            placeholder="Search..."
             className="w-auto"
           />
         )}
@@ -194,7 +205,7 @@ export default function AdminCitiesPage() {
               }}
             >
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a continent" />
+                <SelectValue placeholder="Select Continent" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -215,8 +226,8 @@ export default function AdminCitiesPage() {
                   dispatch({ type: "SET_COUNTRY", payload: value })
                 }
               >
-                <SelectTrigger className="min-w-[180px]">
-                  <SelectValue placeholder="Select a country" />
+                <SelectTrigger className="min-w-[180px] capitalize">
+                  <SelectValue placeholder="Select Country" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -237,52 +248,60 @@ export default function AdminCitiesPage() {
         )}
       </div>
 
-      {state.loading && <p>Loading...</p>}
-      {state.error && <p className="text-red-500">{state.error}</p>}
-
-      {!state.loading && state.cities.length > 0 && (
-        <>
-          <Table className="mt-4">
-            <TableHeader>
-              <TableRow>
-                <TableHead>#</TableHead>
-                <TableHead>City Name</TableHead>
-                <TableHead>Country Name</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {console.log(state.cities)}
-              
-              {state.cities.map((city, index) => (
+      <>
+        <Table>
+          <TableHeader className="bg-gray-100">
+            <TableRow className="[&_th]:py-3 [&_th]:font-bold">
+              <TableHead>#</TableHead>
+              <TableHead>City Name</TableHead>
+              <TableHead>Country Name</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {!state.loading &&
+              state.cities.length > 0 &&
+              state.cities.map((city, index) => (
                 <TableRow key={city._id || index}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{city.name}</TableCell>
-                  <TableCell>{city.country.name}</TableCell>
+                  <TableCell className="capitalize">
+                    {city.country.name}
+                  </TableCell>
                 </TableRow>
               ))}
-            </TableBody>
-          </Table>
 
-          {state.mode === "country" && (
-            <PaginationComponent
-              currentPage={state.currentPage}
-              totalPages={state.totalPages}
-              onPageChange={(page) =>
-                dispatch({ type: "SET_CURRENT_PAGE", payload: page })
-              }
-            />
-          )}
-        </>
-      )}
+            {!state.loading &&
+              state.mode === "search" &&
+              state.search.length >= 3 &&
+              state.cities.length === 0 && (
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell>No cities found.</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              )}
 
-      {!state.loading &&
-        state.mode === "search" &&
-        state.search.length >= 3 &&
-        state.cities.length === 0 && (
-          <p className="text-muted-foreground mt-4 text-sm">
-            No results found.
-          </p>
+            {state.loading && (
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell>Loading...</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            )}
+            {state.error && <p className="text-red-500">{state.error}</p>}
+          </TableBody>
+        </Table>
+
+        {state.mode === "country" && (
+          <PaginationComponent
+            currentPage={state.currentPage}
+            totalPages={state.totalPages}
+            onPageChange={(page) =>
+              dispatch({ type: "SET_CURRENT_PAGE", payload: page })
+            }
+          />
         )}
+      </>
     </div>
   );
 }
