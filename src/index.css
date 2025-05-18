@@ -10,18 +10,6 @@ body {
     font-style: normal;
 }
 
-form .item {
-    @apply flex flex-col gap-1;
-}
-
-form input {
-    @apply border border-gray-300 rounded-md p-2 bg-white;
-}
-
-form button {
-    @apply bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 duration-300 cursor-pointer;
-}
-
 @theme inline {
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
@@ -130,10 +118,11 @@ form button {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+
+    body {
+        @apply bg-background text-foreground;
     }
 }

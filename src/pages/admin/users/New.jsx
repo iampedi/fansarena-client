@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
 import { useAdminUI } from "@/contexts/AdminUIContext";
 import { continents } from "@/constants/continents";
 
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,6 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -24,22 +25,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 
 const formSchema = z.object({
-  name: z.string().min(3, {
-    message: "Club name is required and must be at least 3 characters",
-  }),
-  continent: z.string().min(1, { message: "Continent is required" }),
-  country: z.string().min(1, { message: "Country is required" }),
-  city: z.string().min(1, { message: "City Name is required" }),
+  name: z.string(),
+  continent: z.string(),
+  country: z.string(),
+  city: z.string(),
   stadium: z.string(),
-  founded: z.preprocess(
-    (val) => (val === "" || val === undefined ? undefined : Number(val)),
-    z.number().min(1800).max(new Date().getFullYear()).optional(),
-  ),
+  founded: z.string(),
   founder: z.string(),
 });
 
@@ -47,12 +40,12 @@ export default function NewClubPage() {
   const { setPageTitle } = useAdminUI();
   const [selectedContinent, setSelectedContinent] = useState("");
   const [countries, setCountries] = useState([]);
-  const navigate = useNavigate();
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [city, setCity] = useState([]);
 
   useEffect(() => {
     setPageTitle("Create New Club");
-    console.log("test");
-  }, [setPageTitle]);
+  }, []);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -82,6 +75,7 @@ export default function NewClubPage() {
           },
         });
         setCountries(res.data.data);
+        console.log('country: \n',res.data.data);
       } catch (err) {
         console.error("Failed to fetch countries:", err);
       }
@@ -89,17 +83,31 @@ export default function NewClubPage() {
     fetchCountries();
   }, [selectedContinent]);
 
-  async function onSubmit(data) {
-    try {
-      await axios.post(`${API_URL}/clubs`, data);
-      form.reset();
-      setSelectedContinent("");
-      setCountries([]);
-      navigate("/admin/clubs?created=1");
-    } catch (err) {
-      // console.error("Failed to submit:", err);
-      toast.error(err.response?.data?.error || "Submission failed");
+  useEffect(() => {
+    if (!selectedCountry) {
+      setCity([]);
+      return;
     }
+
+    const fetchCities = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/cities`, {
+          params: {
+            country: selectedCountry,
+            limit: 500,
+          },
+        });
+        setCity(res.data.data);
+        console.log('city: \n',res.data.data);
+      } catch (err) {
+        console.error("Failed to fetch cities:", err);
+      }
+    };
+    fetchCities();
+  }, [selectedCountry]);
+
+  function onSubmit(data) {
+    console.log(data);
   }
 
   return (
@@ -162,6 +170,7 @@ export default function NewClubPage() {
                   <Select
                     value={field.value || ""}
                     onValueChange={(value) => {
+                      setSelectedCountry(value);
                       field.onChange(value);
                     }}
                   >
@@ -187,20 +196,6 @@ export default function NewClubPage() {
               )}
             />
           )}
-
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>City Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter City Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
           <FormField
             control={form.control}

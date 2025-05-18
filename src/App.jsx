@@ -2,6 +2,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function App() {
   return (

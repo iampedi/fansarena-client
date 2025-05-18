@@ -2,24 +2,10 @@
 
 import * as React from "react";
 import {
-  BarChart2,
-  Calendar,
-  ChevronDown,
-  ChevronRight,
-  Cog,
-  FolderKanban,
-  GalleryVerticalEnd,
-  Home,
-  ListTodo,
-  Users,
-} from "lucide-react";
-
-import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -28,23 +14,31 @@ import {
 } from "@/components/ui/sidebar";
 
 import { cn } from "@/lib/utils";
-import { useLocation, NavLink, Link } from "react-router-dom";
+import { useLocation, NavLink } from "react-router-dom";
+import { SoccerBallIcon } from "@phosphor-icons/react";
+import {
+  Building2Icon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  HomeIcon,
+  SlidersVerticalIcon,
+} from "lucide-react";
 
 // Navigation items with icons and submenu items
 const navigationItems = [
   {
     title: "Dashboard",
     url: "/admin",
-    icon: Home,
+    icon: HomeIcon,
   },
   {
     title: "Clubs",
     url: "/admin/clubs",
-    icon: FolderKanban,
+    icon: Building2Icon,
   },
   {
     title: "Settings",
-    icon: ListTodo,
+    icon: SlidersVerticalIcon,
     submenu: [
       { title: "Countries", url: "/admin/countries" },
       { title: "Cities", url: "/admin/cities" },
@@ -64,6 +58,14 @@ export function AdminSidebar(props) {
     return match?.title || null;
   });
 
+  // Sync expandedMenu with current path (handles browser Back/Forward and direct link)
+  React.useEffect(() => {
+    const match = navigationItems.find((item) =>
+      item.submenu?.some((sub) => currentPath.startsWith(sub.url)),
+    );
+    setExpandedMenu(match?.title || null);
+  }, [currentPath]);
+
   const toggleSubmenu = (title) => {
     setExpandedMenu(expandedMenu === title ? null : title);
   };
@@ -71,21 +73,21 @@ export function AdminSidebar(props) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-4 py-2">
-          <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-            <GalleryVerticalEnd className="size-4" />
+        <div className="flex items-center gap-3 px-4 py-2">
+          <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-11 items-center justify-center rounded-lg">
+            <SoccerBallIcon className="size-8" />
           </div>
           <div className="flex flex-col">
-            <span className="font-semibold">Company Name</span>
-            <span className="text-sidebar-foreground/70 text-xs">
+            <span className="text-lg leading-6 font-semibold">Fans Arena</span>
+            <span className="text-sidebar-foreground/70 text-sm">
               Admin Panel
             </span>
           </div>
         </div>
       </SidebarHeader>
+
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navigationItems.map((item) => (
@@ -95,10 +97,12 @@ export function AdminSidebar(props) {
                     <SidebarMenuItem>
                       <SidebarMenuButton
                         asChild
+                        className={cn("gap-3 py-6 text-base")}
                         isActive={currentPath.startsWith(item.url)}
                       >
                         <NavLink to={item.url}>
-                          <item.icon className="size-4" />
+                          <item.icon style={{ width: 22, height: 22 }} />
+
                           <span>{item.title}</span>
                         </NavLink>
                       </SidebarMenuButton>
@@ -112,31 +116,43 @@ export function AdminSidebar(props) {
                         <SidebarMenuButton
                           onClick={() => toggleSubmenu(item.title)}
                           className={cn(
+                            "cursor-pointer gap-3 py-6 text-base",
                             expandedMenu === item.title &&
                               "bg-sidebar-accent text-sidebar-accent-foreground",
                           )}
                         >
-                          <item.icon className="size-4" />
+                          <item.icon style={{ width: 22, height: 22 }} />
                           <span>{item.title}</span>
                           {expandedMenu === item.title ? (
-                            <ChevronDown className="ml-auto size-4" />
+                            <ChevronUpIcon
+                              className="ml-auto"
+                              style={{ width: 18, height: 18 }}
+                            />
                           ) : (
-                            <ChevronRight className="ml-auto size-4" />
+                            <ChevronDownIcon
+                              className="ml-auto"
+                              style={{ width: 18, height: 18 }}
+                            />
                           )}
                         </SidebarMenuButton>
                       </SidebarMenuItem>
 
                       {expandedMenu === item.title && (
-                        <div className="py-1 pl-8">
+                        <div className="pl-8">
                           {item.submenu.map((subItem) => (
-                            <SidebarMenuItem key={subItem.title}>
+                            <SidebarMenuItem key={subItem.url}>
                               <SidebarMenuButton
                                 asChild
                                 isActive={currentPath.startsWith(subItem.url)}
+                                className={cn("py-5 text-base")}
                               >
-                                <Link to={subItem.url} className="py-1.5">
+                                <NavLink
+                                  to={subItem.url}
+                                  className="py-1.5"
+                                  // استایل اکتیو اضافه کن اگر خواستی
+                                >
                                   <span>{subItem.title}</span>
-                                </Link>
+                                </NavLink>
                               </SidebarMenuButton>
                             </SidebarMenuItem>
                           ))}

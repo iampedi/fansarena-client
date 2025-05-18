@@ -1,6 +1,5 @@
 // src/pages/admin/clubs/Index.jsx
 import NewClubButton from "@/components/NewClubButton";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -23,26 +22,67 @@ import { continents } from "@/constants/continents";
 import { useAdminUI } from "@/contexts/AdminUIContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function AdminClubsPage() {
   const { setPageTitle } = useAdminUI();
   const [clubs, setclubs] = useState([]);
+  const [selectedContinent, setSelectedContinent] = useState("__all__");
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
     setPageTitle("Clubs List");
-  }, []);
+  }, [setPageTitle]);
 
   useEffect(() => {
-    const fetchCities = async () => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("created")) {
+      toast.success("Club created successfully!");
+    }
+  }, [location.search]);
+
+  useEffect(() => {
+    const fetchClubs = async () => {
       try {
-        const res = await axios.get(`${API_URL}/clubs`);
+        const res = await axios.get(`${API_URL}/clubs`, {
+          params: {
+            continent:
+              selectedContinent !== "__all__" ? selectedContinent : undefined,
+            country: selectedCountry !== "" ? selectedCountry : undefined,
+          },
+        });
         setclubs(res.data);
+      } catch (err) {
+        console.error("Failed to fetch clubs:", err);
+      }
+    };
+    fetchClubs();
+  }, [selectedContinent, selectedCountry]);
+
+  useEffect(() => {
+    if (selectedContinent === "__all__") {
+      setclubs([]);
+      return;
+    }
+
+    const fetchCountries = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/countries`, {
+          params: {
+            continent: selectedContinent,
+            limit: 300,
+          },
+        });
+        setCountries(res.data.data);
       } catch (err) {
         console.error("Failed to fetch countries:", err);
       }
     };
-    fetchCities();
-  }, []);
+    fetchCountries();
+  }, [selectedContinent]);
 
   return (
     <div>
@@ -51,7 +91,16 @@ export default function AdminClubsPage() {
         <Input type="text" placeholder="Search..." className="w-auto" />
 
         {/* Select Continent */}
-        <Select>
+        <Select
+          value={selectedContinent}
+          onValueChange={(value) => {
+            setSelectedContinent(value);
+            setSelectedCountry("");
+            if (value === "__all__") {
+              setCountries([]);
+            }
+          }}
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Continent" />
           </SelectTrigger>
@@ -68,16 +117,26 @@ export default function AdminClubsPage() {
         </Select>
 
         {/* Select Country */}
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select Country" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem></SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        {selectedContinent !== "__all__" && (
+          <Select onValueChange={setSelectedCountry} value={selectedCountry}>
+            <SelectTrigger className="w-[180px] capitalize">
+              <SelectValue placeholder="Select Country" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {countries.map((country) => (
+                  <SelectItem
+                    key={country._id}
+                    value={country._id}
+                    className="capitalize"
+                  >
+                    {country.name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        )}
 
         <div className="flex flex-1 items-center justify-end">
           <NewClubButton />
@@ -89,16 +148,27 @@ export default function AdminClubsPage() {
           <TableRow className="[&_th]:py-3 [&_th]:font-bold">
             <TableHead>#</TableHead>
             <TableHead>Club Name</TableHead>
+            <TableHead>Continent</TableHead>
+            <TableHead>Country</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
+          {clubs.length === 0 && (
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell>No clubs found.</TableCell>
+              <TableCell colSpan={2}></TableCell>
+            </TableRow>
+          )}
+
           {clubs.map((club, index) => (
             <TableRow key={club._id || index}>
               <TableCell>{index + 1}</TableCell>
-              <TableCell>{club.name}</TableCell>
+              <TableCell className="capitalize">{club.name}</TableCell>
+              <TableCell className="capitalize">{club.continent}</TableCell>
+              <TableCell className="capitalize">{club.country?.name}</TableCell>
             </TableRow>
           ))}
-          {console.log(clubs)}
         </TableBody>
       </Table>
     </div>

@@ -3,12 +3,5 @@ import { Button } from "./ui/button";
 
 export default function NewClubButton() {
   const navigate = useNavigate();
-  return (
-    <Button
-      onClick={() => navigate("/admin/clubs/new")}
-      className="cursor-pointer"
-    >
-      New Club
-    </Button>
-  );
+  return <Button onClick={() => navigate("/admin/clubs/new")}>New Club</Button>;
 }
