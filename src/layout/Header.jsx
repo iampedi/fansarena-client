@@ -15,8 +15,9 @@ const Header = () => {
               <Navbar />
             </nav>
 
-            <div className="_tools w-1/6 text-right">
+            <div className="_tools w-1/6 text-right flex gap-5 justify-end">
               <Link to="/admin">Admin</Link>
+              <Link to="auth/signup">Sign Up</Link>
             </div>
           </div>
           <div className="_search flex justify-center pb-6">

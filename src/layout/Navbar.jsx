@@ -3,7 +3,7 @@ import { NavLink } from "react-router";
 const Navbar = () => {
   const menuItems = [
     { title: "Clubs", link: "/", active: true },
-    { title: "Nationals", link: "/nationals", active: true },
+    { title: "Nationals", link: "/nationals", active: false },
     { title: "Players", link: "/players", active: false },
     { title: "Stadiums", link: "/stadiums", active: false },
     { title: "Trophies", link: "/trophies", active: false },
