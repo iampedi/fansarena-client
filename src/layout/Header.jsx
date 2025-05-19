@@ -1,8 +1,14 @@
+// src/layout/Header.jsx
 import { MagnifyingGlass } from "phosphor-react";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import useAuth from "@/hooks/useAuth";
+import LogoutButton from "@/components/LogoutButton";
 
 const Header = () => {
+  const { isLoggedIn } = useAuth();
+
   return (
     <header className="border-b border-gray-200 bg-white">
       <div className="container mx-auto max-w-[92%]">
@@ -15,9 +21,19 @@ const Header = () => {
               <Navbar />
             </nav>
 
-            <div className="_tools w-1/6 text-right flex gap-5 justify-end">
-              <Link to="/admin">Admin</Link>
-              <Link to="auth/signup">Sign Up</Link>
+            <div className="_tools flex w-1/6 justify-end gap-2 text-right">
+              {isLoggedIn ? (
+                <>
+                  <Button variant={"secondary"} asChild>
+                    <Link to={"/admin"}>Admin</Link>
+                  </Button>
+                  <LogoutButton />
+                </>
+              ) : (
+                <Button asChild>
+                  <Link to={"/auth/signin"}>Sign In</Link>
+                </Button>
+              )}
             </div>
           </div>
           <div className="_search flex justify-center pb-6">

@@ -1,6 +1,9 @@
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import SignupForm from "@/components/SignupForm";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function SignupPage({ className, ...props }) {
   return (
@@ -12,6 +15,11 @@ export default function SignupPage({ className, ...props }) {
           <div className="hidden bg-[url('/images/signup-img.webp')] md:flex"></div>
         </CardContent>
       </Card>
+      <Button variant="link" className="mx-auto mt-4 flex" asChild>
+        <Link to={"/"}>
+          <ArrowLeft /> Back to site
+        </Link>
+      </Button>
     </div>
   );
 }

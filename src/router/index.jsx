@@ -10,8 +10,8 @@ import AdminClubsPage from "@/pages/admin/clubs/Index";
 import AdminCountriesPage from "@/pages/admin/countries/Index";
 import AdminCitiesPage from "@/pages/admin/cities/Index";
 import AuthLayout from "@/layout/AuthLayout";
-import SignupPage from "@/pages/auth/signup/Index";
-import SigninPage from "@/pages/auth/signin/Index";
+import SignupPage from "@/pages/auth/SignupPage";
+import SigninPage from "@/pages/auth/SigninPage";
 
 export default function AppRoutes() {
   return (

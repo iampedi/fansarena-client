@@ -1,40 +1,137 @@
+// src/components/SignupForm.jsx
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { API_URL } from "@/config/api";
+
+const signupSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters long."),
+  email: z.string().email("Invalid email format."),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters long.")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter.")
+    .regex(/[a-z]/, "Password must contain at least one lowercase letter.")
+    .regex(/\d/, "Password must contain at least one number."),
+});
 
 export default function SignupForm() {
+  const navigate = useNavigate();
+  const [serverError, setServerError] = useState("");
+
+  const form = useForm({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (values) => {
+    setServerError("");
+    try {
+      const res = await fetch(`${API_URL}/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setServerError(data.error || "Something went wrong.");
+        return;
+      }
+
+      navigate("/auth/signin", {
+        state: { successMessage: "Signup successful! You can now log in." },
+      });
+    } catch (err) {
+      setServerError("Network error. Please try again.");
+      console.error(err);
+    }
+  };
+
   return (
-    <form className="p-6 md:p-10">
-      <div className="flex flex-col gap-6">
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-6 p-6 md:p-10"
+      >
         <div className="mb-4 flex flex-col items-center text-center">
           <h1 className="text-2xl font-bold">Register</h1>
           <p className="text-muted-foreground text-balance">
             your Fans Arena account.
           </p>
         </div>
-        <div className="grid gap-2">
-          <Label htmlFor="name">Name</Label>
-          <Input
-            id="name"
-            type="text"
-            placeholder="What we can call you?"
-            required
-          />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
-        </div>
-        <div className="grid gap-2">
-          <div className="flex items-center">
-            <Label htmlFor="password">Password</Label>
-          </div>
-          <Input id="password" type="password" required />
-        </div>
+
+        {/* Name */}
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="What we can call you?" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Email */}
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input type="email" placeholder="m@example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Password */}
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input type="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Server error */}
+        {serverError && <p className="text-sm text-red-600">{serverError}</p>}
+
+        {/* Submit button */}
         <Button type="submit" className="w-full">
           Sign Up
         </Button>
+
+        {/* Login link */}
         <div className="text-center text-sm">
           Do you have an account?{" "}
           <Link
@@ -44,7 +141,7 @@ export default function SignupForm() {
             Sign in
           </Link>
         </div>
-      </div>
-    </form>
+      </form>
+    </Form>
   );
 }
