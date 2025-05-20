@@ -1,3 +1,4 @@
+// src/components/AdminBreadcrumb.jsx
 import { Fragment } from "react";
 import { useLocation, Link } from "react-router-dom";
 
@@ -9,17 +10,34 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { GlobeIcon, LogOutIcon } from "lucide-react";
+import { Button } from "./ui/button";
+import LogoutButton from "./LogoutButton";
 
 export default function AdminBreadcrumb() {
-  const location = useLocation(); // مسیر فعلی
+  const location = useLocation();
   const pathSegments = location.pathname
-    .replace(/^\/|\/$/g, "") // حذف / اول و آخر
+    .replace(/^\/|\/$/g, "")
     .split("/")
-    .filter(Boolean); // حذف موارد خالی
+    .filter(Boolean);
+
+  if (pathSegments.length <= 1) {
+    return (
+      <div className="flex gap-2">
+        <Button asChild>
+          <Link to="/">
+            <GlobeIcon />
+          </Link>
+        </Button>
+        <LogoutButton icon={true} />
+      </div>
+    );
+  }
 
   const breadcrumbs = pathSegments.map((segment, index) => {
     const fullPath = "/" + pathSegments.slice(0, index + 1).join("/");
     const isLast = index === pathSegments.length - 1;
+
     if (fullPath === "/admin") {
       segment = "Dashboard";
     }

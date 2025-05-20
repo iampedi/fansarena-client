@@ -38,7 +38,7 @@ export default function AdminCountriesPage() {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const res = await axios.get(`${API_URL}/countries`, {
+        const res = await axios.get(`${API_URL}/api/countries`, {
           params: {
             search,
             page: currentPage,

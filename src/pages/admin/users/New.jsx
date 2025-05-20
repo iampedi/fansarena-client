@@ -68,7 +68,7 @@ export default function NewClubPage() {
 
     const fetchCountries = async () => {
       try {
-        const res = await axios.get(`${API_URL}/countries`, {
+        const res = await axios.get(`${API_URL}/api/countries`, {
           params: {
             continent: selectedContinent,
             limit: 300,
@@ -91,7 +91,7 @@ export default function NewClubPage() {
 
     const fetchCities = async () => {
       try {
-        const res = await axios.get(`${API_URL}/cities`, {
+        const res = await axios.get(`${API_URL}/api/cities`, {
           params: {
             country: selectedCountry,
             limit: 500,

@@ -13,7 +13,7 @@ const ClubsList = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_URL}/clubs`)
+      .get(`${API_URL}/api/clubs`)
       .then((response) => {
         setClubs(response.data);
       })

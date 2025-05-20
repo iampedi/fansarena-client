@@ -2,8 +2,9 @@
 import useAuth from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
+import { LogOutIcon } from "lucide-react";
 
-export default function LogoutButton() {
+export default function LogoutButton({ icon }) {
   const { logOut } = useAuth();
   const navigate = useNavigate();
 
@@ -12,5 +13,11 @@ export default function LogoutButton() {
     navigate("/");
   };
 
-  return <Button onClick={handleLogout}>Log out</Button>;
+  return icon ? (
+    <Button onClick={handleLogout}>
+      <LogOutIcon />
+    </Button>
+  ) : (
+    <Button onClick={handleLogout}>Log out</Button>
+  );
 }

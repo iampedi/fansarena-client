@@ -12,7 +12,7 @@ const ClubDetails = () => {
     if (!slug) return;
 
     axios
-      .get(`${API_URL}/clubs?slug=${slug}`)
+      .get(`${API_URL}/api/clubs?slug=${slug}`)
       .then((response) => {
         if (response.data.length > 0) {
           setClub(response.data[0]);

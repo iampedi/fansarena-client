@@ -31,6 +31,7 @@ export default function AdminClubsPage() {
   const [selectedContinent, setSelectedContinent] = useState("__all__");
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [search, setSearch] = useState("");
   const location = useLocation();
 
   useEffect(() => {
@@ -47,11 +48,12 @@ export default function AdminClubsPage() {
   useEffect(() => {
     const fetchClubs = async () => {
       try {
-        const res = await axios.get(`${API_URL}/clubs`, {
+        const res = await axios.get(`${API_URL}/api/clubs`, {
           params: {
             continent:
               selectedContinent !== "__all__" ? selectedContinent : undefined,
             country: selectedCountry !== "" ? selectedCountry : undefined,
+            search,
           },
         });
         setclubs(res.data);
@@ -60,7 +62,7 @@ export default function AdminClubsPage() {
       }
     };
     fetchClubs();
-  }, [selectedContinent, selectedCountry]);
+  }, [selectedContinent, selectedCountry, search]);
 
   useEffect(() => {
     if (selectedContinent === "__all__") {
@@ -70,7 +72,7 @@ export default function AdminClubsPage() {
 
     const fetchCountries = async () => {
       try {
-        const res = await axios.get(`${API_URL}/countries`, {
+        const res = await axios.get(`${API_URL}/api/countries`, {
           params: {
             continent: selectedContinent,
             limit: 300,
@@ -88,7 +90,15 @@ export default function AdminClubsPage() {
     <div>
       <div className="mb-4 flex flex-wrap gap-2">
         {/* Search Box */}
-        <Input type="text" placeholder="Search..." className="w-auto" />
+        <Input
+          type="text"
+          placeholder="Search..."
+          className="w-auto"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+        />
 
         {/* Select Continent */}
         <Select
@@ -147,6 +157,7 @@ export default function AdminClubsPage() {
         <TableHeader className="bg-gray-100">
           <TableRow className="[&_th]:py-3 [&_th]:font-bold">
             <TableHead>#</TableHead>
+            <TableHead>Logo</TableHead>
             <TableHead>Club Name</TableHead>
             <TableHead>Continent</TableHead>
             <TableHead>Country</TableHead>
@@ -164,8 +175,13 @@ export default function AdminClubsPage() {
           {clubs.map((club, index) => (
             <TableRow key={club._id || index}>
               <TableCell>{index + 1}</TableCell>
+              <TableCell>
+                <img src={club.logoUrl} className="w-5" />
+              </TableCell>
               <TableCell className="capitalize">{club.name}</TableCell>
-              <TableCell className="capitalize">{club.continent}</TableCell>
+              <TableCell className="capitalize">
+                {club.country?.continent}
+              </TableCell>
               <TableCell className="capitalize">{club.country?.name}</TableCell>
             </TableRow>
           ))}

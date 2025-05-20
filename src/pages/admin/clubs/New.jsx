@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ColorSelect } from "@/components/ui/color-select";
 import { toast } from "sonner";
 
 const formSchema = z.object({
@@ -35,12 +36,18 @@ const formSchema = z.object({
   continent: z.string().min(1, { message: "Continent is required" }),
   country: z.string().min(1, { message: "Country is required" }),
   city: z.string().min(1, { message: "City Name is required" }),
-  stadium: z.string(),
+  arena: z.string().optional(),
   founded: z.preprocess(
     (val) => (val === "" || val === undefined ? undefined : Number(val)),
     z.number().min(1800).max(new Date().getFullYear()).optional(),
   ),
-  founder: z.string(),
+  founder: z.string().optional(),
+  colors: z.array(z.any()).optional(),
+  website: z
+    .string()
+    .url({ message: "Invalid URL" })
+    .or(z.literal("").transform(() => undefined))
+    .optional(),
 });
 
 export default function NewClubPage() {
@@ -51,7 +58,6 @@ export default function NewClubPage() {
 
   useEffect(() => {
     setPageTitle("Create New Club");
-    console.log("test");
   }, [setPageTitle]);
 
   const form = useForm({
@@ -61,9 +67,9 @@ export default function NewClubPage() {
       continent: "",
       country: "",
       city: "",
-      stadium: "",
+      colors: [],
       founded: "",
-      founder: "",
+      arena: "",
     },
   });
 
@@ -75,7 +81,7 @@ export default function NewClubPage() {
 
     const fetchCountries = async () => {
       try {
-        const res = await axios.get(`${API_URL}/countries`, {
+        const res = await axios.get(`${API_URL}/api/countries`, {
           params: {
             continent: selectedContinent,
             limit: 300,
@@ -91,13 +97,13 @@ export default function NewClubPage() {
 
   async function onSubmit(data) {
     try {
-      await axios.post(`${API_URL}/clubs`, data);
+      await axios.post(`${API_URL}/api/clubs`, data);
       form.reset();
       setSelectedContinent("");
       setCountries([]);
       navigate("/admin/clubs?created=1");
     } catch (err) {
-      // console.error("Failed to submit:", err);
+      console.error("Failed to submit:", err);
       toast.error(err.response?.data?.error || "Submission failed");
     }
   }
@@ -113,7 +119,7 @@ export default function NewClubPage() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter name" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -195,21 +201,7 @@ export default function NewClubPage() {
               <FormItem>
                 <FormLabel>City Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter City Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="stadium"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Stadium Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter Stadium Name" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -232,12 +224,43 @@ export default function NewClubPage() {
 
           <FormField
             control={form.control}
-            name="founder"
+            name="arena"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Founder Name</FormLabel>
+                <FormLabel>Arena Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter founder name" {...field} />
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="colors"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Colors</FormLabel>
+                <FormControl>
+                  <ColorSelect
+                    value={field.value || []}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="website"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Website</FormLabel>
+                <FormControl>
+                  <Input {...field} value={field.value ?? ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -108,7 +108,7 @@ export default function AdminCitiesPage() {
     }
 
     axios
-      .get(`${API_URL}/countries`, { params })
+      .get(`${API_URL}/api/countries`, { params })
       .then((res) =>
         dispatch({ type: "SET_COUNTRIES", payload: res.data.data }),
       )
@@ -128,7 +128,7 @@ export default function AdminCitiesPage() {
 
     const delay = setTimeout(() => {
       axios
-        .get(`${API_URL}/cities`, {
+        .get(`${API_URL}/api/cities`, {
           params: {
             search: state.search,
             page: 1,
@@ -155,7 +155,7 @@ export default function AdminCitiesPage() {
     dispatch({ type: "SET_LOADING", payload: true });
 
     axios
-      .get(`${API_URL}/cities`, {
+      .get(`${API_URL}/api/cities`, {
         params: {
           country: state.selectedCountry,
           page: state.currentPage,

@@ -13,7 +13,7 @@ const HomePage = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_URL}/clubs.json`)
+      .get(`${API_URL}/api/clubs.json`)
       .then((response) => {
         setClubs(response.data);
         console.log(response.data);
