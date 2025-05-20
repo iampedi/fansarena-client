@@ -12,6 +12,7 @@ import AdminCitiesPage from "@/pages/admin/cities/Index";
 import AuthLayout from "@/layout/AuthLayout";
 import SignupPage from "@/pages/auth/SignupPage";
 import SigninPage from "@/pages/auth/SigninPage";
+import EditClubPage from "@/pages/admin/clubs/Edit";
 
 export default function AppRoutes() {
   return (
@@ -29,6 +30,7 @@ export default function AppRoutes() {
         <Route index element={<AdminPage />} />
         <Route path="clubs" element={<AdminClubsPage />} />
         <Route path="clubs/new" element={<NewClubPage />} />
+        <Route path="clubs/:slug" element={<EditClubPage />} />
         <Route path="countries" element={<AdminCountriesPage />} />
         <Route path="cities" element={<AdminCitiesPage />} />
       </Route>

@@ -1,5 +1,15 @@
 // src/pages/admin/clubs/Index.jsx
+import { API_URL } from "@/config/api";
+import { continents } from "@/constants/continents";
+import { useAdminUI } from "@/contexts/AdminUIContext";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+
 import NewClubButton from "@/components/NewClubButton";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -17,13 +27,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { API_URL } from "@/config/api";
-import { continents } from "@/constants/continents";
-import { useAdminUI } from "@/contexts/AdminUIContext";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { toast } from "sonner";
+import { FilePenLine, TrashIcon } from "lucide-react";
+import ClubLogo from "@/components/ClubLogo";
+import DeleteConfirmModal from "@/components/DeleteConfirmModal";
 
 export default function AdminClubsPage() {
   const { setPageTitle } = useAdminUI();
@@ -33,6 +39,10 @@ export default function AdminClubsPage() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [search, setSearch] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [clubToDelete, setClubToDelete] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setPageTitle("Clubs List");
@@ -85,6 +95,22 @@ export default function AdminClubsPage() {
     };
     fetchCountries();
   }, [selectedContinent]);
+
+  const handleDelete = async () => {
+    if (!clubToDelete) return;
+    setIsLoading(true);
+    try {
+      await axios.delete(`${API_URL}/api/clubs/${clubToDelete._id}`);
+      setclubs((prev) => prev.filter((c) => c._id !== clubToDelete._id));
+      toast.success("Club deleted successfully.");
+      setModalOpen(false);
+      setClubToDelete(null);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete club.");
+    }
+    setIsLoading(false);
+  };
 
   return (
     <div>
@@ -161,6 +187,7 @@ export default function AdminClubsPage() {
             <TableHead>Club Name</TableHead>
             <TableHead>Continent</TableHead>
             <TableHead>Country</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -176,15 +203,45 @@ export default function AdminClubsPage() {
             <TableRow key={club._id || index}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>
-                <img src={club.logoUrl} className="w-5" />
+                <ClubLogo logoUrl={club.logoUrl} name={club.name} />
               </TableCell>
               <TableCell className="capitalize">{club.name}</TableCell>
               <TableCell className="capitalize">
                 {club.country?.continent}
               </TableCell>
               <TableCell className="capitalize">{club.country?.name}</TableCell>
+              <TableCell>
+                <div>
+                  <Button
+                    size={"icon"}
+                    variant={"ghost"}
+                    onClick={() => navigate(`/admin/clubs/${club.slug}`)}
+                  >
+                    <FilePenLine style={{ width: "18px", height: "18px" }} />
+                  </Button>
+                  <Button
+                    size={"icon"}
+                    variant={"ghost"}
+                    onClick={() => {
+                      setModalOpen(true);
+                      setClubToDelete(club);
+                    }}
+                  >
+                    <TrashIcon style={{ width: "18px", height: "18px" }} />
+                  </Button>
+                </div>
+              </TableCell>
             </TableRow>
           ))}
+
+          <DeleteConfirmModal
+            open={modalOpen}
+            onOpenChange={setModalOpen}
+            title={clubToDelete?.name}
+            item="club"
+            onConfirm={handleDelete}
+            isLoading={isLoading}
+          />
         </TableBody>
       </Table>
     </div>
