@@ -17,11 +17,11 @@ import { cn } from "@/lib/utils";
 import { useLocation, NavLink } from "react-router-dom";
 import { SoccerBallIcon } from "@phosphor-icons/react";
 import {
-  Building2Icon,
+  ActivityIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  HomeIcon,
-  SlidersVerticalIcon,
+  CookieIcon,
+  Gamepad2Icon,
 } from "lucide-react";
 
 // Navigation items with icons and submenu items
@@ -29,16 +29,16 @@ const navigationItems = [
   {
     title: "Dashboard",
     url: "/admin",
-    icon: HomeIcon,
+    icon: ActivityIcon,
   },
   {
     title: "Clubs",
     url: "/admin/clubs",
-    icon: Building2Icon,
+    icon: Gamepad2Icon,
   },
   {
     title: "Settings",
-    icon: SlidersVerticalIcon,
+    icon: CookieIcon,
     submenu: [
       { title: "Countries", url: "/admin/countries" },
       { title: "Cities", url: "/admin/cities" },
