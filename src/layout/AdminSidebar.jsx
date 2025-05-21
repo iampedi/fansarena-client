@@ -72,8 +72,8 @@ export function AdminSidebar(props) {
 
   return (
     <Sidebar {...props}>
-      <SidebarHeader>
-        <div className="flex items-center gap-3 p-2">
+      <SidebarHeader className="p-3">
+        <div className="flex h-16 items-center gap-4 px-2">
           <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-11 items-center justify-center rounded-lg">
             <SoccerBallIcon className="size-8" />
           </div>

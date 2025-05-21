@@ -10,9 +10,6 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { GlobeIcon, LogOutIcon } from "lucide-react";
-import { Button } from "./ui/button";
-import LogoutButton from "./LogoutButton";
 
 export default function AdminBreadcrumb() {
   const location = useLocation();
@@ -22,25 +19,16 @@ export default function AdminBreadcrumb() {
     .filter(Boolean);
 
   if (pathSegments.length <= 1) {
-    return (
-      <div className="flex gap-2">
-        <Button asChild>
-          <Link to="/">
-            <GlobeIcon />
-          </Link>
-        </Button>
-        <LogoutButton icon={true} />
-      </div>
-    );
+    return null;
   }
+
+  const segmentLabels = {
+    admin: "Dashboard",
+  };
 
   const breadcrumbs = pathSegments.map((segment, index) => {
     const fullPath = "/" + pathSegments.slice(0, index + 1).join("/");
     const isLast = index === pathSegments.length - 1;
-
-    if (fullPath === "/admin") {
-      segment = "Dashboard";
-    }
 
     return (
       <Fragment key={fullPath}>
@@ -59,7 +47,9 @@ export default function AdminBreadcrumb() {
   });
 
   function formatLabel(str) {
-    return str
+    const label = segmentLabels[str] || str;
+
+    return label
       .replace(/-/g, " ")
       .replace(/\b\w/g, (char) => char.toUpperCase());
   }
