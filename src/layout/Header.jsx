@@ -15,7 +15,9 @@ const Header = () => {
         <div className="_wrapper flex flex-col gap-5">
           <div className="_top flex items-center justify-between gap-5 pt-5">
             <div className="_logo flex w-1/6 items-center gap-2">
-              <h1 className="text-xl font-bold text-blue-800">Fans Arena</h1>
+              <h1 className="text-xl font-extrabold tracking-[1px] text-black uppercase">
+                Fans Arena
+              </h1>
             </div>
             <nav>
               <Navbar />

@@ -1,24 +1,28 @@
 // src/router/index.jsx
-import { Routes, Route } from "react-router-dom";
-import Home from "@/pages/Home";
-import NewClubPage from "@/pages/admin/clubs/New";
-import NotFound from "@/pages/NotFound";
-import MainLayout from "@/layout/MainLayout";
+import { Route, Routes } from "react-router-dom";
+
 import AdminLayout from "@/layout/AdminLayout";
-import AdminPage from "@/pages/admin/Index";
-import AdminClubsPage from "@/pages/admin/clubs/Index";
-import AdminCountriesPage from "@/pages/admin/countries/Index";
-import AdminCitiesPage from "@/pages/admin/cities/Index";
 import AuthLayout from "@/layout/AuthLayout";
-import SignupPage from "@/pages/auth/SignupPage";
-import SigninPage from "@/pages/auth/SigninPage";
+import MainLayout from "@/layout/MainLayout";
+
+import ClubDetails from "@/pages/ClubDetails";
+import Home from "@/pages/Home";
+import NotFound from "@/pages/NotFound";
+import AdminPage from "@/pages/admin/Index";
+import AdminCitiesPage from "@/pages/admin/cities/Index";
 import EditClubPage from "@/pages/admin/clubs/Edit";
+import AdminClubsPage from "@/pages/admin/clubs/Index";
+import NewClubPage from "@/pages/admin/clubs/New";
+import AdminCountriesPage from "@/pages/admin/countries/Index";
+import SigninPage from "@/pages/auth/SigninPage";
+import SignupPage from "@/pages/auth/SignupPage";
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
+        <Route path="clubs/:slug" element={<ClubDetails />} />
       </Route>
 
       <Route path="auth" element={<AuthLayout />}>
