@@ -13,6 +13,9 @@ import AdminCitiesPage from "@/pages/admin/cities/Index";
 import EditClubPage from "@/pages/admin/clubs/Edit";
 import AdminClubsPage from "@/pages/admin/clubs/Index";
 import NewClubPage from "@/pages/admin/clubs/New";
+import EditCompetitionPage from "@/pages/admin/competitions/Edit";
+import AdminCompetitionsPage from "@/pages/admin/competitions/Index";
+import NewCompetitionPage from "@/pages/admin/competitions/New";
 import AdminCountriesPage from "@/pages/admin/countries/Index";
 import SigninPage from "@/pages/auth/SigninPage";
 import SignupPage from "@/pages/auth/SignupPage";
@@ -32,6 +35,9 @@ export default function AppRoutes() {
 
       <Route path="admin" element={<AdminLayout />}>
         <Route index element={<AdminPage />} />
+        <Route path="competitions" element={<AdminCompetitionsPage />} />
+        <Route path="competitions/new" element={<NewCompetitionPage />} />
+        <Route path="competitions/:slug" element={<EditCompetitionPage />} />
         <Route path="clubs" element={<AdminClubsPage />} />
         <Route path="clubs/new" element={<NewClubPage />} />
         <Route path="clubs/:slug" element={<EditClubPage />} />

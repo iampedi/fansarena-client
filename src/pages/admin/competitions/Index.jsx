@@ -1,4 +1,4 @@
-// src/pages/admin/clubs/Index.jsx
+// src/pages/admin/competitions/Index.jsx
 import { API_URL } from "@/config/api";
 import { continents } from "@/constants/continents";
 import { useAdminUI } from "@/contexts/AdminUIContext";
@@ -29,9 +29,10 @@ import {
 } from "@/components/ui/table";
 import { FilePenLine, TrashIcon } from "lucide-react";
 
-export default function AdminClubsPage() {
+export default function AdminCompetitionsPage() {
   const { setPageTitle } = useAdminUI();
-  const [clubs, setClubs] = useState([]);
+  const [competitions, setCompetitions] = useState([]);
+  const [level, setLevel] = useState("__all__");
   const [selectedContinent, setSelectedContinent] = useState("__all__");
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -39,42 +40,44 @@ export default function AdminClubsPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
-  const [clubToDelete, setClubToDelete] = useState(null);
+  const [competitionToDelete, setCompetitionToDelete] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setPageTitle("Clubs List");
+    setPageTitle("Competitions List");
   }, [setPageTitle]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (params.get("created")) {
-      toast.success("Club created successfully!");
+      toast.success("Competition created successfully!");
     }
   }, [location.search]);
 
   useEffect(() => {
-    const fetchClubs = async () => {
+    // Get competitions
+    const fetchCompetitions = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/clubs`, {
+        const res = await axios.get(`${API_URL}/api/competitions`, {
           params: {
+            level: level !== "__all__" ? level : undefined,
             continent:
               selectedContinent !== "__all__" ? selectedContinent : undefined,
             country: selectedCountry !== "" ? selectedCountry : undefined,
             search,
           },
         });
-        setClubs(res.data);
+        setCompetitions(res.data);
       } catch (err) {
-        console.error("Failed to fetch clubs:", err);
+        console.error("Failed to fetch competitions:", err);
       }
     };
-    fetchClubs();
-  }, [selectedContinent, selectedCountry, search]);
+    fetchCompetitions();
+  }, [level, selectedContinent, selectedCountry, search]);
 
   useEffect(() => {
     if (selectedContinent === "__all__") {
-      setClubs([]);
+      setCompetitions([]);
       return;
     }
 
@@ -94,18 +97,23 @@ export default function AdminClubsPage() {
     fetchCountries();
   }, [selectedContinent]);
 
+  // Delete Competition
   const handleDelete = async () => {
-    if (!clubToDelete) return;
+    if (!competitionToDelete) return;
     setIsLoading(true);
     try {
-      await axios.delete(`${API_URL}/api/clubs/${clubToDelete._id}`);
-      setClubs((prev) => prev.filter((c) => c._id !== clubToDelete._id));
-      toast.success("Club deleted successfully.");
+      await axios.delete(
+        `${API_URL}/api/competitions/${competitionToDelete._id}`,
+      );
+      setCompetitions((prev) =>
+        prev.filter((c) => c._id !== competitionToDelete._id),
+      );
+      toast.success("Competition Deleted Successfully.");
       setModalOpen(false);
-      setClubToDelete(null);
+      setCompetitionToDelete(null);
     } catch (err) {
       console.error(err);
-      toast.error("Failed to delete club.");
+      toast.error("Failed to delete competition.");
     }
     setIsLoading(false);
   };
@@ -123,6 +131,26 @@ export default function AdminClubsPage() {
             setSearch(e.target.value);
           }}
         />
+
+        {/* Select Level */}
+        <Select
+          value={level}
+          onValueChange={(value) => {
+            setLevel(value);
+          }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Level" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="__all__">All Levels</SelectItem>
+              <SelectItem value="domestic">Domestic</SelectItem>
+              <SelectItem value="continental">Continental</SelectItem>
+              <SelectItem value="global">Global</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
 
         {/* Select Continent */}
         <Select
@@ -173,7 +201,9 @@ export default function AdminClubsPage() {
         )}
 
         <div className="flex flex-1 items-center justify-end">
-          <Button onClick={() => navigate("/admin/clubs/new")}>Add Club</Button>
+          <Button onClick={() => navigate("/admin/competitions/new")}>
+            Add Competition
+          </Button>
         </div>
       </div>
 
@@ -183,37 +213,50 @@ export default function AdminClubsPage() {
             <TableHead>#</TableHead>
             <TableHead>Logo</TableHead>
             <TableHead>Name</TableHead>
-            <TableHead>Continent</TableHead>
+            <TableHead>Level</TableHead>
             <TableHead>Country</TableHead>
+            <TableHead>Continent</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {clubs.length === 0 && (
+          {competitions.length === 0 && (
             <TableRow>
               <TableCell></TableCell>
-              <TableCell>No clubs found.</TableCell>
+              <TableCell>No competitions found.</TableCell>
               <TableCell colSpan={2}></TableCell>
             </TableRow>
           )}
 
-          {clubs.map((club, index) => (
-            <TableRow key={club._id || index}>
+          {competitions.map((competition, index) => (
+            <TableRow key={competition._id || index}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>
-                <ClubLogo logoUrl={club.logoUrl} name={club.name} />
+                <ClubLogo
+                  logoUrl={competition.logoUrl}
+                  name={competition.name}
+                />
               </TableCell>
-              <TableCell className="capitalize">{club.name}</TableCell>
+              <TableCell className="capitalize">{competition.name}</TableCell>
+              <TableCell className="capitalize">{competition.level}</TableCell>
               <TableCell className="capitalize">
-                {club.country?.continent}
+                {competition.country ? competition.country.name : "---"}
               </TableCell>
-              <TableCell className="capitalize">{club.country?.name}</TableCell>
+              <TableCell className="capitalize">
+                {competition.country
+                  ? competition.country.continent
+                  : competition.continent
+                    ? competition.continent
+                    : "---"}
+              </TableCell>
               <TableCell>
                 <div>
                   <Button
                     size={"icon"}
                     variant={"ghost"}
-                    onClick={() => navigate(`/admin/clubs/${club.slug}`)}
+                    onClick={() =>
+                      navigate(`/admin/competitions/${competition.slug}`)
+                    }
                   >
                     <FilePenLine style={{ width: "18px", height: "18px" }} />
                   </Button>
@@ -222,7 +265,7 @@ export default function AdminClubsPage() {
                     variant={"ghost"}
                     onClick={() => {
                       setModalOpen(true);
-                      setClubToDelete(club);
+                      setCompetitionToDelete(competition);
                     }}
                   >
                     <TrashIcon style={{ width: "18px", height: "18px" }} />
@@ -231,16 +274,15 @@ export default function AdminClubsPage() {
               </TableCell>
             </TableRow>
           ))}
-
-          <DeleteConfirmModal
-            open={modalOpen}
-            onOpenChange={setModalOpen}
-            title={clubToDelete?.name}
-            item="club"
-            onConfirm={handleDelete}
-            isLoading={isLoading}
-          />
         </TableBody>
+        <DeleteConfirmModal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          title={competitionToDelete?.name}
+          item="competition"
+          onConfirm={handleDelete}
+          isLoading={isLoading}
+        />
       </Table>
     </div>
   );

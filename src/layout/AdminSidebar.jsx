@@ -22,6 +22,7 @@ import {
   ChevronUpIcon,
   CookieIcon,
   Gamepad2Icon,
+  TrophyIcon,
 } from "lucide-react";
 
 // Navigation items with icons and submenu items
@@ -35,6 +36,11 @@ const navigationItems = [
     title: "Clubs",
     url: "/admin/clubs",
     icon: Gamepad2Icon,
+  },
+  {
+    title: "Competitions",
+    url: "/admin/competitions",
+    icon: TrophyIcon,
   },
   {
     title: "Settings",
