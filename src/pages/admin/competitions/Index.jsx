@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import ClubLogo from "@/components/ClubLogo";
+import ItemLogo from "@/components/ItemLogo";
 import DeleteConfirmModal from "@/components/DeleteConfirmModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,11 +48,11 @@ export default function AdminCompetitionsPage() {
   }, [setPageTitle]);
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    if (params.get("created")) {
-      toast.success("Competition created successfully!");
+    if (location.state?.success) {
+      toast.success(location.state.success);
+      window.history.replaceState({}, document.title, "/admin/competitions");
     }
-  }, [location.search]);
+  }, [location.state]);
 
   useEffect(() => {
     // Get competitions
@@ -232,9 +232,10 @@ export default function AdminCompetitionsPage() {
             <TableRow key={competition._id || index}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>
-                <ClubLogo
+                <ItemLogo
                   logoUrl={competition.logoUrl}
                   name={competition.name}
+                  type="competition"
                 />
               </TableCell>
               <TableCell className="capitalize">{competition.name}</TableCell>

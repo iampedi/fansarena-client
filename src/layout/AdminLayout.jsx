@@ -18,7 +18,7 @@ export default function AdminLayout() {
               <Outlet />
             </div>
           </div>
-          <Toaster theme="light" richColors />
+          <Toaster theme="light" position="bottom-left" richColors />
         </SidebarInset>
       </SidebarProvider>
     </AdminUIProvider>

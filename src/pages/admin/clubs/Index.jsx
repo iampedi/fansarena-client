@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import ClubLogo from "@/components/ClubLogo";
 import DeleteConfirmModal from "@/components/DeleteConfirmModal";
+import ItemLogo from "@/components/ItemLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -201,7 +201,7 @@ export default function AdminClubsPage() {
             <TableRow key={club._id || index}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>
-                <ClubLogo logoUrl={club.logoUrl} name={club.name} />
+                <ItemLogo logoUrl={club.logoUrl} name={club.name} type="club" />
               </TableCell>
               <TableCell className="capitalize">{club.name}</TableCell>
               <TableCell className="capitalize">
