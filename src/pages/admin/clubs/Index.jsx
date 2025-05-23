@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import DeleteConfirmModal from "@/components/DeleteConfirmModal";
+import DeleteConfirmModal from "@/components/DeleteConfirmDialog";
 import ItemLogo from "@/components/ItemLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

@@ -1,12 +1,12 @@
 // src/pages/admin/competitions/New.jsx
+import Loader from "@/components/Loader";
 import { API_URL } from "@/config/api";
 import { useAdminUI } from "@/contexts/AdminUIContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import CompetitionForm from "./Form";
-import Loader from "@/components/Loader";
+import CompetitionForm from "./components/Form";
 
 export default function NewCompetitionPage() {
   const { setPageTitle } = useAdminUI();

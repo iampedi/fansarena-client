@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import ItemLogo from "@/components/ItemLogo";
-import DeleteConfirmModal from "@/components/DeleteConfirmModal";
+import DeleteConfirmModal from "@/components/DeleteConfirmDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-export default function DeleteConfirmModal({
+export default function DeleteConfirmDialog({
   open,
   onOpenChange,
   title,
