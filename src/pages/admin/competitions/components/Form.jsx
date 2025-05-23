@@ -452,49 +452,51 @@ export default function CompetitionForm({
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {winners.map((winner, i) => (
-                      <TableRow
-                        key={`${winner.club}-${winner.year}-${winner.rank}-${i}`}
-                      >
-                        <TableCell>
-                          <img
-                            src={
-                              displayClub(winner.club, winner.clubName)?.logoUrl
-                            }
-                            className="h-6 w-6"
-                          />
-                        </TableCell>
-                        <TableCell className="capitalize">
-                          {displayClub(winner.club, winner.clubName)?.name}
-                        </TableCell>
-                        <TableCell>{winner.rank}</TableCell>
-                        <TableCell>{winner.year}</TableCell>
-                        <TableCell>{winner.season}</TableCell>
-                        <TableCell>
-                          <div>
-                            {/* <Button size={"icon"} variant={"ghost"}>
+                    {[...winners]
+                      .sort((a, b) => b.year - a.year)
+                      .map((winner, i) => (
+                        <TableRow
+                          key={`${winner.club}-${winner.year}-${winner.rank}-${i}`}
+                        >
+                          <TableCell>
+                            <img
+                              src={
+                                displayClub(winner.club, winner.clubName)
+                                  ?.logoUrl
+                              }
+                              className="h-6 w-6"
+                            />
+                          </TableCell>
+                          <TableCell className="capitalize">
+                            {displayClub(winner.club, winner.clubName)?.name}
+                          </TableCell>
+                          <TableCell>{winner.rank}</TableCell>
+                          <TableCell>{winner.year}</TableCell>
+                          <TableCell>{winner.season}</TableCell>
+                          <TableCell>
+                            <div>
+                              {/* <Button size={"icon"} variant={"ghost"}>
                               <FilePenLineIcon
                                 style={{ width: "18px", height: "18px" }}
                               />
                             </Button> */}
-                            <Button
-                              type="button"
-                              size={"icon"}
-                              variant={"ghost"}
-                              onClick={() => {
-                                setSelectedWinner(winner);
-                                setModalOpen(true);
-                              }}
-                            >
-                              <TrashIcon
-                                style={{ width: "18px", height: "18px" }}
-                              />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                    <></>
+                              <Button
+                                type="button"
+                                size={"icon"}
+                                variant={"ghost"}
+                                onClick={() => {
+                                  setSelectedWinner(winner);
+                                  setModalOpen(true);
+                                }}
+                              >
+                                <TrashIcon
+                                  style={{ width: "18px", height: "18px" }}
+                                />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
 

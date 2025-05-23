@@ -4,6 +4,7 @@ export const colors = [
   { label: "Blue", value: "blue" },
   { label: "Green", value: "green" },
   { label: "Yellow", value: "yellow" },
+  { label: "White", value: "white" },
 ];
 
 export const colorClassMap = {
@@ -11,4 +12,5 @@ export const colorClassMap = {
   blue: { bg: "bg-blue-500", border: "border-blue-500" },
   green: { bg: "bg-green-500", border: "border-green-500" },
   yellow: { bg: "bg-yellow-500", border: "border-yellow-500" },
+  white: { bg: "bg-white", border: "border-white" },
 };
