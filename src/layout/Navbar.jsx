@@ -3,21 +3,18 @@ import { NavLink } from "react-router";
 const Navbar = () => {
   const menuItems = [
     { title: "Clubs", link: "/", active: true },
-    { title: "Nationals", link: "/nationals", active: false },
-    { title: "Players", link: "/players", active: false },
-    { title: "Stadiums", link: "/stadiums", active: false },
-    { title: "Trophies", link: "/trophies", active: false },
+    { title: "Leaderboard", link: "/leaderboard", active: true },
   ];
 
   return (
-    <ul className="flex">
+    <ul className="flex rounded-full gap-2 border border-gray-200 bg-white shadow-md shadow-gray-200/75">
       {menuItems.map(
         (item, i) =>
           item.active && (
-            <li key={i}>
+            <li key={i} className="hidden md:block">
               <NavLink
                 to={item.link}
-                className="flex items-center gap-2 rounded-full px-4 py-2 text-[17px] text-gray-500 hover:bg-gray-100/90 hover:text-black [&.active]:font-bold [&.active]:text-black"
+                className="flex h-11 items-center rounded-full px-5 font-semibold hover:font-bold hover:text-black [&.active]:font-bold [&.active]:bg-gray-100"
               >
                 {item.title}
               </NavLink>

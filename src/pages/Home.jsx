@@ -45,7 +45,7 @@ const HomePage = () => {
   }
 
   return (
-    <div className="container mx-auto py-5">
+    <div className="container mx-auto md:py-5">
       <div className="_list-cards grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {clubs.map((club) => (
           <ClubCard key={club._id} club={club} />

@@ -19,6 +19,7 @@ import NewCompetitionPage from "@/pages/admin/competitions/New";
 import AdminCountriesPage from "@/pages/admin/countries/Index";
 import SigninPage from "@/pages/auth/SigninPage";
 import SignupPage from "@/pages/auth/SignupPage";
+import Leaderboard from "@/pages/Leaderboard";
 
 export default function AppRoutes() {
   return (
@@ -26,6 +27,7 @@ export default function AppRoutes() {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="clubs/:slug" element={<ClubDetails />} />
+        <Route path="leaderboard/" element={<Leaderboard />} />
       </Route>
 
       <Route path="auth" element={<AuthLayout />}>

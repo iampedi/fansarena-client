@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { API_URL } from "../config/api";
 import axios from "axios";
 import ItemLogo from "@/components/ItemLogo";
+import { BuildingIcon, GlobeIcon } from "lucide-react";
 
 const ClubDetails = () => {
   const { slug } = useParams();
@@ -55,7 +56,6 @@ const ClubDetails = () => {
             ),
         );
         setCompetitions(filteredCompetitions);
-        console.log(filteredCompetitions);
       } catch (err) {
         console.error("Failed to fetch competitions:", err);
       }
@@ -81,90 +81,102 @@ const ClubDetails = () => {
   }
 
   return (
-    <div className="_club-details flex">
-      <div className="container mx-auto w-1/2 max-w-5xl py-10">
-        <img src={club.logoUrl} alt={club.name} className="mb-4 h-24" />
-        <h1 className="mb-4 text-2xl font-bold capitalize">{club.name}</h1>
-        {club.description && <p className="mb-6">{club.description}</p>}
+    <div className="_club-details container mx-auto mb-10 flex flex-col gap-10 px-5 lg:flex-row 2xl:max-w-7xl 2xl:px-0">
+      <div className="lg:w-1/2">
+        <div className="flex flex-col gap-5 rounded-xl border-2 border-gray-200/50 bg-gray-50/50 px-5 py-8 lg:flex-row">
+          <ItemLogo
+            logoUrl={club.logoUrl}
+            name={club.name}
+            type="club"
+            size={128}
+          />
+          <div className="flex flex-col justify-center text-lg">
+            <h1 className="text-4xl font-extrabold capitalize">{club.name}</h1>
+            <p className="my-4 flex flex-wrap items-center gap-2 font-medium text-gray-600 capitalize">
+              <BuildingIcon
+                className="text-gray-500"
+                style={{ width: "24px", height: "24px" }}
+              />
+              <span>{club.country.continent},</span>
+              <span>{club.country.name},</span>
+              <span>{club.city}</span>
+            </p>
 
-        {club.country.continent && (
-          <p className="text-gray-600">
-            <span className="font-semibold">Continent:</span>{" "}
-            <span className="capitalize">{club.country.continent}</span>
-          </p>
-        )}
-        {club.country && (
-          <p className="text-gray-600">
-            <span className="font-semibold">Country:</span>{" "}
-            <span className="capitalize">{club.country.name}</span>
-          </p>
-        )}
-        {club.city && (
-          <p className="text-gray-600">
-            <span className="font-semibold">City:</span>{" "}
-            <span className="capitalize">{club.city}</span>
-          </p>
-        )}
-        {club.founded && (
-          <p className="text-gray-600">
-            <span className="font-semibold">Founded:</span> {club.founded}
-          </p>
-        )}
-        {club.arena && (
-          <p className="text-gray-600">
-            <span className="font-semibold">Arena:</span>{" "}
-            <span className="capitalize">{club.arena}</span>
-          </p>
-        )}
-        {club.website && (
-          <p className="text-gray-600">
-            <a href={club.website} target="_blank">
-              Official Website
-            </a>
-          </p>
-        )}
+            {club.founded && (
+              <p className="mb-1 font-semibold text-gray-700 lg:mb-0">
+                <span>Founded in</span> {club.founded}
+              </p>
+            )}
+            {club.arena && (
+              <p className="font-semibold text-gray-700">
+                <span className="">Arena:</span>{" "}
+                <span className="capitalize">{club.arena}</span>
+              </p>
+            )}
+            {club.website && (
+              <p className="udner mt-4 flex items-center gap-1 text-blue-800">
+                <GlobeIcon style={{ width: "20px", height: "20px" }} />
+                <a href={club.website} target="_blank">
+                  Official Website
+                </a>
+              </p>
+            )}
+            {club.description && <p className="mb-6">{club.description}</p>}
+          </div>
+        </div>
       </div>
 
-      <div className="w-1/2">
-        <h2>Trophies</h2>
+      <div className="flex flex-col gap-12 lg:w-1/2">
         {competitions.length > 0 ? (
-          competitions.map((competition) => {
-            const clubWinners = competition.winners.filter(
-              (w) => w.club.slug === slug,
-            );
+          [...competitions]
+            .sort((a, b) => b.winners.length - a.winners.length)
+            .map((competition) => {
+              const clubWinners = competition.winners.filter(
+                (w) => w.club.slug === slug,
+              );
 
-            return (
-              <div key={competition._id} className="mt-10 mb-4">
-                <h3 className="mb-4 flex items-center gap-3 border-b pb-2 text-lg font-bold uppercase">
-                  <img className="w-10" src={competition.logoUrl} alt={competition.name} />
-                  {competition.name}
-                  <span className="flex aspect-square h-8 w-8 items-center justify-center rounded-full border-2 border-gray-300 font-medium text-gray-400">
-                    {clubWinners.length}
-                  </span>
-                </h3>
-                <div className="flex flex-wrap gap-x-3 gap-y-6">
-                  {clubWinners.map((winner) => (
-                    <div key={winner._id} className="text-gray-600">
-                      <div>
-                        <ItemLogo
-                          size={70}
-                          logoUrl={`/images/competitions/${competition.slug}-trophy.webp`}
-                          name={competition.name}
-                          type="competition"
-                        />
-                      </div>
-                      <p className="mt-1 text-center font-extrabold capitalize">
-                        {winner.year}
-                      </p>
-                      {winner.rank !== "1st" && (
-                        <p className="capitalize">{winner.rank}</p>
-                      )}
+              return (
+                <div key={competition._id}>
+                  <div className="_header mb-6 flex items-center justify-between border-b pb-3 lg:px-2">
+                    <div className="flex items-center gap-3 lg:gap-4">
+                      <ItemLogo
+                        logoUrl={`/images/competitions/${competition.slug}-symbol.webp`}
+                        name={competition.name}
+                        type="competition"
+                        size={36}
+                      />
+                      <h3 className="font-bold uppercase lg:text-lg">
+                        {competition.name}
+                      </h3>
                     </div>
-                  ))}
+                    <span className="flex aspect-square h-9 w-9 items-center justify-center rounded-full border border-gray-200/50 bg-gray-100">
+                      {clubWinners.length}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-5 lg:gap-6">
+                    {clubWinners.map((winner) => (
+                      <div key={winner._id} className="text-gray-600">
+                        <div>
+                          <ItemLogo
+                            size={64}
+                            logoUrl={`/images/competitions/${competition.slug}-trophy.webp`}
+                            name={competition.name}
+                            type="competition"
+                          />
+                        </div>
+                        <p className="mt-1.5 text-center font-bold capitalize">
+                          {winner.year}
+                        </p>
+                        {winner.rank !== "1st" && (
+                          <p className="capitalize">{winner.rank}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            );
-          })
+              );
+            })
         ) : (
           <p className="text-gray-600">No trophies found for this club.</p>
         )}
