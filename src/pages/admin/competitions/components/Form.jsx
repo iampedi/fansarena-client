@@ -550,11 +550,13 @@ export default function CompetitionForm({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="capitalize">
-                        {clubs.map((club) => (
-                          <SelectItem key={club._id} value={club._id}>
-                            {club.name}
-                          </SelectItem>
-                        ))}
+                        {[...clubs]
+                          .sort((a, b) => a.name.localeCompare(b.name))
+                          .map((club) => (
+                            <SelectItem key={club._id} value={club._id}>
+                              {club.name}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     {winnerFormErrors.club && (

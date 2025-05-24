@@ -197,40 +197,48 @@ export default function AdminClubsPage() {
             </TableRow>
           )}
 
-          {clubs.map((club, index) => (
-            <TableRow key={club._id || index}>
-              <TableCell>{index + 1}</TableCell>
-              <TableCell>
-                <ItemLogo logoUrl={club.logoUrl} name={club.name} type="club" />
-              </TableCell>
-              <TableCell className="capitalize">{club.name}</TableCell>
-              <TableCell className="capitalize">
-                {club.country?.continent}
-              </TableCell>
-              <TableCell className="capitalize">{club.country?.name}</TableCell>
-              <TableCell>
-                <div>
-                  <Button
-                    size={"icon"}
-                    variant={"ghost"}
-                    onClick={() => navigate(`/admin/clubs/${club.slug}`)}
-                  >
-                    <FilePenLine style={{ width: "18px", height: "18px" }} />
-                  </Button>
-                  <Button
-                    size={"icon"}
-                    variant={"ghost"}
-                    onClick={() => {
-                      setModalOpen(true);
-                      setClubToDelete(club);
-                    }}
-                  >
-                    <TrashIcon style={{ width: "18px", height: "18px" }} />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
+          {[...clubs]
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((club, index) => (
+              <TableRow key={club._id || index}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>
+                  <ItemLogo
+                    logoUrl={club.logoUrl}
+                    name={club.name}
+                    type="club"
+                  />
+                </TableCell>
+                <TableCell className="capitalize">{club.name}</TableCell>
+                <TableCell className="capitalize">
+                  {club.country?.continent}
+                </TableCell>
+                <TableCell className="capitalize">
+                  {club.country?.name}
+                </TableCell>
+                <TableCell>
+                  <div>
+                    <Button
+                      size={"icon"}
+                      variant={"ghost"}
+                      onClick={() => navigate(`/admin/clubs/${club.slug}`)}
+                    >
+                      <FilePenLine style={{ width: "18px", height: "18px" }} />
+                    </Button>
+                    <Button
+                      size={"icon"}
+                      variant={"ghost"}
+                      onClick={() => {
+                        setModalOpen(true);
+                        setClubToDelete(club);
+                      }}
+                    >
+                      <TrashIcon style={{ width: "18px", height: "18px" }} />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
 
           <DeleteConfirmModal
             open={modalOpen}

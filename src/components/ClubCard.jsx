@@ -1,10 +1,11 @@
 import { Link } from "react-router";
 import ClubImage from "../components/ClubImage";
 import ReactCountryFlag from "react-country-flag";
-import { BuildingIcon } from "lucide-react";
+import { TrophyIcon, UsersIcon } from "lucide-react";
 
 const ClubCard = (props) => {
   const { club } = props;
+
   return (
     <div
       key={club._id}
@@ -23,24 +24,21 @@ const ClubCard = (props) => {
           </h2>
         </Link>
 
-        <div className="flex md:flex-col justify-between gap-2 py-5 px-6">
-          {(club.city || club.country) && (
-            <div className="flex items-center gap-2">
-              <ReactCountryFlag
-                countryCode={club.country?.code}
-                svg
-                style={{ width: "20px", height: "20px" }}
-                className="rounded"
-              />
-              <span className="font-semibold capitalize">{club.city}</span>
-            </div>
-          )}
-          {club.founded && (
-            <div className="flex items-center gap-2">
-              <BuildingIcon className="h-5 w-5" />
-              <span className="font-semibold">{club.founded}</span>
-            </div>
-          )}
+        <div className="flex w-full items-center justify-between p-4">
+          <div className="flex items-center gap-2">
+            <TrophyIcon className="h-5 w-5 text-gray-400" />
+            <span className="font-bold text-gray-500/80">{club.trophies}</span>
+          </div>
+          <ReactCountryFlag
+            countryCode={club.country?.code}
+            svg
+            style={{ width: "22px", height: "20px", borderRadius: "5px" }}
+            className="rounded"
+          />
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-gray-500/80">0</span>
+            <UsersIcon className="h-5 w-5 text-gray-400" />
+          </div>
         </div>
       </div>
     </div>

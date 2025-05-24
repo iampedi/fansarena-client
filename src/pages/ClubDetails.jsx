@@ -4,7 +4,16 @@ import { useParams } from "react-router-dom";
 import { API_URL } from "../config/api";
 import axios from "axios";
 import ItemLogo from "@/components/ItemLogo";
-import { BuildingIcon, GlobeIcon } from "lucide-react";
+import {
+  BuildingIcon,
+  GlobeIcon,
+  UserIcon,
+  UserPlusIcon,
+  UsersIcon,
+} from "lucide-react";
+import ReactCountryFlag from "react-country-flag";
+import { Button } from "@/components/ui/button";
+import TooltipWrapper from "@/components/TooltipWrapper";
 
 const ClubDetails = () => {
   const { slug } = useParams();
@@ -83,44 +92,74 @@ const ClubDetails = () => {
   return (
     <div className="_club-details container mx-auto mb-10 flex flex-col gap-10 px-5 lg:flex-row 2xl:max-w-7xl 2xl:px-0">
       <div className="lg:w-1/2">
-        <div className="flex flex-col gap-5 rounded-xl border-2 border-gray-200/50 bg-gray-50/50 px-5 py-8 lg:flex-row">
+        <div className="flex flex-col flex-wrap gap-8 rounded-xl border-2 border-gray-200/50 bg-gray-50/50 p-8 lg:flex-row">
           <ItemLogo
             logoUrl={club.logoUrl}
             name={club.name}
             type="club"
             size={128}
           />
-          <div className="flex flex-col justify-center text-lg">
+          <div className="flex w-full flex-1 shrink-0 flex-col justify-center gap-5 text-lg">
             <h1 className="text-4xl font-extrabold capitalize">{club.name}</h1>
-            <p className="my-4 flex flex-wrap items-center gap-2 font-medium text-gray-600 capitalize">
-              <BuildingIcon
-                className="text-gray-500"
-                style={{ width: "24px", height: "24px" }}
-              />
-              <span>{club.country.continent},</span>
-              <span>{club.country.name},</span>
-              <span>{club.city}</span>
-            </p>
 
-            {club.founded && (
-              <p className="mb-1 font-semibold text-gray-700 lg:mb-0">
-                <span>Founded in</span> {club.founded}
-              </p>
-            )}
-            {club.arena && (
-              <p className="font-semibold text-gray-700">
-                <span className="">Arena:</span>{" "}
-                <span className="capitalize">{club.arena}</span>
-              </p>
-            )}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <UsersIcon className="h-8 w-8 text-gray-800" />
+                <span className="text-2xl font-bold">23.548.221</span>
+              </div>
+              <TooltipWrapper tooltip={<span>I want to be a fan</span>}>
+                <UserPlusIcon className="h-6 w-6 cursor-pointer text-gray-800 hover:animate-pulse" />
+              </TooltipWrapper>
+            </div>
+
+            <div>
+              <div className="mb-1 flex items-center gap-2.5 font-medium">
+                <BuildingIcon
+                  className="text-gray-500"
+                  style={{ width: "24px", height: "24px" }}
+                />
+                <span className="text-gray-600 capitalize">
+                  {club.country.continent}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <ReactCountryFlag
+                  countryCode={club.country.code}
+                  svg
+                  style={{
+                    width: "22px",
+                    height: "18px",
+                    borderRadius: "5px",
+                  }}
+                />
+                <span className="text-gray-600 capitalize">{club.city}</span>
+              </div>
+            </div>
+
+            <div>
+              {club.founded && (
+                <p className="font-semibold text-gray-700 lg:mb-0">
+                  <span>Founded in</span> {club.founded}
+                </p>
+              )}
+              {club.arena && (
+                <p className="font-semibold text-gray-700">
+                  <span className="">Arena:</span>{" "}
+                  <span className="capitalize">{club.arena}</span>
+                </p>
+              )}
+            </div>
+
             {club.website && (
-              <p className="udner mt-4 flex items-center gap-1 text-blue-800">
+              <p className="flex items-center gap-1 text-blue-800">
                 <GlobeIcon style={{ width: "20px", height: "20px" }} />
                 <a href={club.website} target="_blank">
                   Official Website
                 </a>
               </p>
             )}
+
             {club.description && <p className="mb-6">{club.description}</p>}
           </div>
         </div>
@@ -137,7 +176,7 @@ const ClubDetails = () => {
 
               return (
                 <div key={competition._id}>
-                  <div className="_header mb-6 flex items-center justify-between border-b pb-3 lg:px-2">
+                  <div className="_header mb-6 flex items-center justify-between rounded-xl border-2 border-gray-200/50 bg-gray-50/50 px-5 py-3 lg:px-3">
                     <div className="flex items-center gap-3 lg:gap-4">
                       <ItemLogo
                         logoUrl={`/images/competitions/${competition.slug}-symbol.webp`}
@@ -149,7 +188,7 @@ const ClubDetails = () => {
                         {competition.name}
                       </h3>
                     </div>
-                    <span className="flex aspect-square h-9 w-9 items-center justify-center rounded-full border border-gray-200/50 bg-gray-100">
+                    <span className="flex aspect-square h-9 w-9 items-center justify-center rounded-full border border-gray-200/50 bg-gray-200/70 text-lg font-bold">
                       {clubWinners.length}
                     </span>
                   </div>
@@ -165,7 +204,7 @@ const ClubDetails = () => {
                             type="competition"
                           />
                         </div>
-                        <p className="mt-1.5 text-center font-bold capitalize">
+                        <p className="flex h-7 items-center justify-center rounded bg-gray-700 text-center text-white capitalize">
                           {winner.year}
                         </p>
                         {winner.rank !== "1st" && (
