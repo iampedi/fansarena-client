@@ -1,13 +1,15 @@
+// src/pages/auth/SigninPage.jsx
 import { cn } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
-import SigninForm from "@/components/SigninForm";
-import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "sonner";
+
+import SigninForm from "@/components/SigninForm";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 
-export default function SigninPage({ className, ...props }) {
+const SigninPage = ({ className, ...props }) => {
   const location = useLocation();
 
   useEffect(() => {
@@ -15,6 +17,7 @@ export default function SigninPage({ className, ...props }) {
       toast.success(location.state.successMessage);
     }
   }, [location]);
+
   return (
     <div className={cn("w-full max-w-sm md:max-w-3xl", className)} {...props}>
       <Card className="overflow-hidden py-0">
@@ -31,4 +34,6 @@ export default function SigninPage({ className, ...props }) {
       </Button>
     </div>
   );
-}
+};
+
+export default SigninPage;

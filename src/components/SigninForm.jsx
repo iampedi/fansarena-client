@@ -1,12 +1,16 @@
 // src/components/SigninForm.jsx
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { API_URL } from "@/config/api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import useAuth from "@/hooks/useAuth";
+import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -15,10 +19,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import useAuth from "@/hooks/useAuth";
-import { toast } from "sonner";
 
 // Form Schema
 const signinSchema = z.object({
@@ -26,7 +26,7 @@ const signinSchema = z.object({
   password: z.string().min(1, "Enter your password."),
 });
 
-export default function SigninForm() {
+const SigninForm = () => {
   const [serverError, setServerError] = useState("");
   const { storeToken, authenticateUser } = useAuth();
   const navigate = useNavigate();
@@ -124,4 +124,6 @@ export default function SigninForm() {
       </form>
     </Form>
   );
-}
+};
+
+export default SigninForm;

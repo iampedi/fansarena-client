@@ -3,16 +3,18 @@ import useAuth from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 
-import LogoutButton from "@/components/LogoutButton";
+import AuthButton from "@/components/AuthButton";
+import TooltipWrapper from "@/components/TooltipWrapper";
 import { Button } from "@/components/ui/button";
+import { UserRoundCheckIcon, UserRoundCogIcon } from "lucide-react";
 import { MagnifyingGlass } from "phosphor-react";
 
 const Header = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
 
   return (
     <header className="border-b border-gray-100 bg-gray-100/40">
-      <div className="container mx-auto px-5 3xl:px-0">
+      <div className="3xl:px-0 container mx-auto px-5">
         <div className="_wrapper flex flex-col gap-5">
           <div className="_top flex items-center justify-between gap-5 py-5">
             <div className="_logo flex w-1/6 items-center gap-2">
@@ -26,18 +28,27 @@ const Header = () => {
             </nav>
 
             <div className="_tools hidden w-1/6 justify-end gap-2 text-right md:flex">
-              {isLoggedIn ? (
+              {isLoggedIn && (
                 <>
-                  <Button variant={"secondary"} asChild>
-                    <Link to={"/admin"}>Admin</Link>
-                  </Button>
-                  <LogoutButton />
+                  {user?.isAdmin && (
+                    <TooltipWrapper tooltip={"Admin Panel"}>
+                      <Button size="icon" asChild>
+                        <Link to="/admin">
+                          <UserRoundCheckIcon />
+                        </Link>
+                      </Button>
+                    </TooltipWrapper>
+                  )}
+                  <TooltipWrapper tooltip={"User Profile"}>
+                    <Button size="icon" asChild>
+                      <Link to="/profile">
+                        <UserRoundCogIcon />
+                      </Link>
+                    </Button>
+                  </TooltipWrapper>
                 </>
-              ) : (
-                <Button asChild>
-                  <Link to={"/auth/signin"}>Sign In</Link>
-                </Button>
               )}
+              <AuthButton />
             </div>
           </div>
           <div className="_search hidden justify-center pb-6">

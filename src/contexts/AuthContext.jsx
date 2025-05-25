@@ -1,5 +1,4 @@
 // src/contexts/AuthContext.jsx
-
 import { API_URL } from "@/config/api";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -11,6 +10,7 @@ function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
   const storeToken = (token) => {
     localStorage.setItem("authToken", token);
   };
@@ -60,6 +60,7 @@ function AuthProvider({ children }) {
         isLoggedIn,
         isLoading,
         user,
+        setUser,
         storeToken,
         authenticateUser,
         logOut,

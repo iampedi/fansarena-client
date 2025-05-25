@@ -5,9 +5,15 @@ import AdminLayout from "@/layout/AdminLayout";
 import AuthLayout from "@/layout/AuthLayout";
 import MainLayout from "@/layout/MainLayout";
 
-import ClubDetails from "@/pages/ClubDetails";
-import Home from "@/pages/Home";
+import ClubDetailsPage from "@/pages/ClubDetails";
+import HomePage from "@/pages/Home";
+import LeaderboardPage from "@/pages/Leaderboard";
 import NotFound from "@/pages/NotFound";
+import ProfilePage from "@/pages/Profile";
+
+import SigninPage from "@/pages/auth/SigninPage";
+import SignupPage from "@/pages/auth/SignupPage";
+
 import AdminPage from "@/pages/admin/Index";
 import AdminCitiesPage from "@/pages/admin/cities/Index";
 import EditClubPage from "@/pages/admin/clubs/Edit";
@@ -17,17 +23,15 @@ import EditCompetitionPage from "@/pages/admin/competitions/Edit";
 import AdminCompetitionsPage from "@/pages/admin/competitions/Index";
 import NewCompetitionPage from "@/pages/admin/competitions/New";
 import AdminCountriesPage from "@/pages/admin/countries/Index";
-import SigninPage from "@/pages/auth/SigninPage";
-import SignupPage from "@/pages/auth/SignupPage";
-import Leaderboard from "@/pages/Leaderboard";
 
-export default function AppRoutes() {
+const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<Home />} />
-        <Route path="clubs/:slug" element={<ClubDetails />} />
-        <Route path="leaderboard/" element={<Leaderboard />} />
+        <Route index element={<HomePage />} />
+        <Route path="clubs/:slug" element={<ClubDetailsPage />} />
+        <Route path="leaderboard/" element={<LeaderboardPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Route>
 
       <Route path="auth" element={<AuthLayout />}>
@@ -50,4 +54,6 @@ export default function AppRoutes() {
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
-}
+};
+
+export default AppRoutes;

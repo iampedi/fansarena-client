@@ -1,5 +1,6 @@
-const Leaderboard = () => {
+// src/pages/Leaderboard.jsx
+const LeaderboardPage = () => {
   return <div>Leaderboard</div>;
 };
 
-export default Leaderboard;
+export default LeaderboardPage;

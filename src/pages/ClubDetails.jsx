@@ -1,21 +1,15 @@
 // src/pages/ClubDetails.jsx
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_URL } from "../config/api";
-import axios from "axios";
-import ItemLogo from "@/components/ItemLogo";
-import {
-  BuildingIcon,
-  GlobeIcon,
-  UserIcon,
-  UserPlusIcon,
-  UsersIcon,
-} from "lucide-react";
-import ReactCountryFlag from "react-country-flag";
-import { Button } from "@/components/ui/button";
-import TooltipWrapper from "@/components/TooltipWrapper";
 
-const ClubDetails = () => {
+import ItemLogo from "@/components/ItemLogo";
+import TooltipWrapper from "@/components/TooltipWrapper";
+import { GlobeIcon, UserPlusIcon, UsersIcon } from "lucide-react";
+import ReactCountryFlag from "react-country-flag";
+
+const ClubDetailsPage = () => {
   const { slug } = useParams();
   const [club, setClub] = useState(null);
   const [competitions, setCompetitions] = useState([]);
@@ -114,9 +108,9 @@ const ClubDetails = () => {
 
             <div>
               <div className="mb-1 flex items-center gap-2.5 font-medium">
-                <BuildingIcon
+                <GlobeIcon
                   className="text-gray-500"
-                  style={{ width: "24px", height: "24px" }}
+                  style={{ width: "22px", height: "22px" }}
                 />
                 <span className="text-gray-600 capitalize">
                   {club.country.continent}
@@ -224,4 +218,4 @@ const ClubDetails = () => {
   );
 };
 
-export default ClubDetails;
+export default ClubDetailsPage;

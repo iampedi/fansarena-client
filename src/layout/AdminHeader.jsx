@@ -1,12 +1,14 @@
 // src/layout/AdminHeader.jsx
+import { useAdminUI } from "@/contexts/AdminUIContext";
+import { Link } from "react-router-dom";
+
 import AdminBreadcrumb from "@/components/AdminBreadcrumb";
-import LogoutButton from "@/components/LogoutButton";
+import AuthButton from "@/components/AuthButton";
+import TooltipWrapper from "@/components/TooltipWrapper";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { useAdminUI } from "@/contexts/AdminUIContext";
 import { GlobeIcon } from "lucide-react";
-import { Link } from "react-router-dom";
 
 export default function AdminHeader() {
   const { pageTitle } = useAdminUI();
@@ -20,12 +22,15 @@ export default function AdminHeader() {
         <AdminBreadcrumb />
 
         <div className="flex gap-2">
-          <Button asChild>
-            <Link to="/">
-              <GlobeIcon />
-            </Link>
-          </Button>
-          <LogoutButton icon={true} />
+          <TooltipWrapper tooltip={"Go to Site"}>
+            <Button size={"icon"} asChild>
+              <Link to="/">
+                <GlobeIcon />
+              </Link>
+            </Button>
+          </TooltipWrapper>
+
+          <AuthButton />
         </div>
       </div>
     </header>

@@ -10,6 +10,22 @@ body {
     font-style: normal;
 }
 
+label {
+    @apply block text-sm font-medium text-gray-700 mb-1.5
+}
+
+input {
+    @apply border py-2 px-3 text-sm w-full bg-white rounded-md
+}
+
+input:disabled {
+    @apply bg-white/50 text-gray-500 cursor-not-allowed
+}
+
+select {
+    @apply border py-2 px-3 text-sm w-full bg-white rounded-md
+}
+
 @theme inline {
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);

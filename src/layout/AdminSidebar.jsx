@@ -80,14 +80,11 @@ export function AdminSidebar(props) {
     <Sidebar {...props}>
       <SidebarHeader className="p-3">
         <div className="flex h-16 items-center gap-4 px-2">
-          <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-11 items-center justify-center rounded-lg">
-            <SoccerBallIcon className="size-8" />
+          <div className="flex size-14">
+            <img src="/images/fa-logo.svg" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-lg leading-6 font-semibold">Fans Arena</span>
-            <span className="text-sidebar-foreground/70 text-sm">
-              Admin Panel
-            </span>
+          <div>
+            <span className="text-lg font-bold uppercase">Admin Panel</span>
           </div>
         </div>
       </SidebarHeader>

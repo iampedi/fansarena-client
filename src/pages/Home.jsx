@@ -1,8 +1,9 @@
 // src/pages/Home.jsx
 import axios from "axios";
 import { useEffect, useState } from "react";
-import ClubCard from "../components/ClubCard";
 import { API_URL } from "../config/api";
+
+import ClubCard from "../components/ClubCard";
 
 const HomePage = () => {
   const [clubs, setClubs] = useState([]);
