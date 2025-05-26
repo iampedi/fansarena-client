@@ -57,7 +57,7 @@ export default function SignupForm() {
       }
 
       navigate("/auth/signin", {
-        state: { successMessage: "Signup successful! You can now log in." },
+        state: { message: "Signup Successful! You can now log in." },
       });
     } catch (err) {
       setServerError("Network error. Please try again.");

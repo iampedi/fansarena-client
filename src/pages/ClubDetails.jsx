@@ -3,10 +3,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_URL } from "../config/api";
+import { useNavigate } from "react-router-dom";
 
 import ItemLogo from "@/components/ItemLogo";
 import TooltipWrapper from "@/components/TooltipWrapper";
-import { GlobeIcon, UserPlusIcon, UsersIcon } from "lucide-react";
+import { GlobeIcon, LinkIcon, UserPlusIcon, UsersIcon } from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
 
 const ClubDetailsPage = () => {
@@ -15,6 +16,7 @@ const ClubDetailsPage = () => {
   const [competitions, setCompetitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // 1. گرفتن اطلاعات club
   useEffect(() => {
@@ -102,7 +104,10 @@ const ClubDetailsPage = () => {
                 <span className="text-2xl font-bold">23.548.221</span>
               </div>
               <TooltipWrapper tooltip={<span>I want to be a fan</span>}>
-                <UserPlusIcon className="h-6 w-6 cursor-pointer text-gray-800 hover:animate-pulse" />
+                <UserPlusIcon
+                  className="h-6 w-6 cursor-pointer text-gray-800 hover:animate-pulse"
+                  onClick={() => navigate("/profile")}
+                />
               </TooltipWrapper>
             </div>
 
@@ -146,9 +151,13 @@ const ClubDetailsPage = () => {
             </div>
 
             {club.website && (
-              <p className="flex items-center gap-1 text-blue-800">
-                <GlobeIcon style={{ width: "20px", height: "20px" }} />
-                <a href={club.website} target="_blank">
+              <p className="flex items-center gap-2 text-blue-800">
+                <LinkIcon style={{ width: "18px", height: "18px" }} />
+                <a
+                  href={club.website}
+                  target="_blank"
+                  className="underline hover:no-underline"
+                >
                   Official Website
                 </a>
               </p>

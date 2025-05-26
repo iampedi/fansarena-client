@@ -4,11 +4,24 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../config/api";
 
 import ClubCard from "../components/ClubCard";
+import { useLocation } from "react-router-dom";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 const HomePage = () => {
   const [clubs, setClubs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.message) {
+      setTimeout(() => {
+        toast.success(location.state.message);
+        window.history.replaceState({}, document.title, "/");
+      }, 100);
+    }
+  }, [location.state]);
 
   const fetchClubs = async () => {
     setLoading(true);

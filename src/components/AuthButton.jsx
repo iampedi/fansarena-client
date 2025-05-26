@@ -12,7 +12,7 @@ export default function AuthButton() {
 
   const handleLogout = () => {
     logOut();
-    navigate("/");
+    navigate("/", { state: { message: "Logout Successful." } });
   };
 
   return isLoggedIn ? (

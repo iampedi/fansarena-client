@@ -5,6 +5,8 @@ import AdminLayout from "@/layout/AdminLayout";
 import AuthLayout from "@/layout/AuthLayout";
 import MainLayout from "@/layout/MainLayout";
 
+import ProtectedComponentsUser from "@/components/ProtectedComponentsUser";
+
 import ClubDetailsPage from "@/pages/ClubDetails";
 import HomePage from "@/pages/Home";
 import LeaderboardPage from "@/pages/Leaderboard";
@@ -23,6 +25,7 @@ import EditCompetitionPage from "@/pages/admin/competitions/Edit";
 import AdminCompetitionsPage from "@/pages/admin/competitions/Index";
 import NewCompetitionPage from "@/pages/admin/competitions/New";
 import AdminCountriesPage from "@/pages/admin/countries/Index";
+import ProtectedRoutesAdmin from "@/components/ProtectedRoutesAdmin";
 
 const AppRoutes = () => {
   return (
@@ -30,8 +33,22 @@ const AppRoutes = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route path="clubs/:slug" element={<ClubDetailsPage />} />
-        <Route path="leaderboard/" element={<LeaderboardPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="leaderboard/"
+          element={
+            <ProtectedComponentsUser>
+              <LeaderboardPage />
+            </ProtectedComponentsUser>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedComponentsUser>
+              <ProfilePage />
+            </ProtectedComponentsUser>
+          }
+        />
       </Route>
 
       <Route path="auth" element={<AuthLayout />}>
@@ -39,7 +56,14 @@ const AppRoutes = () => {
         <Route path="signin" element={<SigninPage />} />
       </Route>
 
-      <Route path="admin" element={<AdminLayout />}>
+      <Route
+        path="admin"
+        element={
+          <ProtectedRoutesAdmin>
+            <AdminLayout />
+          </ProtectedRoutesAdmin>
+        }
+      >
         <Route index element={<AdminPage />} />
         <Route path="competitions" element={<AdminCompetitionsPage />} />
         <Route path="competitions/new" element={<NewCompetitionPage />} />

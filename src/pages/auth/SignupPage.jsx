@@ -7,7 +7,10 @@ import { Button } from "@/components/ui/button";
 
 export default function SignupPage({ className, ...props }) {
   return (
-    <div className={cn("w-full max-w-sm md:max-w-3xl", className)} {...props}>
+    <div
+      className={cn("w-full max-w-sm px-5 md:max-w-3xl xl:px-0", className)}
+      {...props}
+    >
       <Card className="overflow-hidden py-0">
         <CardContent className="grid p-0 md:grid-cols-2">
           <SignupForm />

@@ -10,7 +10,6 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useAuth from "@/hooks/useAuth";
-import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -50,8 +49,7 @@ const SigninForm = () => {
 
       storeToken(data.token);
       await authenticateUser();
-      toast.success("Welcome back!");
-      navigate("/");
+      navigate("/", { state: { message: "Login Successful." } });
     } catch (err) {
       console.error(err);
       setServerError(

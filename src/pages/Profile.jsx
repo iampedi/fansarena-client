@@ -1,16 +1,18 @@
-import { useForm } from "react-hook-form";
-import { useEffect, useState, useContext } from "react";
-import { AuthContext } from "@/contexts/AuthContext";
-import { continents } from "@/constants/continents";
-import axios from "axios";
+// src/pages/Profile.jsx
 import { API_URL } from "@/config/api";
+import { continents } from "@/constants/continents";
+import { AuthContext } from "@/contexts/AuthContext";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { UserRoundCheckIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { UserRoundCheckIcon } from "lucide-react";
 
 const ProfilePage = () => {
-  const { user, authenticateUser } = useContext(AuthContext);
+  const { user, isLoading, authenticateUser } = useContext(AuthContext);
   const [countries, setCountries] = useState([]);
   const [isInitialSet, setIsInitialSet] = useState(false);
   const [clubs, setClubs] = useState([]);
@@ -114,6 +116,14 @@ const ProfilePage = () => {
       toast.error("Failed to update user");
     }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!user) {
+    return <Navigate to="/auth/signin" replace />;
+  }
 
   return (
     <div className="container mx-auto max-w-xl px-5 py-5 md:px-0 md:py-10">
