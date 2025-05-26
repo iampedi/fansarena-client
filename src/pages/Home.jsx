@@ -3,11 +3,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { API_URL } from "../config/api";
 
-import ClubCard from "../components/ClubCard";
+import Loader from "@/components/Loader";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import Loader from "@/components/Loader";
+import ClubCard from "../components/ClubCard";
 
 const HomePage = () => {
   const [clubs, setClubs] = useState([]);
@@ -56,8 +55,8 @@ const HomePage = () => {
   }
 
   return (
-    <div className="3xl:px-0 container mx-auto px-5 md:py-5">
-      <div className="_list-cards grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+    <div className="3xl:px-0 container mx-auto px-4 md:py-5">
+      <div className="_list-cards grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {[...clubs]
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((club) => (

@@ -96,7 +96,7 @@ const ClubDetailsPage = () => {
   }
 
   return (
-    <div className="_club-details container mx-auto mb-10 flex flex-col gap-10 px-5 lg:flex-row 2xl:max-w-7xl 2xl:px-0">
+    <div className="_club-details container mx-auto mb-10 flex flex-col gap-10 px-4 lg:flex-row 2xl:max-w-7xl 2xl:px-0">
       <div className="lg:w-1/2">
         <div
           className={cn(
@@ -113,7 +113,14 @@ const ClubDetailsPage = () => {
             size={128}
           />
           <div className="flex w-full flex-1 shrink-0 flex-col justify-center gap-5 text-lg">
-            <h1 className="text-4xl font-extrabold capitalize">{club.name}</h1>
+            <h1
+              className={cn(
+                "text-4xl font-extrabold capitalize",
+                auth.user?.favoriteClubs === slug ? "text-yellow-500" : "",
+              )}
+            >
+              {club.name}
+            </h1>
 
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -208,7 +215,7 @@ const ClubDetailsPage = () => {
 
               return (
                 <div key={competition._id}>
-                  <div className="_header mb-6 flex items-center justify-between rounded-xl border-2 border-gray-200/50 bg-gray-50/50 px-5 py-3 lg:px-3">
+                  <div className="_header mb-6 flex items-center justify-between rounded-xl border-2 border-gray-200/50 bg-gray-50/50 p-3 lg:px-3">
                     <div className="flex items-center gap-3 lg:gap-4">
                       <ItemLogo
                         logoUrl={`/images/competitions/${competition.slug}-symbol.webp`}

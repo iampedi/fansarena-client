@@ -32,7 +32,7 @@ const Header = () => {
 
   return (
     <header className="border-b border-gray-100 bg-gray-100/40">
-      <div className="3xl:px-0 container mx-auto px-5">
+      <div className="3xl:px-0 container mx-auto px-4">
         <div className="_wrapper flex flex-col gap-5">
           <div className="_top flex items-center justify-between gap-5 py-5">
             <div className="_logo flex w-1/6 items-center gap-2">
