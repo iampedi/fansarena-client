@@ -6,8 +6,7 @@ import Navbar from "./Navbar";
 import AuthButton from "@/components/AuthButton";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import { Button } from "@/components/ui/button";
-import { UserRoundCheckIcon, UserRoundCogIcon } from "lucide-react";
-import { MagnifyingGlass } from "phosphor-react";
+import { SearchIcon, UserRoundCheckIcon, UserRoundCogIcon } from "lucide-react";
 
 const Header = () => {
   const { isLoggedIn, user } = useAuth();
@@ -59,11 +58,7 @@ const Header = () => {
                 className="h-full w-full rounded-tl-full rounded-bl-full px-4 text-center text-gray-400 placeholder:text-gray-300 group-hover:placeholder:text-gray-400 focus:border-gray-300 focus:outline-none focus:placeholder:text-transparent"
               />
               <button className="flex aspect-square h-10 w-10 items-center justify-center rounded-full bg-yellow-400 hover:bg-yellow-500">
-                <MagnifyingGlass
-                  size={18}
-                  weight="bold"
-                  className="text-white"
-                />
+                <SearchIcon className="text-white" />
               </button>
             </div>
           </div>

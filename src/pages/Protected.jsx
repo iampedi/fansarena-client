@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { SignInIcon } from "@phosphor-icons/react";
+import { LogInIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 // src/pages/Protected.jsx
@@ -12,7 +12,7 @@ const Protected = () => {
         You must be logged in to access this page.
       </p>
       <Button onClick={() => navigate("/auth/signin")}>
-        <SignInIcon /> Sign In
+        <LogInIcon /> Sign In
       </Button>
     </div>
   );

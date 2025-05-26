@@ -7,6 +7,7 @@ import ClubCard from "../components/ClubCard";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import Loader from "@/components/Loader";
 
 const HomePage = () => {
   const [clubs, setClubs] = useState([]);
@@ -43,11 +44,7 @@ const HomePage = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div className="flex min-h-96 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-3 border-solid border-blue-500 border-t-transparent"></div>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error) {

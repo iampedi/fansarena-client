@@ -15,7 +15,6 @@ import {
 
 import { cn } from "@/lib/utils";
 import { useLocation, NavLink } from "react-router-dom";
-import { SoccerBallIcon } from "@phosphor-icons/react";
 import {
   ActivityIcon,
   ChevronDownIcon,
