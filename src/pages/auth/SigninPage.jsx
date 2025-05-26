@@ -1,7 +1,5 @@
 // src/pages/auth/SigninPage.jsx
-import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 import SigninForm from "@/components/SigninForm";
 import { Button } from "@/components/ui/button";
@@ -9,14 +7,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 
 const SigninPage = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.state?.message) {
-      toast.success(location.state.message);
-    }
-  }, [location]);
-
   return (
     <div className="w-full max-w-sm px-5 md:max-w-3xl xl:px-0">
       <Card className="overflow-hidden py-0">

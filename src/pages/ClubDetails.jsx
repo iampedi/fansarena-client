@@ -3,20 +3,30 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_URL } from "../config/api";
-import { useNavigate } from "react-router-dom";
 
+import BeFanDialog from "@/components/BeFanDialog";
 import ItemLogo from "@/components/ItemLogo";
 import TooltipWrapper from "@/components/TooltipWrapper";
-import { GlobeIcon, LinkIcon, UserPlusIcon, UsersIcon } from "lucide-react";
+import useAuth from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
+import {
+  CrownIcon,
+  GlobeIcon,
+  LinkIcon,
+  UserPlusIcon,
+  UsersIcon,
+} from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const ClubDetailsPage = () => {
+  const auth = useAuth(AuthContext);
   const { slug } = useParams();
   const [club, setClub] = useState(null);
   const [competitions, setCompetitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
 
   // 1. گرفتن اطلاعات club
   useEffect(() => {
@@ -88,7 +98,14 @@ const ClubDetailsPage = () => {
   return (
     <div className="_club-details container mx-auto mb-10 flex flex-col gap-10 px-5 lg:flex-row 2xl:max-w-7xl 2xl:px-0">
       <div className="lg:w-1/2">
-        <div className="flex flex-col flex-wrap gap-8 rounded-xl border-2 border-gray-200/50 bg-gray-50/50 p-8 lg:flex-row">
+        <div
+          className={cn(
+            "flex flex-col flex-wrap gap-8 rounded-xl border-2 p-8 lg:flex-row",
+            auth.user?.favoriteClubs === slug
+              ? "border-yellow-500/50 bg-yellow-50/50"
+              : "border-gray-200/50 bg-gray-50/50",
+          )}
+        >
           <ItemLogo
             logoUrl={club.logoUrl}
             name={club.name}
@@ -101,14 +118,26 @@ const ClubDetailsPage = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <UsersIcon className="h-8 w-8 text-gray-800" />
-                <span className="text-2xl font-bold">23.548.221</span>
+                <span className="text-2xl font-bold">0</span>
               </div>
-              <TooltipWrapper tooltip={<span>I want to be a fan</span>}>
-                <UserPlusIcon
-                  className="h-6 w-6 cursor-pointer text-gray-800 hover:animate-pulse"
-                  onClick={() => navigate("/profile")}
-                />
-              </TooltipWrapper>
+
+              {auth.user?.favoriteClubs !== slug ? (
+                <TooltipWrapper tooltip={<span>I want to be a fan</span>}>
+                  <UserPlusIcon
+                    className="h-6 w-6 cursor-pointer text-gray-800 hover:animate-pulse"
+                    onClick={() => setModalOpen(true)}
+                  />
+                </TooltipWrapper>
+              ) : (
+                <CrownIcon className="size-8 text-yellow-500" />
+              )}
+
+              <BeFanDialog
+                open={modalOpen}
+                onOpenChange={setModalOpen}
+                club={club.name}
+                auth={auth}
+              />
             </div>
 
             <div>

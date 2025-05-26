@@ -11,6 +11,16 @@ function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const requiredFields = [
+    "name",
+    "email",
+    "gender",
+    "continent",
+    "country",
+    "city",
+    "favoriteClubs",
+  ];
+
   const storeToken = (token) => {
     localStorage.setItem("authToken", token);
   };
@@ -26,7 +36,7 @@ function AuthProvider({ children }) {
       setIsLoggedIn(false);
       setUser(null);
       setIsLoading(false);
-      return;
+      return null;
     }
 
     try {
@@ -36,6 +46,7 @@ function AuthProvider({ children }) {
 
       setUser(res.data.user);
       setIsLoggedIn(true);
+      return res.data.user;
     } catch (err) {
       console.error(err);
       setUser(null);
@@ -44,6 +55,10 @@ function AuthProvider({ children }) {
       setIsLoading(false);
     }
   };
+
+  const isComplete = user
+    ? requiredFields.every((field) => Boolean(user[field]))
+    : false;
 
   const logOut = () => {
     removeToken();
@@ -60,6 +75,7 @@ function AuthProvider({ children }) {
         isLoggedIn,
         isLoading,
         user,
+        isComplete,
         setUser,
         storeToken,
         authenticateUser,

@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
+import { AuthContext } from "@/contexts/AuthContext";
 
 // Form Schema
 const signinSchema = z.object({
@@ -27,8 +28,9 @@ const signinSchema = z.object({
 
 const SigninForm = () => {
   const [serverError, setServerError] = useState("");
-  const { storeToken, authenticateUser } = useAuth();
+  const { storeToken, authenticateUser } = useAuth(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Form
   const form = useForm({
@@ -45,11 +47,29 @@ const SigninForm = () => {
 
     try {
       const res = await axios.post(`${API_URL}/auth/signin`, values);
-      const data = res.data;
+      storeToken(res.data.token);
+      const user = await authenticateUser();
+      const rawFrom = location.state?.from?.pathname;
+      const from = rawFrom && rawFrom !== "/auth/signin" ? rawFrom : null;
 
-      storeToken(data.token);
-      await authenticateUser();
-      navigate("/", { state: { message: "Login Successful." } });
+      const isComplete = [
+        "name",
+        "email",
+        "gender",
+        "continent",
+        "country",
+        "city",
+        "favoriteClubs",
+      ].every((field) => Boolean(user[field]));
+
+      if (isComplete) {
+        sessionStorage.setItem("justLoggedIn", "true");
+        navigate(from || "/", { state: { message: "Login Successful." } });
+      } else {
+        navigate("/profile", {
+          state: { message: "Please complete your profile." },
+        });
+      }
     } catch (err) {
       console.error(err);
       setServerError(

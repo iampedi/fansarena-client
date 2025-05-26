@@ -26,6 +26,8 @@ import AdminCompetitionsPage from "@/pages/admin/competitions/Index";
 import NewCompetitionPage from "@/pages/admin/competitions/New";
 import AdminCountriesPage from "@/pages/admin/countries/Index";
 import ProtectedRoutesAdmin from "@/components/ProtectedRoutesAdmin";
+import ProtectedIncompletesUser from "@/components/ProtectIncompleteUser";
+import ProtectedLoginUser from "@/components/ProtectedLoginUser";
 
 const AppRoutes = () => {
   return (
@@ -37,7 +39,9 @@ const AppRoutes = () => {
           path="leaderboard/"
           element={
             <ProtectedComponentsUser>
-              <LeaderboardPage />
+              <ProtectedIncompletesUser>
+                <LeaderboardPage />
+              </ProtectedIncompletesUser>
             </ProtectedComponentsUser>
           }
         />
@@ -52,8 +56,22 @@ const AppRoutes = () => {
       </Route>
 
       <Route path="auth" element={<AuthLayout />}>
-        <Route path="signup" element={<SignupPage />} />
-        <Route path="signin" element={<SigninPage />} />
+        <Route
+          path="signup"
+          element={
+            <ProtectedLoginUser>
+              <SignupPage />
+            </ProtectedLoginUser>
+          }
+        />
+        <Route
+          path="signin"
+          element={
+            <ProtectedLoginUser>
+              <SigninPage />
+            </ProtectedLoginUser>
+          }
+        />
       </Route>
 
       <Route

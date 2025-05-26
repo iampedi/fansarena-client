@@ -15,7 +15,7 @@ body {
 }
 
 .tmp-form input {
-    @apply border py-2 px-3 text-sm bg-white rounded-md w-f
+    @apply border py-2 px-3 text-sm bg-white rounded-md w-full
 }
 
 .tmp-form input:disabled {

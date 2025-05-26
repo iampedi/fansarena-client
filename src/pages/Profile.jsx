@@ -5,7 +5,7 @@ import { AuthContext } from "@/contexts/AuthContext";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,17 @@ const ProfilePage = () => {
   const [countries, setCountries] = useState([]);
   const [isInitialSet, setIsInitialSet] = useState(false);
   const [clubs, setClubs] = useState([]);
+  const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.state?.message) {
+      setTimeout(() => {
+        toast.success(location.state.message);
+        window.history.replaceState({}, document.title, "/profile");
+      }, 100);
+    }
+  }, [location.state]);
 
   const {
     register,
@@ -109,9 +119,9 @@ const ProfilePage = () => {
   const onSubmit = async (data) => {
     try {
       await axios.put(`${API_URL}/api/users/${user._id}`, data);
-      toast.success("User updated successfully");
+      toast.success("User Updated Successfully");
       authenticateUser();
-      navigate("/");
+      navigate("/leaderboard");
     } catch {
       toast.error("Failed to update user");
     }
@@ -147,14 +157,15 @@ const ProfilePage = () => {
               type="text"
               {...register("name", { required: true })}
               placeholder="Enter your name"
+              required
             />
           </div>
 
           {/* Gender */}
           <div>
             <label>Gender</label>
-            <select {...register("gender", { required: true })}>
-              <option value="">Select gender</option>
+            <select {...register("gender")} required>
+              <option value="">Select</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
@@ -175,8 +186,8 @@ const ProfilePage = () => {
         {/* Continent */}
         <div>
           <label>Continent</label>
-          <select {...register("continent", { required: true })}>
-            <option value="">Select continent</option>
+          <select {...register("continent")} required>
+            <option value="">Select</option>
             {continents.map((c, i) => (
               <option key={i} value={c.value}>
                 {c.label}
@@ -190,8 +201,9 @@ const ProfilePage = () => {
           <label>Country</label>
           <select
             className="capitalize"
-            {...register("country", { required: true })}
+            {...register("country")}
             disabled={countries.length === 0}
+            required
           >
             <option value="">Select</option>
             {countries.map((c) => (
@@ -207,24 +219,26 @@ const ProfilePage = () => {
           <label>City</label>
           <input
             type="text"
-            {...register("city", { required: true })}
+            {...register("city")}
             placeholder="Enter your city"
+            required
           />
         </div>
 
         {/* Favourite Club */}
         <div>
-          <label>Country</label>
+          <label>Your Favourite Club</label>
           <select
             className="capitalize"
-            {...register("favoriteClubs", { required: true })}
+            {...register("favoriteClubs")}
             disabled={clubs.length === 0}
+            required
           >
             <option value="">Select</option>
             {clubs
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((c) => (
-                <option key={c._id} value={c._id} className="capitalize">
+                <option key={c._id} value={c.slug} className="capitalize">
                   {c.name}
                 </option>
               ))}

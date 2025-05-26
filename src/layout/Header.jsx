@@ -7,9 +7,28 @@ import AuthButton from "@/components/AuthButton";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import { Button } from "@/components/ui/button";
 import { SearchIcon, UserRoundCheckIcon, UserRoundCogIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { API_URL } from "@/config/api";
 
 const Header = () => {
   const { isLoggedIn, user } = useAuth();
+  const [club, setClub] = useState(null);
+  const userClubSlug = user?.favoriteClubs;
+
+  useEffect(() => {
+    const fetchClub = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/clubs/${userClubSlug}`);
+        setClub(await response.json());
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (userClubSlug) {
+      fetchClub();
+    }
+  }, [userClubSlug]);
 
   return (
     <header className="border-b border-gray-100 bg-gray-100/40">
@@ -26,9 +45,22 @@ const Header = () => {
               <Navbar />
             </nav>
 
-            <div className="_tools hidden w-1/6 justify-end gap-2 text-right md:flex">
+            <div className="_tools flex items-center justify-end gap-2 text-right md:w-1/6">
               {isLoggedIn && (
                 <>
+                  <TooltipWrapper
+                    tooltip={
+                      <span className="capitalize">{club?.name} Page</span>
+                    }
+                  >
+                    <Link to={`/clubs/${userClubSlug}`} className="mr-1 flex">
+                      <img
+                        src={club?.logoUrl}
+                        alt={club?.name}
+                        className="h-9 rounded-full"
+                      />
+                    </Link>
+                  </TooltipWrapper>
                   {user?.isAdmin && (
                     <TooltipWrapper tooltip={"Admin Panel"}>
                       <Button size="icon" asChild>

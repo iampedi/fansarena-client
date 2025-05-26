@@ -6,7 +6,8 @@ import NotFoundPage from "@/pages/NotFound";
 const ProtectedRoutesAdmin = ({ children }) => {
   const { user, isLoading } = useContext(AuthContext);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
+
   if (!user || !user.isAdmin) return <NotFoundPage />;
 
   return children;
