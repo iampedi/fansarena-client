@@ -1,6 +1,6 @@
 // src/pages/auth/SignupPage.jsx
-import SignupForm from "@/components/SignupForm";
 import { Link } from "react-router-dom";
+import SignupForm from "@/components/SignupForm";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

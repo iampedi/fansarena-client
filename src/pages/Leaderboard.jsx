@@ -1,8 +1,10 @@
 // src/pages/Leaderboard.jsx
 import { API_URL } from "@/config/api";
+import { cn } from "@/lib/utils";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
+import Loader from "@/components/Loader";
 import {
   Table,
   TableBody,
@@ -11,18 +13,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 import {
   ArrowDownWideNarrowIcon,
   ArrowUpDownIcon,
   ArrowUpWideNarrowIcon,
   CalendarDaysIcon,
+  ChevronFirstIcon,
+  ChevronLastIcon,
+  ChevronLeft,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   GlobeIcon,
   MapPinIcon,
   Medal,
@@ -30,11 +37,14 @@ import {
   UsersIcon,
 } from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
-import Loader from "@/components/Loader";
+import { Button } from "@/components/ui/button";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const LeaderboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [clubs, setClubs] = useState([]);
+  const { user } = useContext(AuthContext);
+  const favoriteClub = user?.favoriteClub;
 
   /* ---------- Fetch clubs ---------- */
   useEffect(() => {
@@ -61,11 +71,11 @@ const LeaderboardPage = () => {
       header: () => "Club Name",
       enableSorting: true,
       cell: ({ row }) => (
-        <div className="flex items-center gap-3 capitalize">
+        <div className="flex min-w-[200px] items-center gap-3 capitalize">
           <img
             src={row.original.logoUrl}
             alt={row.original.name}
-            className="w-6"
+            className="w-8"
           />
           {row.original.name}
         </div>
@@ -113,70 +123,150 @@ const LeaderboardPage = () => {
   ];
 
   /* ---------- Table data ---------- */
-  const TableData = ({ columns, data }) => {
-    const [sorting, setSorting] = useState([]);
+  const TableData = ({ columns, data, favoriteClub }) => {
+    const [sorting, setSorting] = useState([{ id: "trophies", desc: true }]);
+    const [pagination, setPagination] = useState({
+      pageIndex: 0,
+      pageSize: 10,
+    });
 
     const table = useReactTable({
       data,
       columns,
       getCoreRowModel: getCoreRowModel(),
       getSortedRowModel: getSortedRowModel(),
-      state: { sorting },
+      getPaginationRowModel: getPaginationRowModel(),
+      state: { sorting, pagination },
       onSortingChange: setSorting,
+      onPaginationChange: setPagination,
     });
 
     return (
-      <Table className="mx-auto max-w-4xl">
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              <TableHead className="flex items-center justify-center">
-                <Medal />
-              </TableHead>
-              {headerGroup.headers.map((header, i) => (
-                <TableHead
-                  key={i}
-                  onClick={header.column.getToggleSortingHandler()}
-                  className="cursor-pointer"
-                >
-                  <div
-                    className={cn(
-                      "flex w-fit items-center gap-1",
-                      i === 0 ? "" : "mx-auto",
-                    )}
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
-                    {header.column.getIsSorted() === "asc" ? (
-                      <ArrowUpWideNarrowIcon className="text-muted-foreground h-4 w-4" />
-                    ) : header.column.getIsSorted() === "desc" ? (
-                      <ArrowDownWideNarrowIcon className="text-muted-foreground h-4 w-4" />
-                    ) : header.column.getCanSort() ? (
-                      <ArrowUpDownIcon className="text-muted-foreground h-4 w-4" />
-                    ) : null}
-                  </div>
+      <>
+        <Table className="mx-auto max-w-4xl whitespace-nowrap">
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                <TableHead className="flex items-center justify-center px-2.5">
+                  <Medal />
                 </TableHead>
-              ))}
-            </TableRow>
+                {headerGroup.headers.map((header, i) => (
+                  <TableHead
+                    key={i}
+                    onClick={header.column.getToggleSortingHandler()}
+                    className="cursor-pointer px-2.5"
+                  >
+                    <div
+                      className={cn(
+                        "flex w-fit items-center gap-1",
+                        i === 0 ? "" : "mx-auto",
+                      )}
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
+                      {header.column.getIsSorted() === "asc" ? (
+                        <ArrowUpWideNarrowIcon className="text-muted-foreground h-4 w-4" />
+                      ) : header.column.getIsSorted() === "desc" ? (
+                        <ArrowDownWideNarrowIcon className="text-muted-foreground h-4 w-4" />
+                      ) : header.column.getCanSort() ? (
+                        <ArrowUpDownIcon className="text-muted-foreground h-4 w-4" />
+                      ) : null}
+                    </div>
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows.map((row, index) => {
+              const isFavorite = row.original.slug === favoriteClub;
+
+              return (
+                <TableRow
+                  key={row.id}
+                  className={cn(
+                    isFavorite &&
+                      "bg-yellow-100/60 font-bold text-yellow-700 hover:bg-yellow-100/90",
+                  )}
+                >
+                  <TableCell className="text-muted-foreground px-2.5 text-center text-sm">
+                    {pagination.pageIndex * pagination.pageSize + index + 1}
+                  </TableCell>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell className="h-12 px-2.5" key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+
+        {/* Pagination controls */}
+        <div className="mt-5 flex justify-center gap-2">
+          {/* <Button
+            size="icon"
+            variant="outline"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronFirstIcon />
+          </Button>
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronLeftIcon />
+          </Button> */}
+
+          {/* Page Numbers */}
+          {[...Array(table.getPageCount()).keys()].map((page) => (
+            <Button
+              key={page}
+              variant="outline"
+              onClick={() => table.setPageIndex(page)}
+              className={cn(
+                "px-2.5",
+                table.getState().pagination.pageIndex === page
+                  ? "border-gray-500 font-bold"
+                  : "",
+              )}
+              aria-current={
+                table.getState().pagination.pageIndex === page
+                  ? "page"
+                  : undefined
+              }
+            >
+              {page + 1}
+            </Button>
           ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.map((row, index) => (
-            <TableRow key={row.id}>
-              <TableCell className="text-muted-foreground text-center text-sm">
-                {index + 1}
-              </TableCell>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+
+          {/* <Button
+            size="icon"
+            variant="outline"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronRightIcon />
+          </Button>
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronLastIcon />
+          </Button> */}
+        </div>
+      </>
     );
   };
 
@@ -186,7 +276,7 @@ const LeaderboardPage = () => {
 
   return (
     <div className="3xl:px-0 container mx-auto px-4 md:py-5">
-      <TableData columns={columns} data={clubs} />
+      <TableData columns={columns} data={clubs} favoriteClub={favoriteClub} />
     </div>
   );
 };

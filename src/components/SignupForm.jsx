@@ -32,6 +32,7 @@ export default function SignupForm() {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState("");
 
+  /* ---------- Define Form ---------- */
   const form = useForm({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -41,6 +42,7 @@ export default function SignupForm() {
     },
   });
 
+  /* ---------- Submit Form ---------- */
   const onSubmit = async (values) => {
     setServerError("");
     try {

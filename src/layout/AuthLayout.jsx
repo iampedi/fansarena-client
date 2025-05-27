@@ -1,3 +1,4 @@
+// src/layout/AuthLayout.jsx
 import { Toaster } from "@/components/ui/sonner";
 import { Outlet } from "react-router-dom";
 

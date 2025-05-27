@@ -2,7 +2,7 @@
 import { API_URL } from "@/config/api";
 import useAuth from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import AuthButton from "@/components/AuthButton";
 import TooltipWrapper from "@/components/TooltipWrapper";
@@ -20,6 +20,7 @@ const Header = ({ search, setSearch, show, setShow }) => {
   const { isLoggedIn, user } = useAuth();
   const [open, setOpen] = useState(false);
   const [club, setClub] = useState(null);
+  const location = useLocation();
   const userClubSlug = user?.favoriteClub;
 
   useEffect(() => {
@@ -110,7 +111,7 @@ const Header = ({ search, setSearch, show, setShow }) => {
                 </>
               )}
 
-              {!show && (
+              {!show && (location.pathname === "/") && (
                 <Button
                   size="icon"
                   onClick={() => setShow(true)}

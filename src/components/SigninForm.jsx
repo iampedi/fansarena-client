@@ -2,7 +2,7 @@
 import { API_URL } from "@/config/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -19,8 +19,9 @@ import {
   FormMessage,
 } from "./ui/form";
 import { AuthContext } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
-// Form Schema
+/* ---------- Form Schema ---------- */
 const signinSchema = z.object({
   email: z.string().min(7, "Enter your email.").email("Invalid email format."),
   password: z.string().min(1, "Enter your password."),
@@ -32,7 +33,15 @@ const SigninForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Form
+  /* ---------- Recieve Toast Message ---------- */
+  useEffect(() => {
+    if (location.state?.message) {
+      toast.success(location.state.message);
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
+
+  /* ---------- Define Form ---------- */
   const form = useForm({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -41,7 +50,7 @@ const SigninForm = () => {
     },
   });
 
-  // Submit
+  /* ---------- Submit Form ---------- */
   const onSubmit = async (values) => {
     setServerError("");
 

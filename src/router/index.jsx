@@ -59,17 +59,17 @@ const AppRoutes = () => {
         <Route
           path="signup"
           element={
-            <ProtectedLoginUser>
+            // <ProtectedLoginUser>
               <SignupPage />
-            </ProtectedLoginUser>
+            // </ProtectedLoginUser>
           }
         />
         <Route
           path="signin"
           element={
-            <ProtectedLoginUser>
+            // <ProtectedLoginUser>
               <SigninPage />
-            </ProtectedLoginUser>
+            // </ProtectedLoginUser>
           }
         />
       </Route>
