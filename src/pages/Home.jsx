@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API_URL } from "../config/api";
+import { useOutletContext } from "react-router-dom";
 
 import Loader from "@/components/Loader";
 import { useLocation } from "react-router-dom";
@@ -10,6 +11,7 @@ import ClubCard from "../components/ClubCard";
 
 const HomePage = () => {
   const [clubs, setClubs] = useState([]);
+  const { search } = useOutletContext();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const location = useLocation();
@@ -27,7 +29,11 @@ const HomePage = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.get(`${API_URL}/api/clubs`);
+      const res = await axios.get(`${API_URL}/api/clubs`, {
+        params: {
+          search,
+        },
+      });
       setClubs(res.data);
     } catch (err) {
       setError("Could not load clubs. Please try again later.");
@@ -40,7 +46,7 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchClubs();
-  }, []);
+  }, [search]);
 
   if (loading) {
     return <Loader />;
@@ -50,12 +56,10 @@ const HomePage = () => {
     return <div className="py-10 text-center text-red-600">{error}</div>;
   }
 
-  if (clubs.length === 0) {
-    return <div className="py-10 text-center">No clubs found!</div>;
-  }
-
   return (
     <div className="3xl:px-0 container mx-auto px-4 md:py-5">
+      {clubs.length === 0 && <div className="text-center">No clubs found!</div>}
+
       <div className="_list-cards grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {[...clubs]
           .sort((a, b) => a.name.localeCompare(b.name))

@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Navbar from "./Navbar";
 
-const Header = () => {
+const Header = ({ search, setSearch }) => {
   const { isLoggedIn, user } = useAuth();
   const [open, setOpen] = useState(false);
   const [club, setClub] = useState(null);
@@ -57,12 +57,12 @@ const Header = () => {
           <div className="_top flex items-center justify-between gap-5 py-4 md:py-5">
             <div className="_logo flex w-1/5 items-center gap-2">
               <Link to="/">
-                <img src="/images/fa-logo.svg" alt="Logo" className="h-9" />
+                <img src="/images/fa-logo.svg" alt="Logo" className="h-11" />
               </Link>
             </div>
 
-            <nav className="hidden md:block">
-              <Navbar />
+            <nav className="relative hidden md:block">
+              <Navbar search={search} setSearch={setSearch} />
             </nav>
 
             <div className="_tools flex items-center justify-end gap-2 text-right md:w-1/5">
@@ -116,20 +116,6 @@ const Header = () => {
               <AuthButton />
             </div>
           </div>
-
-          {/* Search (optional) */}
-          <div className="_search hidden justify-center pb-6">
-            <div className="group flex h-14 w-1/4 items-center rounded-full border border-gray-200 pr-2 shadow-md shadow-gray-200/70 focus-within:border-gray-300 focus-within:bg-gray-50/90 hover:border-gray-300 hover:bg-gray-50/90">
-              <input
-                type="text"
-                placeholder="Search your favorite club"
-                className="h-full w-full rounded-tl-full rounded-bl-full px-4 text-center text-gray-400 placeholder:text-gray-300 group-hover:placeholder:text-gray-400 focus:border-gray-300 focus:outline-none focus:placeholder:text-transparent"
-              />
-              <button className="flex aspect-square h-10 w-10 items-center justify-center rounded-full bg-yellow-400 hover:bg-yellow-500">
-                <SearchIcon className="text-white" />
-              </button>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -151,7 +137,7 @@ const Header = () => {
             open ? "translate-y-0" : "translate-y-full"
           }`}
         >
-          <nav className="flex flex-col itemc gap-5 text-2xl font-bold">
+          <nav className="itemc flex flex-col gap-5 text-2xl font-bold">
             <Link to="/" onClick={() => setOpen(false)}>
               Clubs
             </Link>

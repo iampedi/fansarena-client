@@ -3,13 +3,16 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
+import { useState } from "react";
 
 export default function MainLayout() {
+  const [search, setSearch] = useState("");
+
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
+      <Header search={search} setSearch={setSearch} />
       <main className="flex h-full flex-1 py-5">
-        <Outlet />
+        <Outlet context={{ search, setSearch }} />
       </main>
       <Toaster theme="light" position="bottom-left" richColors />
       <Footer />
