@@ -23,7 +23,7 @@ const ProtectedIncompletesUser = ({ children }) => {
     user.continent &&
     user.country &&
     user.city &&
-    user.favoriteClubs;
+    user.favoriteClub;
 
   if (!isProfileComplete) {
     return (

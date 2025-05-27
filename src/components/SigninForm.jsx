@@ -59,7 +59,7 @@ const SigninForm = () => {
         "continent",
         "country",
         "city",
-        "favoriteClubs",
+        "favoriteClub",
       ].every((field) => Boolean(user[field]));
 
       if (isComplete) {

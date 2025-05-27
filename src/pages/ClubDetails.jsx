@@ -101,7 +101,7 @@ const ClubDetailsPage = () => {
         <div
           className={cn(
             "flex flex-col flex-wrap gap-8 rounded-xl border-2 p-8 lg:flex-row",
-            auth.user?.favoriteClubs === slug
+            auth.user?.favoriteClub === slug
               ? "border-yellow-500/50 bg-yellow-50/50"
               : "border-gray-200/50 bg-gray-50/50",
           )}
@@ -116,7 +116,7 @@ const ClubDetailsPage = () => {
             <h1
               className={cn(
                 "text-4xl font-extrabold capitalize",
-                auth.user?.favoriteClubs === slug ? "text-yellow-500" : "",
+                auth.user?.favoriteClub === slug ? "text-yellow-500" : "",
               )}
             >
               {club.name}
@@ -128,7 +128,7 @@ const ClubDetailsPage = () => {
                 <span className="text-2xl font-bold">0</span>
               </div>
 
-              {auth.user?.favoriteClubs !== slug ? (
+              {auth.user?.favoriteClub !== slug ? (
                 <TooltipWrapper tooltip={<span>I want to be a fan</span>}>
                   <UserPlusIcon
                     className="h-6 w-6 cursor-pointer text-gray-800 hover:animate-pulse"

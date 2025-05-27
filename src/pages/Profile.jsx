@@ -43,7 +43,7 @@ const ProfilePage = () => {
       continent: "",
       country: "",
       city: "",
-      favoriteClubs: "",
+      favoriteClub: "",
     },
   });
 
@@ -56,7 +56,7 @@ const ProfilePage = () => {
         continent: user.continent || "",
         country: "",
         city: user.city || "",
-        favoriteClubs: user.favoriteClubs || "",
+        favoriteClub: user.favoriteClub || "",
       });
       setIsInitialSet(false);
     }
@@ -116,14 +116,19 @@ const ProfilePage = () => {
     fetchClubs();
   }, []);
 
+  /* ---------- UPDATE USER ---------- */
   const onSubmit = async (data) => {
+    console.log(user._id);
+
     try {
+      console.log("Data: ", data);
       await axios.put(`${API_URL}/api/users/${user._id}`, data);
       toast.success("User Updated Successfully");
       authenticateUser();
       navigate("/leaderboard");
-    } catch {
+    } catch (err) {
       toast.error("Failed to update user");
+      console.error("🔥 UPDATE USER ERROR:", err);
     }
   };
 
@@ -230,7 +235,7 @@ const ProfilePage = () => {
           <label>Your Favourite Club</label>
           <select
             className="capitalize"
-            {...register("favoriteClubs")}
+            {...register("favoriteClub")}
             disabled={clubs.length === 0}
             required
           >

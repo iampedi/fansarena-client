@@ -29,7 +29,7 @@ const BeFanDialog = ({ auth, club, open, onOpenChange }) => {
               <span>
                 You’re already with{" "}
                 <span className="text-red-600 uppercase">
-                  {auth.user?.favoriteClubs}
+                  {auth.user?.favoriteClub}
                 </span>
                 . Changing your loyalty now? Well, traitors have access to the
                 profile too! 😎

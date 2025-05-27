@@ -20,7 +20,7 @@ const Header = () => {
   const { isLoggedIn, user } = useAuth();
   const [open, setOpen] = useState(false);
   const [club, setClub] = useState(null);
-  const userClubSlug = user?.favoriteClubs;
+  const userClubSlug = user?.favoriteClub;
 
   useEffect(() => {
     const fetchClub = async () => {
@@ -55,7 +55,7 @@ const Header = () => {
       <div className="3xl:px-0 container mx-auto px-4">
         <div className="_wrapper flex flex-col gap-5">
           <div className="_top flex items-center justify-between gap-5 py-4 md:py-5">
-            <div className="_logo flex w-1/6 items-center gap-2">
+            <div className="_logo flex w-1/5 items-center gap-2">
               <Link to="/">
                 <img src="/images/fa-logo.svg" alt="Logo" className="h-9" />
               </Link>
@@ -65,7 +65,7 @@ const Header = () => {
               <Navbar />
             </nav>
 
-            <div className="_tools flex items-center justify-end gap-2 text-right md:w-1/6">
+            <div className="_tools flex items-center justify-end gap-2 text-right md:w-1/5">
               {isLoggedIn && (
                 <>
                   {/* Club Logo */}
@@ -86,7 +86,7 @@ const Header = () => {
                   {/* Admin Panel */}
                   {user?.isAdmin && (
                     <TooltipWrapper tooltip={"Admin Panel"}>
-                      <Button className="hidden md:block" size="icon" asChild>
+                      <Button className="hidden md:flex" size="icon" asChild>
                         <Link to="/admin">
                           <UserRoundCheckIcon />
                         </Link>
@@ -96,7 +96,7 @@ const Header = () => {
 
                   {/* Profile */}
                   <TooltipWrapper tooltip={"User Profile"}>
-                    <Button className="hidden md:block" size="icon" asChild>
+                    <Button className="hidden md:flex" size="icon" asChild>
                       <Link to="/profile">
                         <UserRoundCogIcon />
                       </Link>

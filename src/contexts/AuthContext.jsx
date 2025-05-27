@@ -18,7 +18,7 @@ function AuthProvider({ children }) {
     "continent",
     "country",
     "city",
-    "favoriteClubs",
+    "favoriteClub",
   ];
 
   const storeToken = (token) => {
@@ -40,13 +40,18 @@ function AuthProvider({ children }) {
     }
 
     try {
-      const res = await axios.get(`${API_URL}/auth/verify`, {
+      const verifyRes = await axios.get(`${API_URL}/auth/verify`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setUser(res.data.user);
+      const userId = verifyRes.data.user._id;
+      const userRes = await axios.get(`${API_URL}/api/users/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setUser(userRes.data);
       setIsLoggedIn(true);
-      return res.data.user;
+      return userRes.data;
     } catch (err) {
       console.error(err);
       setUser(null);
