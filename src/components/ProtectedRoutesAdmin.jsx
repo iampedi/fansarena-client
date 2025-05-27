@@ -2,6 +2,7 @@
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import NotFoundPage from "@/pages/NotFound";
+import Loader from "./Loader";
 
 const ProtectedRoutesAdmin = ({ children }) => {
   const { user, isLoading } = useContext(AuthContext);
