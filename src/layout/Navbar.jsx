@@ -1,11 +1,9 @@
 // src/layout/Navbar.jsx
-import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import { SearchIcon, XIcon } from "lucide-react";
 
-const Navbar = ({ search, setSearch }) => {
-  const [show, setShow] = useState(false);
+const Navbar = ({ search, setSearch, show, setShow }) => {
   const location = useLocation();
 
   const menuItems = [
@@ -14,7 +12,7 @@ const Navbar = ({ search, setSearch }) => {
   ];
 
   return (
-    <ul className="flex gap-1 rounded-full border border-gray-200 bg-white shadow-md shadow-gray-200/75">
+    <ul className="flex gap-1 rounded-full border-gray-200 bg-white shadow-gray-200/75 md:border md:shadow-md">
       {menuItems.map(
         (item, i) =>
           item.active && (
@@ -29,7 +27,7 @@ const Navbar = ({ search, setSearch }) => {
           ),
       )}
       {location.pathname === "/" && (
-        <li className="flex aspect-square h-11 items-center justify-center rounded-full">
+        <li className="hidden aspect-square h-11 items-center justify-center rounded-full md:flex">
           <SearchIcon
             onClick={() => setShow(true)}
             className="cursor-pointer"
@@ -39,7 +37,7 @@ const Navbar = ({ search, setSearch }) => {
 
       {/* Search (optional) */}
       {show && (
-        <div className="_search absolute top-0 right-0 left-0 z-50">
+        <div className="_search w-full pt-3 md:absolute md:top-0 md:right-0 md:left-0 md:z-50 md:pt-0">
           <div className="group flex h-[45px] w-full items-center rounded-full border border-gray-300 bg-white">
             <input
               type="text"
@@ -55,7 +53,7 @@ const Navbar = ({ search, setSearch }) => {
             >
               <XIcon
                 onClick={() => setShow(false)}
-                className="cursor-pointer text-gray-300 hover:text-gray-800"
+                className="cursor-pointer hover:text-gray-800 md:text-gray-300"
               />
             </button>
           </div>

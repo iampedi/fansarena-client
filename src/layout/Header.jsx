@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Navbar from "./Navbar";
 
-const Header = ({ search, setSearch }) => {
+const Header = ({ search, setSearch, show, setShow }) => {
   const { isLoggedIn, user } = useAuth();
   const [open, setOpen] = useState(false);
   const [club, setClub] = useState(null);
@@ -54,15 +54,20 @@ const Header = ({ search, setSearch }) => {
     <header className="relative z-50 border-b border-gray-100 bg-gray-100/40">
       <div className="3xl:px-0 container mx-auto px-4">
         <div className="_wrapper flex flex-col gap-5">
-          <div className="_top flex items-center justify-between gap-5 py-4 md:py-5">
+          <div className="_top flex flex-wrap items-center justify-between py-4 md:flex-nowrap md:gap-5 md:py-5">
             <div className="_logo flex w-1/5 items-center gap-2">
               <Link to="/">
                 <img src="/images/fa-logo.svg" alt="Logo" className="h-11" />
               </Link>
             </div>
 
-            <nav className="relative hidden md:block">
-              <Navbar search={search} setSearch={setSearch} />
+            <nav className="relative order-3 w-full md:order-none md:block md:w-auto">
+              <Navbar
+                search={search}
+                setSearch={setSearch}
+                show={show}
+                setShow={setShow}
+              />
             </nav>
 
             <div className="_tools flex items-center justify-end gap-2 text-right md:w-1/5">
@@ -102,17 +107,28 @@ const Header = ({ search, setSearch }) => {
                       </Link>
                     </Button>
                   </TooltipWrapper>
-
-                  {/* Mobile Menu Button */}
-                  <Button
-                    size="icon"
-                    onClick={() => setOpen(true)}
-                    className="md:hidden"
-                  >
-                    <MenuIcon />
-                  </Button>
                 </>
               )}
+
+              {!show && (
+                <Button
+                  size="icon"
+                  onClick={() => setShow(true)}
+                  className="md:hidden"
+                >
+                  <SearchIcon />
+                </Button>
+              )}
+
+              {/* Mobile Menu Button */}
+              <Button
+                size="icon"
+                onClick={() => setOpen(true)}
+                className="md:hidden"
+              >
+                <MenuIcon />
+              </Button>
+
               <AuthButton />
             </div>
           </div>
