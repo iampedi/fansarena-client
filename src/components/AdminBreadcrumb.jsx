@@ -55,7 +55,7 @@ export default function AdminBreadcrumb() {
   }
 
   return (
-    <Breadcrumb>
+    <Breadcrumb className="hidden md:block">
       <BreadcrumbList>{breadcrumbs}</BreadcrumbList>
     </Breadcrumb>
   );

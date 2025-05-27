@@ -2,10 +2,10 @@
 import { useAdminUI } from "@/contexts/AdminUIContext";
 import { useEffect } from "react";
 
-import ClubsChart from "../components/ClubsChart";
-import CompetitionsChart from "../components/CompetitionsChart";
-import FansChart from "../components/FansChart";
-import TrophiesChart from "../components/TrophiesChart";
+import ClubsChart from "./components/ClubsChart";
+import CompetitionsChart from "./components/CompetitionsChart";
+import FansChart from "./components/FansChart";
+import TrophiesChart from "./components/TrophiesChart";
 
 export default function AdminPage() {
   const { setPageTitle } = useAdminUI();

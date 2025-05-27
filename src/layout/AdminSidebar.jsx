@@ -11,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 import { cn } from "@/lib/utils";
@@ -52,8 +53,13 @@ const navigationItems = [
 ];
 
 export function AdminSidebar(props) {
+  const { setOpenMobile, isMobile } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
+
+  const handleMenuClick = () => {
+    if (isMobile) setOpenMobile(false);
+  };
 
   // Determine initial open submenu (if current path matches any submenu)
   const [expandedMenu, setExpandedMenu] = React.useState(() => {
@@ -102,7 +108,7 @@ export function AdminSidebar(props) {
                         className={cn("gap-3 py-6 text-base")}
                         isActive={currentPath.startsWith(item.url)}
                       >
-                        <NavLink to={item.url}>
+                        <NavLink to={item.url} onClick={handleMenuClick}>
                           <item.icon style={{ width: 22, height: 22 }} />
 
                           <span>{item.title}</span>
@@ -150,6 +156,7 @@ export function AdminSidebar(props) {
                               >
                                 <NavLink
                                   to={subItem.url}
+                                  onClick={handleMenuClick}
                                   className="py-1.5"
                                   // استایل اکتیو اضافه کن اگر خواستی
                                 >

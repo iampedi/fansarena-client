@@ -24,7 +24,7 @@ const RANK_COLORS = {
 };
 
 function getChartData(winnersArr) {
-  console.log("compsArr: \n", winnersArr);
+  // console.log("compsArr: \n", winnersArr);
   const rankCount = {};
   winnersArr.forEach((winnerObj) => {
     const rank = winnerObj.rank;
@@ -69,7 +69,7 @@ export default function TrophiesChart() {
 
   const chartData = getChartData(trophies);
 
-  console.log("chartData CC: \n", chartData);
+  // console.log("chartData CC: \n", chartData);
 
   useEffect(() => {
     const fetchCompetitions = async () => {

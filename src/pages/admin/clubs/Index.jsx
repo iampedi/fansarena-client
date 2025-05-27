@@ -112,12 +112,12 @@ export default function AdminClubsPage() {
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div className="mb-4 grid grid-cols-2 gap-2 md:grid-cols-8">
         {/* Search Box */}
         <Input
           type="text"
           placeholder="Search..."
-          className="w-auto"
+          className="order-1 md:col-span-2"
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -135,7 +135,7 @@ export default function AdminClubsPage() {
             }
           }}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="order-3 col-span-1 w-full md:order-2 md:col-span-2">
             <SelectValue placeholder="Select Continent" />
           </SelectTrigger>
           <SelectContent>
@@ -152,8 +152,12 @@ export default function AdminClubsPage() {
 
         {/* Select Country */}
         {selectedContinent !== "__all__" && (
-          <Select onValueChange={setSelectedCountry} value={selectedCountry}>
-            <SelectTrigger className="w-[180px] capitalize">
+          <Select
+            onValueChange={setSelectedCountry}
+            value={selectedCountry}
+            className="order-4"
+          >
+            <SelectTrigger className="order-4 col-span-1 w-full capitalize md:order-3 md:col-span-2">
               <SelectValue placeholder="Select Country" />
             </SelectTrigger>
             <SelectContent>
@@ -172,8 +176,13 @@ export default function AdminClubsPage() {
           </Select>
         )}
 
-        <div className="flex flex-1 items-center justify-end">
-          <Button onClick={() => navigate("/admin/clubs/new")}>Add Club</Button>
+        <div className="order-2 md:col-span-2 flex items-center justify-end md:order-4 md:first-letter:flex-1">
+          <Button
+            className="w-full md:w-auto"
+            onClick={() => navigate("/admin/clubs/new")}
+          >
+            Add Club
+          </Button>
         </div>
       </div>
 

@@ -17,8 +17,10 @@ export default function AdminHeader() {
     <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
       <SidebarTrigger className="cursor-pointer" />
       <Separator orientation="vertical" className="mr-3 ml-1.5 h-4" />
-      <div className="w-f flex w-full items-center justify-between gap-6">
-        <h1 className="flex-1 text-lg font-semibold">{pageTitle}</h1>
+      <div className="flex flex-wrap w-full items-center justify-between gap-6">
+        <h1 className="flex-1 truncate overflow-hidden text-lg font-semibold whitespace-nowrap">
+          {pageTitle}
+        </h1>
         <AdminBreadcrumb />
 
         <div className="flex gap-2">
