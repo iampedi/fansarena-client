@@ -154,13 +154,13 @@ const ClubDetailsPage = () => {
                   style={{ width: "22px", height: "22px" }}
                 />
                 <span className="text-gray-600 capitalize">
-                  {club.country.continent}
+                  {club.country?.continent}
                 </span>
               </div>
 
               <div className="flex items-center gap-2.5">
                 <ReactCountryFlag
-                  countryCode={club.country.code}
+                  countryCode={club.country?.code}
                   svg
                   style={{
                     width: "22px",

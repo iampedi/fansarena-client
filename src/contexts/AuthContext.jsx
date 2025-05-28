@@ -44,7 +44,7 @@ function AuthProvider({ children }) {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      const userId = verifyRes.data.user._id;
+      const userId = verifyRes.data.user?._id;
       const userRes = await axios.get(`${API_URL}/api/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
