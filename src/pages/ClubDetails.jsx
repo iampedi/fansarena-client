@@ -125,7 +125,7 @@ const ClubDetailsPage = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <UsersIcon className="h-8 w-8 text-gray-800" />
-                <span className="text-2xl font-bold">0</span>
+                <span className="text-2xl font-bold">{club.fans}</span>
               </div>
 
               {auth.user?.favoriteClub !== slug ? (
