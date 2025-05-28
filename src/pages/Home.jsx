@@ -53,7 +53,7 @@ const HomePage = () => {
   }
 
   if (error) {
-    return <div className="py-10 text-center text-red-600">{error}</div>;
+    return <div className="w-full py-10 text-center text-red-600">{error}</div>;
   }
 
   return (
