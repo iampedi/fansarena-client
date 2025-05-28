@@ -120,12 +120,12 @@ export default function AdminCompetitionsPage() {
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div className="mb-4 grid gap-2 md:grid-cols-10 2xl:grid-cols-12">
         {/* Search Box */}
         <Input
           type="text"
           placeholder="Search..."
-          className="w-auto"
+          className="col-span-2"
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -139,7 +139,7 @@ export default function AdminCompetitionsPage() {
             setLevel(value);
           }}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="col-span-2 w-full">
             <SelectValue placeholder="Select Level" />
           </SelectTrigger>
           <SelectContent>
@@ -163,7 +163,7 @@ export default function AdminCompetitionsPage() {
             }
           }}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="col-span-2 w-full">
             <SelectValue placeholder="Select Continent" />
           </SelectTrigger>
           <SelectContent>
@@ -181,7 +181,7 @@ export default function AdminCompetitionsPage() {
         {/* Select Country */}
         {selectedContinent !== "__all__" && (
           <Select onValueChange={setSelectedCountry} value={selectedCountry}>
-            <SelectTrigger className="w-[180px] capitalize">
+            <SelectTrigger className="col-span-2 w-full capitalize">
               <SelectValue placeholder="Select Country" />
             </SelectTrigger>
             <SelectContent>
@@ -200,8 +200,9 @@ export default function AdminCompetitionsPage() {
           </Select>
         )}
 
-        <div className="flex flex-1 items-center justify-end">
-          <Button onClick={() => navigate("/admin/competitions/new")}>
+        <div className="col-span-2 flex flex-1 items-center justify-end md:col-start-9 2xl:col-start-11">
+          <Button onClick={() => navigate("/admin/competitions/new")} className="w-full md:w-auto"
+            >
             Add Competition
           </Button>
         </div>
@@ -211,8 +212,7 @@ export default function AdminCompetitionsPage() {
         <TableHeader className="bg-gray-100">
           <TableRow className="[&_th]:py-3 [&_th]:font-bold">
             <TableHead>#</TableHead>
-            <TableHead>Logo</TableHead>
-            <TableHead>Name</TableHead>
+            <TableHead className="text-left">Title</TableHead>
             <TableHead>Level</TableHead>
             <TableHead>Country</TableHead>
             <TableHead>Continent</TableHead>
@@ -232,13 +232,16 @@ export default function AdminCompetitionsPage() {
             <TableRow key={competition._id || index}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>
-                <ItemLogo
-                  logoUrl={competition.logoUrl}
-                  name={competition.name}
-                  type="competition"
-                />
+                <div className="flex items-center gap-4">
+                  <ItemLogo
+                    logoUrl={`/images/competitions/${competition.slug}-symbol.webp`}
+                    name={competition.name}
+                    type="competition"
+                    size={26}
+                  />
+                  {competition.name}
+                </div>
               </TableCell>
-              <TableCell className="capitalize">{competition.name}</TableCell>
               <TableCell className="capitalize">{competition.level}</TableCell>
               <TableCell className="capitalize">
                 {competition.country ? competition.country.name : "---"}

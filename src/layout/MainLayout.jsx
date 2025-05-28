@@ -18,7 +18,7 @@ export default function MainLayout() {
         setShow={setShow}
       />
       <main className="flex h-full flex-1 py-5">
-        <Outlet context={{ search, setSearch, show }} />
+        <Outlet context={{ search, setSearch, show, setShow }} />
       </main>
       <Toaster theme="light" position="bottom-left" richColors />
       <Footer />

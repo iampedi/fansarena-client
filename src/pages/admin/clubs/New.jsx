@@ -109,7 +109,7 @@ export default function NewClubPage() {
   }
 
   return (
-    <div>
+    <div className=" md:w-1/3">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -140,7 +140,7 @@ export default function NewClubPage() {
                     form.setValue("country", "");
                   }}
                 >
-                  <FormControl>
+                  <FormControl className="w-full">
                     <SelectTrigger>
                       <SelectValue placeholder="Select Continent" />
                     </SelectTrigger>
@@ -171,7 +171,7 @@ export default function NewClubPage() {
                       field.onChange(value);
                     }}
                   >
-                    <FormControl className="capitalize">
+                    <FormControl className="capitalize w-full">
                       <SelectTrigger>
                         <SelectValue placeholder="Select Country" />
                       </SelectTrigger>
@@ -242,8 +242,9 @@ export default function NewClubPage() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Colors</FormLabel>
-                <FormControl>
+                <FormControl className="w-full">
                   <ColorSelect
+                  className="w-full"
                     value={field.value || []}
                     onChange={field.onChange}
                   />
@@ -267,7 +268,7 @@ export default function NewClubPage() {
             )}
           />
 
-          <Button type="submit">Submit</Button>
+          <Button type="submit" className="w-full md:w-auto">Submit</Button>
         </form>
       </Form>
     </div>

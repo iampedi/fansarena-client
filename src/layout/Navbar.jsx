@@ -52,7 +52,10 @@ const Navbar = ({ search, setSearch, show, setShow }) => {
               tabIndex={-1}
             >
               <XIcon
-                onClick={() => setShow(false)}
+                onClick={() => {
+                  setSearch("");
+                  setShow(false);
+                }}
                 className="cursor-pointer hover:text-gray-800 md:text-gray-300"
               />
             </button>

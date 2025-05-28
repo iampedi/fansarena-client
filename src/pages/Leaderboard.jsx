@@ -39,6 +39,7 @@ import {
 import ReactCountryFlag from "react-country-flag";
 import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 const LeaderboardPage = () => {
   const [loading, setLoading] = useState(true);
@@ -71,14 +72,18 @@ const LeaderboardPage = () => {
       header: () => "Club Name",
       enableSorting: true,
       cell: ({ row }) => (
-        <div className="flex min-w-[200px] items-center gap-3 capitalize">
+        <Link
+          to={`/clubs/${row.original.slug}`}
+          target="_blank"
+          className="flex min-w-[200px] items-center gap-3 capitalize hover:underline md:w-fit md:min-w-fit"
+        >
           <img
             src={row.original.logoUrl}
             alt={row.original.name}
             className="w-8"
           />
           {row.original.name}
-        </div>
+        </Link>
       ),
     },
     {

@@ -28,6 +28,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { FilePenLine, TrashIcon } from "lucide-react";
+import ReactCountryFlag from "react-country-flag";
 
 export default function AdminClubsPage() {
   const { setPageTitle } = useAdminUI();
@@ -112,7 +113,7 @@ export default function AdminClubsPage() {
 
   return (
     <div>
-      <div className="mb-4 grid grid-cols-2 gap-2 md:grid-cols-8">
+      <div className="mb-4 grid grid-cols-2 gap-2 md:grid-cols-8 2xl:grid-cols-12">
         {/* Search Box */}
         <Input
           type="text"
@@ -157,7 +158,7 @@ export default function AdminClubsPage() {
             value={selectedCountry}
             className="order-4"
           >
-            <SelectTrigger className="order-4 col-span-1 w-full capitalize md:order-3 md:col-span-2">
+            <SelectTrigger className="order-4 col-span-1 w-full capitalize md:col-span-2">
               <SelectValue placeholder="Select Country" />
             </SelectTrigger>
             <SelectContent>
@@ -176,7 +177,7 @@ export default function AdminClubsPage() {
           </Select>
         )}
 
-        <div className="order-2 md:col-span-2 flex items-center justify-end md:order-4 md:first-letter:flex-1">
+        <div className="order-2 flex items-center justify-end md:order-4 md:col-start-8 2xl:col-start-12">
           <Button
             className="w-full md:w-auto"
             onClick={() => navigate("/admin/clubs/new")}
@@ -190,8 +191,7 @@ export default function AdminClubsPage() {
         <TableHeader className="bg-gray-100">
           <TableRow className="[&_th]:py-3 [&_th]:font-bold">
             <TableHead>#</TableHead>
-            <TableHead>Logo</TableHead>
-            <TableHead>Name</TableHead>
+            <TableHead className="text-left">Club Name</TableHead>
             <TableHead>Continent</TableHead>
             <TableHead>Country</TableHead>
             <TableHead>Actions</TableHead>
@@ -211,19 +211,30 @@ export default function AdminClubsPage() {
             .map((club, index) => (
               <TableRow key={club._id || index}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>
-                  <ItemLogo
-                    logoUrl={club.logoUrl}
-                    name={club.name}
-                    type="club"
-                  />
+                <TableCell className="capitalize">
+                  <div className="flex items-center gap-4">
+                    <ItemLogo
+                      logoUrl={club.logoUrl}
+                      name={club.name}
+                      type="club"
+                      size={28}
+                    />
+                    {club.name}
+                  </div>
                 </TableCell>
-                <TableCell className="capitalize">{club.name}</TableCell>
                 <TableCell className="capitalize">
                   {club.country?.continent}
                 </TableCell>
                 <TableCell className="capitalize">
-                  {club.country?.name}
+                  <ReactCountryFlag
+                    countryCode={club.country?.code}
+                    style={{
+                      width: "18px",
+                      height: "16px",
+                      borderRadius: "4px",
+                    }}
+                    svg
+                  />
                 </TableCell>
                 <TableCell>
                   <div>

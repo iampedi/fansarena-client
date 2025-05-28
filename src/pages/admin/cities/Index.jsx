@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import PaginationComponent from "@/components/PaginationComponent";
 import { useAdminUI } from "@/contexts/AdminUIContext";
+import ReactCountryFlag from "react-country-flag";
 
 const initialState = {
   selectedContinent: "__all__",
@@ -179,7 +180,7 @@ export default function AdminCitiesPage() {
 
   return (
     <div className="_wrapper">
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div className="mb-4 grid md:grid-cols-10 gap-2">
         {state.mode === "search" && (
           <Input
             type="text"
@@ -188,7 +189,7 @@ export default function AdminCitiesPage() {
               dispatch({ type: "SET_SEARCH", payload: e.target.value })
             }
             placeholder="Search..."
-            className="w-auto"
+            className="w-full col-span-2"
           />
         )}
 
@@ -204,7 +205,7 @@ export default function AdminCitiesPage() {
                 }
               }}
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full col-span-2">
                 <SelectValue placeholder="Select Continent" />
               </SelectTrigger>
               <SelectContent>
@@ -226,10 +227,10 @@ export default function AdminCitiesPage() {
                   dispatch({ type: "SET_COUNTRY", payload: value })
                 }
               >
-                <SelectTrigger className="min-w-[180px] capitalize">
+                <SelectTrigger className="w-full capitalize col-span-2">
                   <SelectValue placeholder="Select Country" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="w-full">
                   <SelectGroup>
                     {filteredCountries.map((country) => (
                       <SelectItem
@@ -237,6 +238,15 @@ export default function AdminCitiesPage() {
                         value={country._id}
                         className="capitalize"
                       >
+                        <ReactCountryFlag
+                          countryCode={country.code}
+                          style={{
+                            width: "16px",
+                            height: "14px",
+                            borderRadius: "4px",
+                          }}
+                          svg
+                        />
                         {country.name}
                       </SelectItem>
                     ))}
@@ -265,7 +275,18 @@ export default function AdminCitiesPage() {
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{city.name}</TableCell>
                   <TableCell className="capitalize">
-                    {city.country.name}
+                    <div className="flex items-center justify-center gap-2">
+                      <ReactCountryFlag
+                        countryCode={city.country.code}
+                        style={{
+                          width: "18px",
+                          height: "16px",
+                          borderRadius: "4px",
+                        }}
+                        svg
+                      />
+                      {city.country.name}
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}

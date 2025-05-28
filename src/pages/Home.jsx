@@ -11,7 +11,7 @@ import ClubCard from "../components/ClubCard";
 
 const HomePage = () => {
   const [clubs, setClubs] = useState([]);
-  const { search } = useOutletContext();
+  const { search, setSearch, setShow } = useOutletContext();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const location = useLocation();
@@ -64,7 +64,12 @@ const HomePage = () => {
         {[...clubs]
           .sort((a, b) => a.nam?.localeCompare(b.name))
           .map((club, i) => (
-            <ClubCard key={i} club={club} />
+            <ClubCard
+              key={i}
+              club={club}
+              setSearch={setSearch}
+              setShow={setShow}
+            />
           ))}
       </div>
     </div>

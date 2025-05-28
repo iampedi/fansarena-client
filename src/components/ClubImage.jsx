@@ -8,7 +8,7 @@ const ClubImage = ({ slug, name, className }) => {
       src={imgSrc}
       alt={`${name} Logo`}
       className={className}
-      onError={() => setImgSrc("/src/assets/images/logo.png")}
+      onError={() => setImgSrc("/images/clubs/placeholder.webp")}
     />
   );
 };

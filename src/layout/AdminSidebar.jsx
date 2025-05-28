@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -10,12 +9,11 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { useLocation, NavLink } from "react-router-dom";
 import {
   ActivityIcon,
   ChevronDownIcon,
@@ -24,6 +22,7 @@ import {
   Gamepad2Icon,
   TrophyIcon,
 } from "lucide-react";
+import { NavLink, useLocation } from "react-router-dom";
 
 // Navigation items with icons and submenu items
 const navigationItems = [
@@ -158,7 +157,6 @@ export function AdminSidebar(props) {
                                   to={subItem.url}
                                   onClick={handleMenuClick}
                                   className="py-1.5"
-                                  // استایل اکتیو اضافه کن اگر خواستی
                                 >
                                   <span>{subItem.title}</span>
                                 </NavLink>
@@ -175,7 +173,6 @@ export function AdminSidebar(props) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarRail />
     </Sidebar>
   );
 }

@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ReactCountryFlag from "react-country-flag";
 
 export default function AdminCountriesPage() {
   const { setPageTitle } = useAdminUI();
@@ -57,11 +58,11 @@ export default function AdminCountriesPage() {
 
   return (
     <div className="_wrapper">
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div className="mb-4 grid gap-2 md:grid-cols-10">
         <Input
           type="text"
           placeholder="Search..."
-          className="w-auto"
+          className="col-span-2 w-full"
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -75,7 +76,7 @@ export default function AdminCountriesPage() {
             setCurrentPage(1);
           }}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="col-span-2 w-full">
             <SelectValue placeholder="Select a continent" />
           </SelectTrigger>
           <SelectContent>
@@ -95,7 +96,7 @@ export default function AdminCountriesPage() {
         <TableHeader className="bg-gray-100">
           <TableRow className="[&_th]:py-3 [&_th]:font-bold">
             <TableHead>#</TableHead>
-            <TableHead>Country</TableHead>
+            <TableHead className="text-left">Country</TableHead>
             <TableHead>Continent</TableHead>
           </TableRow>
         </TableHeader>
@@ -103,7 +104,20 @@ export default function AdminCountriesPage() {
           {contries.map((country, index) => (
             <TableRow key={country.id || index}>
               <TableCell>{index + 1}</TableCell>
-              <TableCell className="capitalize">{country.name}</TableCell>
+              <TableCell className="capitalize">
+                <div className="flex items-center gap-2">
+                  <ReactCountryFlag
+                    countryCode={country.code}
+                    style={{
+                      width: "16px",
+                      height: "14px",
+                      borderRadius: "4px",
+                    }}
+                    svg
+                  />
+                  {country.name}
+                </div>
+              </TableCell>
               <TableCell className="capitalize">{country.continent}</TableCell>
             </TableRow>
           ))}

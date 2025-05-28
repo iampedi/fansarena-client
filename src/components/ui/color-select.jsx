@@ -39,14 +39,14 @@ export function ColorSelect({ value = [], onChange }) {
     : colors;
 
   return (
-    <div className="flex flex-col-reverse gap-2">
+    <div className="flex flex-col-reverse">
       <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={openCombobox}
-            className="text-foreground w-[200px] justify-between"
+            className="text-foreground w-full justify-between"
           >
             <span className="truncate">
               {selectedColors.length === 0 && "Select Colors"}
@@ -103,30 +103,32 @@ export function ColorSelect({ value = [], onChange }) {
           </Command>
         </PopoverContent>
       </Popover>
-      <div className="relative flex gap-2 overflow-y-auto">
-        {selectedColors.map((value) => {
-          const colorObj = colors.find((c) => c.value === value);
-          return (
-            <Badge
-              key={value}
-              className={cn(
-                "flex items-center gap-2 rounded-sm px-2 py-1 capitalize",
-                colorClassMap[value]?.border,
-              )}
-              variant="outline"
-            >
-              <span
+      {selectedColors && selectedColors.length > 0 && (
+        <div className="relative mb-2 flex gap-2 overflow-y-auto">
+          {selectedColors.map((value) => {
+            const colorObj = colors.find((c) => c.value === value);
+            return (
+              <Badge
+                key={value}
                 className={cn(
-                  "mr-1 inline-block h-3 w-3 rounded-full border",
-                  colorClassMap[value]?.bg,
+                  "flex items-center gap-2 rounded-sm px-2 py-1 capitalize",
                   colorClassMap[value]?.border,
                 )}
-              />
-              {colorObj?.label || value}
-            </Badge>
-          );
-        })}
-      </div>
+                variant="outline"
+              >
+                <span
+                  className={cn(
+                    "mr-1 inline-block h-3 w-3 rounded-full border",
+                    colorClassMap[value]?.bg,
+                    colorClassMap[value]?.border,
+                  )}
+                />
+                {colorObj?.label || value}
+              </Badge>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

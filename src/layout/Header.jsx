@@ -55,10 +55,14 @@ const Header = ({ search, setSearch, show, setShow }) => {
     <header className="relative z-50 border-b border-gray-100 bg-gray-100/40">
       <div className="3xl:px-0 container mx-auto px-4">
         <div className="_wrapper flex flex-col gap-5">
-          <div className="_top flex flex-wrap items-center justify-between py-4 md:flex-nowrap md:gap-5 md:py-5">
+          <div className="_top flex flex-wrap items-center justify-between py-3 md:flex-nowrap md:gap-5">
             <div className="_logo flex w-1/5 items-center gap-2">
               <Link to="/">
-                <img src="/images/fa-logo.svg" alt="Logo" className="h-11" />
+                <img
+                  src="/images/fa-logo-main.svg"
+                  alt="Logo"
+                  className="h-12"
+                />
               </Link>
             </div>
 
@@ -103,7 +107,13 @@ const Header = ({ search, setSearch, show, setShow }) => {
                   {/* Profile */}
                   <TooltipWrapper tooltip={"User Profile"}>
                     <Button className="hidden md:flex" size="icon" asChild>
-                      <Link to="/profile">
+                      <Link
+                        to="/profile"
+                        onClick={() => {
+                          setSearch("");
+                          setShow(false);
+                        }}
+                      >
                         <UserRoundCogIcon />
                       </Link>
                     </Button>
@@ -111,7 +121,7 @@ const Header = ({ search, setSearch, show, setShow }) => {
                 </>
               )}
 
-              {!show && (location.pathname === "/") && (
+              {!show && location.pathname === "/" && (
                 <Button
                   size="icon"
                   onClick={() => setShow(true)}

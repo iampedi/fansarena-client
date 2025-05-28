@@ -6,8 +6,7 @@ import { AuthContext } from "@/contexts/AuthContext";
 import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 
-const ClubCard = (props) => {
-  const { club } = props;
+const ClubCard = ({ club, setSearch, setShow }) => {
   const { user } = useAuth(AuthContext);
 
   return (
@@ -23,6 +22,10 @@ const ClubCard = (props) => {
       <Link
         to={`/clubs/${club.slug}`}
         className="flex flex-1 items-center gap-2 md:flex-col md:gap-0"
+        onClick={() => {
+          setSearch("");
+          setShow(false);
+        }}
       >
         <div className="_images flex items-center justify-center p-4 md:px-0 md:py-6">
           <ClubImage
