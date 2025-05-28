@@ -62,7 +62,7 @@ const HomePage = () => {
 
       <div className="_list-cards grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {[...clubs]
-          .sort((a, b) => a.nam?.localeCompare(b.name))
+          .sort((a, b) => a.name?.localeCompare(b.name))
           .map((club, i) => (
             <ClubCard
               key={i}
