@@ -126,7 +126,7 @@ export default function CompetitionForm({
   const [winnerDialogOpen, setWinnerDialogOpen] = useState(false);
   const [clubs, setClubs] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedWinner, setSelectedWinner] = useState(null);
   const navigate = useNavigate();
@@ -158,6 +158,7 @@ export default function CompetitionForm({
         const res = await axios.get(`${API_URL}/api/countries`, {
           params: {
             continent: selectedContinent,
+            limit: 300,
           },
         });
         setCountries(res.data.data);
