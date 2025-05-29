@@ -80,7 +80,7 @@ const ClubDetailsPage = () => {
     fetchCompetitions();
   }, [club]);
 
-  if (!loading) {
+  if (loading) {
     return <Loader />;
   }
 
