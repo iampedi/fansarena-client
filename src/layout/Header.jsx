@@ -2,24 +2,22 @@
 import { API_URL } from "@/config/api";
 import useAuth from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 // UI Imports
 import AuthButton from "@/components/AuthButton";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import { Button } from "@/components/ui/button";
 import {
   MenuIcon,
-  SearchIcon,
   UserRoundCheckIcon,
-  UserRoundCogIcon,
+  UserRoundCogIcon
 } from "lucide-react";
 import Navbar from "./Navbar";
 
-const Header = ({ search, setSearch, show, setShow }) => {
+const Header = () => {
   const { isLoggedIn, user } = useAuth();
   const [open, setOpen] = useState(false);
   const [club, setClub] = useState(null);
-  const location = useLocation();
   const userClubSlug = user?.favoriteClub;
 
   useEffect(() => {
@@ -66,12 +64,7 @@ const Header = ({ search, setSearch, show, setShow }) => {
             </div>
 
             <nav className="relative order-3 w-full md:order-none md:block md:w-auto">
-              <Navbar
-                search={search}
-                setSearch={setSearch}
-                show={show}
-                setShow={setShow}
-              />
+              <Navbar />
             </nav>
 
             <div className="_tools flex items-center justify-end gap-2 text-right md:w-1/5">
@@ -106,28 +99,12 @@ const Header = ({ search, setSearch, show, setShow }) => {
                   {/* Profile */}
                   <TooltipWrapper tooltip={"User Profile"}>
                     <Button className="hidden md:flex" size="icon" asChild>
-                      <Link
-                        to="/profile"
-                        onClick={() => {
-                          setSearch("");
-                          setShow(false);
-                        }}
-                      >
+                      <Link to="/profile" onClick={() => {}}>
                         <UserRoundCogIcon />
                       </Link>
                     </Button>
                   </TooltipWrapper>
                 </>
-              )}
-
-              {!show && location.pathname === "/" && (
-                <Button
-                  size="icon"
-                  onClick={() => setShow(true)}
-                  className="md:hidden"
-                >
-                  <SearchIcon />
-                </Button>
               )}
 
               {/* Mobile Menu Button */}

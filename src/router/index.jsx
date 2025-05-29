@@ -6,7 +6,10 @@ import AuthLayout from "@/layout/AuthLayout";
 import MainLayout from "@/layout/MainLayout";
 
 import ProtectedComponentsUser from "@/components/ProtectedComponentsUser";
+import ProtectedRoutesAdmin from "@/components/ProtectedRoutesAdmin";
+import ProtectedIncompletesUser from "@/components/ProtectIncompleteUser";
 
+import AboutPage from "@/pages/about/Index";
 import ClubDetailsPage from "@/pages/clubs/ClubDetails";
 import HomePage from "@/pages/Home";
 import LeaderboardPage from "@/pages/leaderboard/Index";
@@ -16,7 +19,6 @@ import ProfilePage from "@/pages/profile/Index";
 import SigninPage from "@/pages/auth/SigninPage";
 import SignupPage from "@/pages/auth/SignupPage";
 
-import AdminPage from "@/pages/admin/Index";
 import AdminCitiesPage from "@/pages/admin/cities/Index";
 import EditClubPage from "@/pages/admin/clubs/Edit";
 import AdminClubsPage from "@/pages/admin/clubs/Index";
@@ -25,9 +27,7 @@ import EditCompetitionPage from "@/pages/admin/competitions/Edit";
 import AdminCompetitionsPage from "@/pages/admin/competitions/Index";
 import NewCompetitionPage from "@/pages/admin/competitions/New";
 import AdminCountriesPage from "@/pages/admin/countries/Index";
-import ProtectedRoutesAdmin from "@/components/ProtectedRoutesAdmin";
-import ProtectedIncompletesUser from "@/components/ProtectIncompleteUser";
-import ProtectedLoginUser from "@/components/ProtectedLoginUser";
+import AdminPage from "@/pages/admin/Index";
 
 const AppRoutes = () => {
   return (
@@ -35,6 +35,7 @@ const AppRoutes = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route path="clubs/:slug" element={<ClubDetailsPage />} />
+        <Route path="about" element={<AboutPage />} />
         <Route
           path="leaderboard/"
           element={
@@ -60,7 +61,7 @@ const AppRoutes = () => {
           path="signup"
           element={
             // <ProtectedLoginUser>
-              <SignupPage />
+            <SignupPage />
             // </ProtectedLoginUser>
           }
         />
@@ -68,7 +69,7 @@ const AppRoutes = () => {
           path="signin"
           element={
             // <ProtectedLoginUser>
-              <SigninPage />
+            <SigninPage />
             // </ProtectedLoginUser>
           }
         />
