@@ -1,11 +1,10 @@
 // src/components/ProtectedRoutesAdmin.jsx
-import { useContext } from "react";
-import { AuthContext } from "@/contexts/AuthContext";
+import useAuth from "@/hooks/useAuth";
 import NotFoundPage from "@/pages/NotFound";
-import Loader from "./Loader";
+import Loader from "@/components/Loader";
 
 const ProtectedRoutesAdmin = ({ children }) => {
-  const { user, isLoading } = useContext(AuthContext);
+  const { user, isLoading } = useAuth();
 
   if (isLoading) return <Loader />;
 

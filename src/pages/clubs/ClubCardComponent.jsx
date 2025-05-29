@@ -1,5 +1,4 @@
 // src/pages/clubs/ClubCardComponent.jsx
-import { AuthContext } from "@/contexts/AuthContext";
 import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router";
@@ -10,7 +9,7 @@ import { TrophyIcon, UsersIcon } from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
 
 const ClubCard = ({ club, setSearch, setShow }) => {
-  const { user } = useAuth(AuthContext);
+  const { user } = useAuth();
 
   return (
     <div

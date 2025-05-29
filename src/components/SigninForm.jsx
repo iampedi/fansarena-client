@@ -1,15 +1,14 @@
 // src/components/SigninForm.jsx
 import { API_URL } from "@/config/api";
+import useAuth from "@/hooks/useAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
-
+// UI Imports
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import useAuth from "@/hooks/useAuth";
 import {
   Form,
   FormControl,
@@ -17,8 +16,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { AuthContext } from "@/contexts/AuthContext";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 /* ---------- Form Schema ---------- */
@@ -29,7 +28,7 @@ const signinSchema = z.object({
 
 const SigninForm = () => {
   const [serverError, setServerError] = useState("");
-  const { storeToken, authenticateUser } = useAuth(AuthContext);
+  const { storeToken, authenticateUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -73,7 +72,9 @@ const SigninForm = () => {
 
       if (isComplete) {
         sessionStorage.setItem("justLoggedIn", "true");
-        navigate(from || "/", { state: { message: "Login Successful." } });
+        navigate(from || "/leaderboard", {
+          state: { message: "Login Successful." },
+        });
       } else {
         navigate("/profile", {
           state: { message: "Please complete your profile." },

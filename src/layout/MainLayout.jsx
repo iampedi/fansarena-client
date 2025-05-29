@@ -31,12 +31,11 @@ export default function MainLayout() {
       </main>
       <Toaster theme="light" position="bottom-left" richColors />
       <ScrollToTop
-        className="!bottom-2 flex items-center justify-center !rounded-full !bg-transparent text-gray-400 !shadow-none duration-300 hover:text-black -right-10"
+        className="!right-2 !bottom-2 flex items-center justify-center !rounded-full !bg-transparent text-gray-400 !shadow-none duration-300 hover:text-black"
         top={750}
         smooth
         component={<CircleFadingArrowUp size={30} />}
       />
-
       <Footer />
     </div>
   );

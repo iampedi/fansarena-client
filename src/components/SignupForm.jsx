@@ -1,21 +1,22 @@
 // src/components/SignupForm.jsx
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { API_URL } from "@/config/api";
+import useAuth from "@/hooks/useAuth";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters long."),
@@ -29,6 +30,7 @@ const signupSchema = z.object({
 });
 
 export default function SignupForm() {
+  const { storeToken, authenticateUser } = useAuth();
   const navigate = useNavigate();
   const [serverError, setServerError] = useState("");
 
@@ -58,8 +60,10 @@ export default function SignupForm() {
         return;
       }
 
-      navigate("/auth/signin", {
-        state: { message: "Signup Successful! You can now log in." },
+      storeToken(data.token);
+      await authenticateUser();
+      navigate("/profile", {
+        state: { message: "User Created Successfully." },
       });
     } catch (err) {
       setServerError("Network error. Please try again.");

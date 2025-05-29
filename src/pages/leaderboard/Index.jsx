@@ -1,10 +1,13 @@
 // src/pages/Leaderboard.jsx
 import { API_URL } from "@/config/api";
+import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+// UI Imports
 import Loader from "@/components/Loader";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -16,20 +19,15 @@ import {
 import {
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-  getPaginationRowModel,
 } from "@tanstack/react-table";
 import {
   ArrowDownWideNarrowIcon,
   ArrowUpDownIcon,
   ArrowUpWideNarrowIcon,
   CalendarDaysIcon,
-  ChevronFirstIcon,
-  ChevronLastIcon,
-  ChevronLeft,
-  ChevronLeftIcon,
-  ChevronRightIcon,
   GlobeIcon,
   MapPinIcon,
   Medal,
@@ -37,14 +35,11 @@ import {
   UsersIcon,
 } from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
-import { Button } from "@/components/ui/button";
-import { AuthContext } from "@/contexts/AuthContext";
-import { Link } from "react-router-dom";
 
 const LeaderboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [clubs, setClubs] = useState([]);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const favoriteClub = user?.favoriteClub;
 
   /* ---------- Fetch clubs ---------- */

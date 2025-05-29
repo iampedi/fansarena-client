@@ -1,4 +1,4 @@
-// components/DeleteConfirmModal.jsx
+// src/pages/clubs/BeFanDialog.jsx
 import {
   Dialog,
   DialogContent,
@@ -19,7 +19,7 @@ const BeFanDialog = ({ auth, club, open, onOpenChange }) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="font-bold capitalize">{`I want to be a fan of ${club}`}</DialogTitle>
+          <DialogTitle className="font-bold capitalize">{`I want to be a fan of ${club}`} 😎</DialogTitle>
           <DialogDescription className="text-base">
             {!auth?.isLoggedIn ? (
               "You must sign in to your account to choose your favorite club."
@@ -27,12 +27,12 @@ const BeFanDialog = ({ auth, club, open, onOpenChange }) => {
               "You must complete your profile to choose your favorite club."
             ) : (
               <span>
-                You’re already with{" "}
-                <span className="text-red-600 uppercase">
+                You’re already an{" "}
+                <span className="text-red-600 capitalize">
                   {auth.user?.favoriteClub}
-                </span>
-                . Changing your loyalty now? Well, traitors have access to the
-                profile too! 😎
+                </span>{" "}
+                fan. Thinking about switching sides now? Well, even traitors can
+                access their profiles here!
               </span>
             )}
           </DialogDescription>

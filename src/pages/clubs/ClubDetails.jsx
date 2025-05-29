@@ -1,16 +1,16 @@
 // src/pages/clubs/ClubDetails.jsx
 import { API_URL } from "@/config/api";
-import { AuthContext } from "@/contexts/AuthContext";
 import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 // UI Imports
-import BeFanDialog from "@/components/BeFanDialog";
 import ItemLogo from "@/components/ItemLogo";
 import Loader from "@/components/Loader";
 import TooltipWrapper from "@/components/TooltipWrapper";
+import { Button } from "@/components/ui/button";
+import BeFanDialog from "@/pages/clubs/BeFanDialog";
 import {
   CrownIcon,
   GlobeIcon,
@@ -19,10 +19,9 @@ import {
   UsersIcon,
 } from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
-import { Button } from "@/components/ui/button";
 
 const ClubDetailsPage = () => {
-  const auth = useAuth(AuthContext);
+  const auth = useAuth();
   const { slug } = useParams();
   const [club, setClub] = useState(null);
   const [competitions, setCompetitions] = useState([]);
@@ -197,7 +196,7 @@ const ClubDetailsPage = () => {
         </div>
         {auth.user?.favoriteClub !== slug && (
           <div className="mt-4 text-center">
-            <Button onClick={() => setModalOpen(true)}>
+            <Button className="w-full md:w-fit" size="lg" onClick={() => setModalOpen(true)}>
               <UserPlusIcon className="h-6 w-6" />I want to be a FAN
             </Button>
           </div>

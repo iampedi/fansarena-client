@@ -1,21 +1,23 @@
 // src/pages/profile/Index.jsx
 import { API_URL } from "@/config/api";
 import { continents } from "@/constants/continents";
-import { AuthContext } from "@/contexts/AuthContext";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 // UI Imports
 import { Button } from "@/components/ui/button";
-import { ShieldAlertIcon, UserRoundCheckIcon } from "lucide-react";
+import useAuth from "@/hooks/useAuth";
+import { ShieldAlertIcon, Trash2Icon, UserRoundCheckIcon } from "lucide-react";
 import { toast } from "sonner";
+import DeleteUserDialog from "./DeleteUserDialog";
 
 const ProfilePage = () => {
-  const { user, isLoading, authenticateUser } = useContext(AuthContext);
+  const { user, isLoading, authenticateUser } = useAuth();
   const [countries, setCountries] = useState([]);
   const [isInitialSet, setIsInitialSet] = useState(false);
   const [clubs, setClubs] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -142,7 +144,7 @@ const ProfilePage = () => {
 
   return (
     <div className="mx-auto max-w-2xl px-5 2xl:px-0">
-      <div className="_alert-demo mb-8 flex flex-col gap-2 rounded-lg border border-yellow-400 bg-yellow-50 px-5 py-4 text-yellow-700">
+      {/* <div className="_alert-demo mb-8 flex flex-col gap-2 rounded-lg border border-yellow-400 bg-yellow-50 px-5 py-4 text-yellow-700">
         <p>
           This is a demo version built for portfolio purposes. To review my
           implementation skills in detail, you can also access the admin
@@ -153,7 +155,7 @@ const ProfilePage = () => {
           <br />
           <strong>Password:</strong> password
         </p>
-      </div>
+      </div> */}
       <div className="_page-title mb-8 flex flex-col gap-2">
         <h1 className="md:text-3x flex items-center gap-2 text-2xl font-bold">
           <UserRoundCheckIcon className="size-6" /> User Profile
@@ -271,8 +273,9 @@ const ProfilePage = () => {
           </select>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="mt-6 grid grid-cols-2 items-center gap-2">
           <Button
+            className="w-full"
             type="button"
             variant={"outline"}
             onClick={() => navigate("/")}
@@ -280,24 +283,24 @@ const ProfilePage = () => {
             Cancel
           </Button>
 
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting} className="w-full">
             {isSubmitting ? "Saving..." : "Submit"}
           </Button>
         </div>
       </form>
 
-      {/* <div>
+      <div>
         <Button
           size={"lg"}
           variant="link"
-          className="mx-auto mt-4 flex"
-          asChild
+          className="mx-auto mt-4 flex text-red-600"
+          onClick={() => setModalOpen(true)}
         >
-          <Link to={"/"} className="text-red-500">
-            Delete your account
-          </Link>
+          <Trash2Icon className="size-4" /> Delete your account
         </Button>
-      </div> */}
+
+        <DeleteUserDialog open={modalOpen} onOpenChange={setModalOpen} />
+      </div>
     </div>
   );
 };

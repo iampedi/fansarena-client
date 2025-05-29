@@ -1,14 +1,13 @@
 // src/components/ProtectedComponentsUser.jsx
-import { AuthContext } from "@/contexts/AuthContext";
-import { useContext } from "react";
+import useAuth from "@/hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
-
-import Loader from "./Loader";
-import { Button } from "./ui/button";
+// UI Imports
+import Loader from "@/components/Loader";
+import { Button } from "@/components/ui/button";
 import { LogInIcon } from "lucide-react";
 
 const ProtectedComponentsUser = ({ children }) => {
-  const { isLoggedIn, isLoading } = useContext(AuthContext);
+  const { isLoggedIn, isLoading } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
