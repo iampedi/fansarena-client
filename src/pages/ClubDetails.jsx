@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
 import { AuthContext } from "@/contexts/AuthContext";
+import Loader from "@/components/Loader";
 
 const ClubDetailsPage = () => {
   const auth = useAuth(AuthContext);
@@ -79,12 +80,8 @@ const ClubDetailsPage = () => {
     fetchCompetitions();
   }, [club]);
 
-  if (loading) {
-    return (
-      <div className="flex min-h-96 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-3 border-solid border-blue-500 border-t-transparent"></div>
-      </div>
-    );
+  if (!loading) {
+    return <Loader />;
   }
 
   if (error) {
