@@ -38,6 +38,7 @@
     "react-router-dom": "^7.5.2",
     "react-scroll-to-top": "^3.1.0",
     "react-select": "^5.10.1",
+    "react-social-icons": "^6.24.0",
     "recharts": "^2.15.3",
     "shadcn-ui": "^0.9.5",
     "sonner": "^2.0.3",
