@@ -8,7 +8,7 @@ import { ArrowLeft } from "lucide-react";
 
 export default function SignupPage() {
   return (
-    <div className="w-full max-w-sm px-5 md:max-w-3xl xl:px-0">
+    <div className="w-full max-w-sm px-5 md:max-w-3xl">
       <Card className="overflow-hidden py-0">
         <CardContent className="grid p-0 md:grid-cols-2">
           <SignupForm />

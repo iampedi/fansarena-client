@@ -29,7 +29,7 @@ const ClubCard = ({ club, setSearch, setShow }) => {
           setShow(false);
         }}
       >
-        <div className="_images flex items-center justify-center p-4 md:px-0 md:py-6">
+        <div className="_images flex items-center justify-center p-4 md:py-6">
           <ClubImage
             slug={club.slug}
             name={club.name}

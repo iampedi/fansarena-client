@@ -46,7 +46,7 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-100 bg-white">
-      <div className="container mx-auto px-4 2xl:px-0">
+      <div className="container mx-auto px-4">
         <div className="_wrapper flex flex-col gap-5">
           <div className="_top flex flex-wrap items-center justify-between py-3 md:flex-nowrap md:gap-5">
             <div className="_logo flex w-1/5 items-center gap-2">

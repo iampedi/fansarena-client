@@ -274,7 +274,7 @@ const LeaderboardPage = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 2xl:px-0">
+    <div className="container mx-auto px-4">
       <div className="_page-title mb-8 flex flex-col items-center gap-2">
         <h1 className="md:text-3x text-2xl font-bold">Club Leaderboard</h1>
         <p className="text-lg">

@@ -88,7 +88,7 @@ const ClubDetailsPage = () => {
   }
 
   return (
-    <div className="_club-details container mx-auto flex flex-col gap-10 px-4 lg:flex-row 2xl:max-w-7xl 2xl:px-0">
+    <div className="_club-details container mx-auto flex flex-col gap-10 px-4 lg:flex-row 2xl:max-w-7xl">
       <div className="lg:w-1/2">
         <div
           className={cn(

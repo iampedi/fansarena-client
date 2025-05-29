@@ -143,7 +143,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-5 2xl:px-0">
+    <div className="mx-auto max-w-2xl px-5">
       {/* <div className="_alert-demo mb-8 flex flex-col gap-2 rounded-lg border border-yellow-400 bg-yellow-50 px-5 py-4 text-yellow-700">
         <p>
           This is a demo version built for portfolio purposes. To review my

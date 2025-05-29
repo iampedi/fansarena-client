@@ -13,7 +13,7 @@ const HomeSlider = () => {
         style={{ backgroundImage: `url(${slide01})` }}
       />
       <div className="absolute inset-0 bg-black/45" />
-      <div className="relative z-10 container mx-auto flex h-full flex-col items-center justify-center gap-4 p-10 text-white 2xl:px-0">
+      <div className="relative z-10 container mx-auto flex h-full flex-col items-center justify-center gap-4 p-10 text-white">
         <h2 className="text-[54px] leading-none font-black drop-shadow-md drop-shadow-black/30 md:text-6xl">
           Stand with your club!
         </h2>

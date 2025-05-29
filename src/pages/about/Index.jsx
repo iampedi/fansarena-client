@@ -6,7 +6,7 @@ import { SocialIcon } from "react-social-icons";
 
 const AboutPage = () => {
   return (
-    <div className="container mx-auto px-4 2xl:px-0 mb-10">
+    <div className="container mx-auto px-4 mb-10">
       <div className="grid gap-5 md:gap-10 md:grid-cols-5 rever">
         <div className="md:col-span-2 order-2 md:order-1">
           <img src={img} alt="" className="rounded-2xl" />
