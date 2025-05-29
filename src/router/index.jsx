@@ -7,11 +7,11 @@ import MainLayout from "@/layout/MainLayout";
 
 import ProtectedComponentsUser from "@/components/ProtectedComponentsUser";
 
-import ClubDetailsPage from "@/pages/ClubDetails";
+import ClubDetailsPage from "@/pages/clubs/ClubDetails";
 import HomePage from "@/pages/Home";
-import LeaderboardPage from "@/pages/Leaderboard";
+import LeaderboardPage from "@/pages/leaderboard/Index";
 import NotFound from "@/pages/NotFound";
-import ProfilePage from "@/pages/Profile";
+import ProfilePage from "@/pages/profile/Index";
 
 import SigninPage from "@/pages/auth/SigninPage";
 import SignupPage from "@/pages/auth/SignupPage";

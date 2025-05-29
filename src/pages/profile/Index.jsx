@@ -1,15 +1,15 @@
-// src/pages/Profile.jsx
+// src/pages/profile/Index.jsx
 import { API_URL } from "@/config/api";
 import { continents } from "@/constants/continents";
 import { AuthContext } from "@/contexts/AuthContext";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+// UI Imports
 import { Button } from "@/components/ui/button";
-import { UserRoundCheckIcon } from "lucide-react";
+import { ShieldAlertIcon, UserRoundCheckIcon } from "lucide-react";
+import { toast } from "sonner";
 
 const ProfilePage = () => {
   const { user, isLoading, authenticateUser } = useContext(AuthContext);
@@ -141,14 +141,35 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="container mx-auto max-w-xl px-5 py-5 md:px-0 md:py-10">
-      <h1 className="mb-4 flex items-center gap-3 text-2xl font-bold">
-        <UserRoundCheckIcon className="size-7" /> User Profile
-      </h1>
-      <p className="mb-6 text-lg">
-        To select and support your favourite club and view the leaderboards,
-        please complete your information.
-      </p>
+    <div className="mx-auto max-w-2xl px-5 2xl:px-0">
+      <div className="_alert-demo mb-8 flex flex-col gap-2 rounded-lg border border-yellow-400 bg-yellow-50 px-5 py-4 text-yellow-700">
+        <p>
+          This is a demo version built for portfolio purposes. To review my
+          implementation skills in detail, you can also access the admin
+          dashboard using the credentials below.
+        </p>
+        <p>
+          <strong>Email:</strong> email@example.com,
+          <br />
+          <strong>Password:</strong> password
+        </p>
+      </div>
+      <div className="_page-title mb-8 flex flex-col gap-2">
+        <h1 className="md:text-3x flex items-center gap-2 text-2xl font-bold">
+          <UserRoundCheckIcon className="size-6" /> User Profile
+        </h1>
+        <p className="text-lg">
+          Complete your profile to select and support your favorite club. See
+          your team climb the leaderboard with your support!
+        </p>
+        <h2 className="mt-4 flex items-center gap-2 font-bold text-gray-500">
+          <ShieldAlertIcon className="size-5" /> Why do we need your info?
+        </h2>
+        <p className="text-sm text-gray-600">
+          We ask for geographic and demographic info only for statistics. Your
+          name helps us address you personally in our communications.
+        </p>
+      </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -264,6 +285,19 @@ const ProfilePage = () => {
           </Button>
         </div>
       </form>
+
+      {/* <div>
+        <Button
+          size={"lg"}
+          variant="link"
+          className="mx-auto mt-4 flex"
+          asChild
+        >
+          <Link to={"/"} className="text-red-500">
+            Delete your account
+          </Link>
+        </Button>
+      </div> */}
     </div>
   );
 };

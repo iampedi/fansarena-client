@@ -1,14 +1,16 @@
-// src/pages/ClubDetails.jsx
+// src/pages/clubs/ClubDetails.jsx
+import { API_URL } from "@/config/api";
+import { AuthContext } from "@/contexts/AuthContext";
+import useAuth from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { API_URL } from "../config/api";
-
+// UI Imports
 import BeFanDialog from "@/components/BeFanDialog";
 import ItemLogo from "@/components/ItemLogo";
+import Loader from "@/components/Loader";
 import TooltipWrapper from "@/components/TooltipWrapper";
-import useAuth from "@/hooks/useAuth";
-import { cn } from "@/lib/utils";
 import {
   CrownIcon,
   GlobeIcon,
@@ -17,8 +19,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
-import { AuthContext } from "@/contexts/AuthContext";
-import Loader from "@/components/Loader";
+import { Button } from "@/components/ui/button";
 
 const ClubDetailsPage = () => {
   const auth = useAuth(AuthContext);
@@ -29,7 +30,7 @@ const ClubDetailsPage = () => {
   const [error, setError] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  // 1. گرفتن اطلاعات club
+  /* ---------- Fetch Club ---------- */
   useEffect(() => {
     if (!slug) return;
 
@@ -56,14 +57,13 @@ const ClubDetailsPage = () => {
     fetchClub();
   }, [slug]);
 
-  // 2. گرفتن competitions بعد از setClub
+  /* ---------- Fetch Competitions ---------- */
   useEffect(() => {
     if (!club) return;
 
     const fetchCompetitions = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/competitions`);
-        // فرض بر اینه که هر competition یک آرایه winners داره و هر winner یک club داره
         const filteredCompetitions = res.data.filter(
           (competition) =>
             competition.winners &&
@@ -88,12 +88,8 @@ const ClubDetailsPage = () => {
     return <div className="py-10 text-center text-red-600">{error}</div>;
   }
 
-  if (!club) {
-    return null;
-  }
-
   return (
-    <div className="_club-details container mx-auto mb-10 flex flex-col gap-10 px-4 lg:flex-row 2xl:max-w-7xl 2xl:px-0">
+    <div className="_club-details container mx-auto flex flex-col gap-10 px-4 lg:flex-row 2xl:max-w-7xl 2xl:px-0">
       <div className="lg:w-1/2">
         <div
           className={cn(
@@ -126,9 +122,9 @@ const ClubDetailsPage = () => {
               </div>
 
               {auth.user?.favoriteClub !== slug ? (
-                <TooltipWrapper tooltip={<span>I want to be a fan</span>}>
+                <TooltipWrapper tooltip={<span>I want to be a FAN</span>}>
                   <UserPlusIcon
-                    className="h-6 w-6 cursor-pointer text-gray-800 hover:animate-pulse"
+                    className="h-6 w-6 cursor-pointer"
                     onClick={() => setModalOpen(true)}
                   />
                 </TooltipWrapper>
@@ -199,6 +195,13 @@ const ClubDetailsPage = () => {
             {club.description && <p className="mb-6">{club.description}</p>}
           </div>
         </div>
+        {auth.user?.favoriteClub !== slug && (
+          <div className="mt-4 text-center">
+            <Button onClick={() => setModalOpen(true)}>
+              <UserPlusIcon className="h-6 w-6" />I want to be a FAN
+            </Button>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-12 lg:w-1/2">

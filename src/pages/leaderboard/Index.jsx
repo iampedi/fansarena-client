@@ -74,7 +74,6 @@ const LeaderboardPage = () => {
       cell: ({ row }) => (
         <Link
           to={`/clubs/${row.original.slug}`}
-          target="_blank"
           className="flex min-w-[200px] items-center gap-3 capitalize hover:underline md:w-fit md:min-w-fit"
         >
           <img
@@ -280,7 +279,15 @@ const LeaderboardPage = () => {
   }
 
   return (
-    <div className="3xl:px-0 container mx-auto px-4 md:py-5">
+    <div className="container mx-auto px-4 2xl:px-0">
+      <div className="_page-title mb-8 flex flex-col items-center gap-2">
+        <h1 className="md:text-3x text-2xl font-bold">Club Leaderboard</h1>
+        <p className="text-lg">
+          Is your club missing from the top ten?
+          <br />
+          Support your team, and change the game!
+        </p>
+      </div>
       <TableData columns={columns} data={clubs} favoriteClub={favoriteClub} />
     </div>
   );

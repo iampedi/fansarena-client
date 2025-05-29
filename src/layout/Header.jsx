@@ -3,7 +3,7 @@ import { API_URL } from "@/config/api";
 import useAuth from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
+// UI Imports
 import AuthButton from "@/components/AuthButton";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,6 @@ import {
   SearchIcon,
   UserRoundCheckIcon,
   UserRoundCogIcon,
-  XIcon,
 } from "lucide-react";
 import Navbar from "./Navbar";
 
@@ -52,7 +51,7 @@ const Header = ({ search, setSearch, show, setShow }) => {
   }, [open]);
 
   return (
-    <header className="relative z-50 border-b border-gray-100 bg-gray-100/40">
+    <header className="sticky top-0 z-50 border-b border-gray-100 bg-white">
       <div className="3xl:px-0 container mx-auto px-4">
         <div className="_wrapper flex flex-col gap-5">
           <div className="_top flex flex-wrap items-center justify-between py-3 md:flex-nowrap md:gap-5">
