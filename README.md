@@ -1,13 +1,51 @@
-# React + Vite
+# Fans Arena – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Followers are not Fans!**  
+Fans Arena is a transparent, global platform where real football fans can register their support for their favorite clubs—openly and easily. For the first time, team popularity and rankings are revealed by real fans, for real fans.
 
-Currently, two official plugins are available:
+<img src="public/images/readme.jpg" alt="Fans Arena Screenshot" width="350"/>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Beta Version – Portfolio Project
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# fansarena-client
+This is the frontend (React) of Fans Arena, developed as the final project for the Ironhack Web Development Bootcamp by **Pedram Ghane** (*Full Stack Developer*).
+
+**Tech stack:**
+- [React](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [axios](https://axios-http.com/)
+- [react-hook-form](https://react-hook-form.com/)
+- [lucide-react](https://lucide.dev/) *(icons)*
+- [Vite](https://vitejs.dev/) *(or CRA, specify your actual build tool)*
+- ...and more
+
+Live Demo: **[fansarena.netlify.app](https://fansarena.netlify.app/)**
+
+---
+
+## Features
+
+- Modern, responsive UI for football fan engagement
+- Live leaderboards and club rankings
+- User profile management
+- Authentication & registration flows
+- Admin dashboard access (demo)
+- Optimized for performance and UX
+
+---
+
+## Getting Started
+
+### Prerequisites
+- **Node.js** (v18+ recommended)
+- **npm** or **yarn**
+- Backend API (running separately – see [fans-arena-server](https://github.com/iampedi/fansarena-server))
+
+### Installation
+
+Clone this repository:
+
+```bash
+git clone https://github.com/iampedi/fansarena-client
