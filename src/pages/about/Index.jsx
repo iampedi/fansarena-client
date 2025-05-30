@@ -6,9 +6,9 @@ import { SocialIcon } from "react-social-icons";
 
 const AboutPage = () => {
   return (
-    <div className="container mx-auto px-4 mb-10">
-      <div className="grid gap-5 md:gap-10 md:grid-cols-5 rever">
-        <div className="md:col-span-2 order-2 md:order-1">
+    <div className="container mx-auto mb-10 px-4">
+      <div className="rever grid gap-5 md:grid-cols-5 md:gap-10">
+        <div className="order-2 md:order-1 md:col-span-2">
           <img src={img} alt="" className="rounded-2xl" />
           <div className="mt-6 flex items-center gap-2">
             <span className="mr-2 text-xl font-bold">Let’s Connect!</span>
@@ -26,7 +26,7 @@ const AboutPage = () => {
             />
           </div>
         </div>
-        <div className="md:col-span-3 order-1">
+        <div className="order-1 md:col-span-3">
           <h1 className="mb-3 text-3xl font-extrabold">
             Followers are not Fans!
           </h1>
@@ -48,7 +48,7 @@ const AboutPage = () => {
               rankings are revealed by real fans, for real fans.
             </p>
           </div>
-          <h2 className="mb-3 text-3xl font-extrabold">
+          <h2 className="mb-2 text-2xl font-extrabold">
             Beta Version – Portfolio Project
           </h2>
           <div className="space-y-3 text-lg">
@@ -66,12 +66,12 @@ const AboutPage = () => {
               using modern technologies including:
             </p>
             <ul className="list-disc pl-10 font-semibold">
-              <li>React</li>
               <li>MongoDB</li>
+              <li>Express.js</li>
+              <li>React</li>
+              <li>Node.js</li>
               <li>Tailwind CSS</li>
               <li>shadcn/ui</li>
-              <li>Express.js</li>
-              <li>Node.js</li>
             </ul>
             <p>
               The live version and source code are presented here as part of the

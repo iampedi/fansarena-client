@@ -1,5 +1,10 @@
+// src/layout/AdminSidebar.jsx
 "use client";
-
+import { cn } from "@/lib/utils";
+import * as React from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import logo from "@/assets/images/fa-logo-main.svg";
+// UI Imports
 import {
   Sidebar,
   SidebarContent,
@@ -11,9 +16,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import * as React from "react";
-
-import { cn } from "@/lib/utils";
 import {
   ActivityIcon,
   ChevronDownIcon,
@@ -22,7 +24,6 @@ import {
   Gamepad2Icon,
   TrophyIcon,
 } from "lucide-react";
-import { NavLink, useLocation } from "react-router-dom";
 
 // Navigation items with icons and submenu items
 const navigationItems = [
@@ -85,7 +86,7 @@ export function AdminSidebar(props) {
       <SidebarHeader className="p-3">
         <div className="flex h-16 items-center gap-4 px-2">
           <div className="flex size-14">
-            <img src="/images/fa-logo.svg" />
+            <img src={logo} />
           </div>
           <div>
             <span className="text-lg font-bold uppercase">Admin Panel</span>

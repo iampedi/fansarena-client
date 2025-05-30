@@ -3,6 +3,7 @@ import { API_URL } from "@/config/api";
 import useAuth from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "@/assets/images/fa-logo-main.svg";
 // UI Imports
 import AuthButton from "@/components/AuthButton";
 import TooltipWrapper from "@/components/TooltipWrapper";
@@ -52,7 +53,7 @@ const Header = () => {
             <div className="_logo flex w-1/5 items-center gap-2">
               <Link to="/">
                 <img
-                  src="/images/fa-logo-main.svg"
+                  src={logo}
                   alt="Logo"
                   className="h-12"
                 />

@@ -88,11 +88,11 @@ const ClubDetailsPage = () => {
   }
 
   return (
-    <div className="_club-details container mx-auto flex flex-col gap-10 px-4 lg:flex-row 2xl:max-w-7xl">
+    <div className="_club-details container mx-auto mb-10 flex flex-col gap-5 px-4 md:gap-10 lg:flex-row 2xl:max-w-7xl">
       <div className="lg:w-1/2">
         <div
           className={cn(
-            "flex flex-col flex-wrap gap-8 rounded-xl border-2 p-8 lg:flex-row",
+            "flex flex-col flex-wrap gap-8 rounded-xl border-2 p-5 md:p-8 lg:flex-row",
             auth.user?.favoriteClub === slug
               ? "border-yellow-500/50 bg-yellow-50/50"
               : "border-gray-200/50 bg-gray-50/50",
@@ -115,10 +115,12 @@ const ClubDetailsPage = () => {
             </h1>
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <UsersIcon className="h-8 w-8 text-gray-800" />
-                <span className="text-2xl font-bold">{club.fans}</span>
-              </div>
+              <TooltipWrapper tooltip={<span>Total Fans</span>}>
+                <div className="flex items-center gap-3">
+                  <UsersIcon className="h-8 w-8 text-gray-800" />
+                  <span className="text-2xl font-bold">{club.fans}</span>
+                </div>
+              </TooltipWrapper>
 
               {auth.user?.favoriteClub !== slug ? (
                 <TooltipWrapper tooltip={<span>I want to be a FAN</span>}>
@@ -196,7 +198,11 @@ const ClubDetailsPage = () => {
         </div>
         {auth.user?.favoriteClub !== slug && (
           <div className="mt-4 text-center">
-            <Button className="w-full md:w-fit" size="lg" onClick={() => setModalOpen(true)}>
+            <Button
+              className="w-full md:w-fit"
+              size="lg"
+              onClick={() => setModalOpen(true)}
+            >
               <UserPlusIcon className="h-6 w-6" />I want to be a FAN
             </Button>
           </div>
