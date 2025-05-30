@@ -49,3 +49,5 @@ Clone this repository:
 
 ```bash
 git clone https://github.com/iampedi/fansarena-client
+cd fansarena-client
+npm install
